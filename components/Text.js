@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { base } from '../../js/utils';
-class Sample extends Component {
+class ReText extends Component {
   render() {
-    const {} = this.props;
+    const { children, style } = this.props;
     return (
-      <View>
-        <Text style={styles.wrapper}>{'This is a sample component'}</Text>
-      </View>
+      <Text {...this.props} style={[styles.default, style]}>
+        {children}
+      </Text>
     );
   }
 }
-Sample.propTypes = {};
+ReText.propTypes = {};
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: 'white',
+  default: {
+    fontSize: 17,
+    color: base.colors.depGrey,
   },
 });
 
-export default Sample;
+export default ReText;

@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
+import Text from './Text';
+import Touchable from './Touchable';
 import { base } from '../../js/utils';
 class Button extends Component {
   render() {
-    const { onPress, title } = this.props;
+    const { onPress, title, buttonStyle, textStyle } = this.props;
     return (
-      <TouchableOpacity onPress={onPress && onPress}>
-        <View style={[styles.wrapper]}>
-          <Text style={{ color: base.colors.white }}>{title}</Text>
+      <Touchable
+        style={{ backgroundColor: 'red' }}
+        onPress={onPress && onPress}
+      >
+        <View style={[styles.wrapper, buttonStyle]}>
+          <Text style={[styles.textStyle, textStyle]}>{title}</Text>
         </View>
-      </TouchableOpacity>
+      </Touchable>
     );
   }
 }
 Button.propTypes = {};
 const styles = StyleSheet.create({
   wrapper: {
+    // flex: 1,
+    flexDirection: 'row',
     paddingHorizontal: base.realSize(20),
+    // width:base.realSize(100),
     paddingVertical: base.realSize(10),
     backgroundColor: base.colors.main,
     borderRadius: base.realSize(8),
     alignItems: 'center',
     justifyContent: 'center',
+    margin: base.realSize(5),
+  },
+  textStyle: {
+    color: base.colors.white,
   },
 });
 

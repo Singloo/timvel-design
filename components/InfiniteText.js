@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { base } from '../../js/utils';
+import Text from './Text';
 class Sample extends Component {
   render() {
     const { text, textStyle, children, style, containerStyle } = this.props;
@@ -13,7 +14,7 @@ class Sample extends Component {
         showsHorizontalScrollIndicator={false}
       >
         {children}
-        <Text style={[styles.text, textStyle]}>{text}</Text>
+        <Text style={[textStyle]}>{text}</Text>
       </ScrollView>
     );
   }
@@ -29,10 +30,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // paddingHorizontal: 10,
     paddingRight: 40,
-  },
-  text: {
-    fontSize: 17,
-    color: base.colors.depGrey,
   },
 });
 

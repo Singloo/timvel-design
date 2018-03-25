@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Image,
-} from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import Touchable from './Touchable';
+import Text from './Text';
 import { base } from '../../js/utils';
 class Icon extends Component {
   _iconSize = size => {
@@ -40,7 +35,7 @@ class Icon extends Component {
     } = this.props;
     const iconSize = this._iconSize(size);
     return (
-      <TouchableOpacity onPress={() => onPress && onPress()}>
+      <Touchable onPress={() => onPress && onPress()}>
         <View
           style={[
             styles.wrapper,
@@ -53,13 +48,12 @@ class Icon extends Component {
             style={[
               { width: iconSize, height: iconSize },
               isRound && { borderRadius: iconSize / 2 },
-              {tintColor:tintColor}
+              { tintColor: tintColor },
             ]}
             resizeMode={resizeMode}
-            
           />
         </View>
-      </TouchableOpacity>
+      </Touchable>
     );
   }
 }
