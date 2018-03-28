@@ -8,12 +8,11 @@ class Button extends Component {
   render() {
     const { onPress, title, buttonStyle, textStyle } = this.props;
     return (
-      <Touchable
-        style={{ backgroundColor: 'red' }}
-        onPress={onPress && onPress}
-      >
+      <Touchable style={{}} onPress={onPress && onPress}>
         <View style={[styles.wrapper, buttonStyle]}>
-          <Text style={[styles.textStyle, textStyle]}>{title}</Text>
+          <View style={{ padding: 0 }}>
+            <Text style={[styles.textStyle, textStyle]}>{title}</Text>
+          </View>
         </View>
       </Touchable>
     );
