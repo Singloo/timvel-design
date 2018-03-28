@@ -3,6 +3,7 @@ import { StyleSheet, View, Animated, TextInput, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 import { base } from '../../js/utils';
 import Text from './Text';
+import Icon from './Icon';
 
 const { colors, SCREEN_HEIGHT, SCREEN_WIDTH, realSize } = base;
 
@@ -22,14 +23,22 @@ class ReTextInput extends Component {
     }).start();
   };
   _handleBlur = () => {
-    Animated.timing(this.state.animationState, {
-      toValue: 0,
-      duration: 500,
-      // easing:Easing.
-    }).start();
+    const { value } = this.props;
+    if (value.length != 0) {
+    } else {
+      Animated.timing(this.state.animationState, {
+        toValue: 0,
+        duration: 500,
+      }).start();
+    }
+  };
+  _clear = () => {
+    const { clearText } = this.props;
+    clearText && clearText();
+    this.textInput.clear();
   };
   render() {
-    const { placeholder, style } = this.props;
+    const { placeholder, style, onChangeText, value, textStyle } = this.props;
     const { animationState } = this.state;
     return (
       <View style={[styles.wrapper]}>
@@ -48,6 +57,7 @@ class ReTextInput extends Component {
                 outputRange: [17, 12],
               }),
             },
+            textStyle,
           ]}
         >
           {placeholder}
@@ -57,12 +67,20 @@ class ReTextInput extends Component {
             this.textInput = r;
           }}
           onFocus={this._handleFocus}
-          onChange={value => {
-            this.setState({ text: value });
+          onChangeText={value => {
+            onChangeText(value);
           }}
           onBlur={this._handleBlur}
           style={[styles.textInput, style]}
         />
+        {value.length > 0 && (
+          <Icon
+            uri={'close'}
+            size={'verySmall'}
+            style={styles.icon}
+            onPress={this._clear}
+          />
+        )}
       </View>
     );
   }
@@ -78,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     position: 'absolute',
-    opacity:0.6,
+    opacity: 0.6,
     left: 2,
   },
   textInput: {
@@ -86,6 +104,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     height: realSize(30),
     borderColor: colors.midGrey,
+  },
+  icon: {
+    position: 'absolute',
+    right: 4,
+    bottom: 8,
   },
 });
 

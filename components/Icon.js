@@ -4,23 +4,25 @@ import PropTypes from 'prop-types';
 import Touchable from './Touchable';
 import Text from './Text';
 import { base } from '../../js/utils';
+const {realSize,colors}=base
+
 class Icon extends Component {
   _iconSize = size => {
     switch (size) {
       case 'micro':
-        return base.realSize(12);
+        return realSize(12);
       case 'verySmall':
-        return base.realSize(16);
+        return realSize(16);
       case 'small':
-        return base.realSize(24);
+        return realSize(24);
       case 'regular':
-        return base.realSize(32);
+        return realSize(32);
       case 'large':
-        return base.realSize(48);
+        return realSize(48);
       case 'veryLarge':
-        return base.realSize(56);
+        return realSize(56);
       default:
-        return base.realSize(size);
+        return realSize(size);
     }
   };
   render() {
@@ -61,7 +63,6 @@ Icon.propTypes = {};
 Icon.defaultProps = {
   size: 'regular',
   resizeMode: 'contain',
-  // tintColor: base.colors.depGrey,
   isRound: false,
 };
 const styles = StyleSheet.create({

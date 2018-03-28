@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
 import { base } from '../../js/utils';
+const{realSize,colors}=base
 class Button extends Component {
   render() {
     const { onPress, title, buttonStyle, textStyle } = this.props;
@@ -23,17 +24,17 @@ const styles = StyleSheet.create({
   wrapper: {
     // flex: 1,
     flexDirection: 'row',
-    paddingHorizontal: base.realSize(20),
+    paddingHorizontal: realSize(20),
     // width:base.realSize(100),
-    paddingVertical: base.realSize(10),
-    backgroundColor: base.colors.main,
-    borderRadius: base.realSize(8),
+    paddingVertical: realSize(10),
+    // backgroundColor: base.colors.main,
+    borderRadius: realSize(8),
     alignItems: 'center',
     justifyContent: 'center',
-    margin: base.realSize(5),
+    margin: realSize(5),
   },
   textStyle: {
-    color: base.colors.white,
+    color: colors.depGrey,
   },
 });
 
