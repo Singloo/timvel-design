@@ -4,4 +4,5 @@ import NavBar from './NavgationBar';
 import InfiniteText from './InfiniteText';
 import Text from './Text';
 import TextInput from './TextInput';
-export { Button, Icon, NavBar, InfiniteText, Text, TextInput };
+import Touchable from './Touchable'
+export { Button, Icon, NavBar, InfiniteText, Text, TextInput ,Touchable};

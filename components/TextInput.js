@@ -6,10 +6,6 @@ import Text from './Text';
 
 const { colors, SCREEN_HEIGHT, SCREEN_WIDTH, realSize } = base;
 
-const bottomBegin = 10;
-const bottomFinal = 30;
-const scaleBegin = 1;
-const scaleFinal = 0.6;
 class ReTextInput extends Component {
   constructor(props) {
     super(props);
@@ -17,8 +13,6 @@ class ReTextInput extends Component {
       animationState: new Animated.Value(0),
       text: '',
     };
-    this.placeholderScale = new Animated.Value(scaleBegin);
-    this.placeholderBottom = new Animated.Value(bottomBegin);
   }
   _handleFocus = () => {
     Animated.spring(this.state.animationState, {
@@ -35,7 +29,7 @@ class ReTextInput extends Component {
     }).start();
   };
   render() {
-    const { placeholder } = this.props;
+    const { placeholder, style } = this.props;
     const { animationState } = this.state;
     return (
       <View style={[styles.wrapper]}>
@@ -67,7 +61,7 @@ class ReTextInput extends Component {
             this.setState({ text: value });
           }}
           onBlur={this._handleBlur}
-          style={styles.textInput}
+          style={[styles.textInput, style]}
         />
       </View>
     );
@@ -84,6 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     position: 'absolute',
+    opacity:0.6,
     left: 2,
   },
   textInput: {
