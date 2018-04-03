@@ -13,8 +13,10 @@ class Sample extends Component {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       >
+      <View style={{padding:0,flexDirection:'row',alignSelf:'center',justifyContent:'center'}}>
         {children}
-        <Text style={[textStyle]}>{text}</Text>
+        <Text style={[styles.text,textStyle]}>{text}</Text>
+        </View>
       </ScrollView>
     );
   }
@@ -22,15 +24,19 @@ class Sample extends Component {
 Sample.propTypes = {};
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
-    padding: 0,
+    paddingVertical: 0,
   },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     // paddingHorizontal: 10,
     paddingRight: 40,
+    paddingVertical:0
   },
+  text:{
+    padding:0,
+    alignSelf:'center'
+  }
 });
 
 export default Sample;

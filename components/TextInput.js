@@ -13,9 +13,11 @@ class ReTextInput extends Component {
     this.state = {
       animationState: new Animated.Value(0),
       text: '',
+      isActive: false,
     };
   }
   _handleFocus = () => {
+    this.setState({ isActive: true });
     Animated.spring(this.state.animationState, {
       toValue: 1,
       duration: 500,
@@ -26,6 +28,7 @@ class ReTextInput extends Component {
     const { value } = this.props;
     if (value.length != 0) {
     } else {
+      this.setState({ isActive: false });
       Animated.timing(this.state.animationState, {
         toValue: 0,
         duration: 500,
@@ -38,10 +41,17 @@ class ReTextInput extends Component {
     this.textInput.clear();
   };
   render() {
-    const { placeholder, style, onChangeText, value, textStyle } = this.props;
-    const { animationState } = this.state;
+    const {
+      placeholderText,
+      style,
+      value,
+      textStyle,
+      activeColor,
+      containerStyle
+    } = this.props;
+    const { animationState, isActive } = this.state;
     return (
-      <View style={[styles.wrapper]}>
+      <View style={[styles.wrapper,containerStyle]}>
         <Animated.Text
           style={[
             styles.placeholder,
@@ -58,20 +68,25 @@ class ReTextInput extends Component {
               }),
             },
             textStyle,
+            { color: isActive ? colors.main : colors.depGrey },
+            isActive && activeColor && { color: activeColor },
           ]}
         >
-          {placeholder}
+          {placeholderText}
         </Animated.Text>
         <TextInput
           ref={r => {
             this.textInput = r;
           }}
+          {...this.props}
           onFocus={this._handleFocus}
-          onChangeText={value => {
-            onChangeText(value);
-          }}
           onBlur={this._handleBlur}
-          style={[styles.textInput, style]}
+          style={[
+            styles.textInput,
+            style,
+            { borderColor: isActive ? colors.main : colors.midGrey },
+            activeColor && isActive && { borderColor: activeColor },
+          ]}
         />
         {value.length > 0 && (
           <Icon
@@ -98,12 +113,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     opacity: 0.6,
     left: 2,
+    letterSpacing:0.5
   },
   textInput: {
     backgroundColor: 'transparent',
     borderBottomWidth: 1,
     height: realSize(30),
-    borderColor: colors.midGrey,
   },
   icon: {
     position: 'absolute',
