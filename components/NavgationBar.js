@@ -10,8 +10,7 @@ import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 import { base } from '../../js/utils';
 import Icon from './Icon';
-const { colors, isIOS, isIphoneX, SCREEN_WIDTH } = base;
-const PADDING_TOP = isIOS ? (isIphoneX ? 44 : 20) : 0;
+const { colors, isIOS, SCREEN_WIDTH, PADDING_TOP } = base;
 class NavigationBar extends Component {
   constructor(props) {
     super(props);
@@ -80,19 +79,13 @@ class NavigationBar extends Component {
               this.backgroundImage = r;
             }}
             onLayout={this.imageLoaded.bind(this)}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-            }}
+            style={styles.absolute}
           />
         )}
         <BlurView
           viewRef={this.state.viewRef}
           blurType={'xlight'}
-          style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
+          style={styles.absolute}
         />
         {this._renderLeft.call(this)}
         {this._renderTitle.call(this)}
@@ -103,6 +96,13 @@ class NavigationBar extends Component {
 }
 NavigationBar.propTypes = {};
 const styles = StyleSheet.create({
+  absolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
   wrapper: {
     height: 44,
     width: SCREEN_WIDTH,
