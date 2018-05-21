@@ -9,11 +9,11 @@ class Button extends Component {
   render() {
     const { onPress, title, buttonStyle, textStyle } = this.props;
     return (
-      <Touchable style={{}} onPress={onPress && onPress}>
+      <Touchable style={{ padding: 0 }} onPress={onPress && onPress}>
         <View style={[styles.wrapper, buttonStyle]}>
-          <View style={{ padding: 0 }}>
+          {/* <View style={{ padding: 0 }}> */}
             <Text style={[styles.textStyle, textStyle]}>{title}</Text>
-          </View>
+          {/* </View> */}
         </View>
       </Touchable>
     );
@@ -22,16 +22,13 @@ class Button extends Component {
 Button.propTypes = {};
 const styles = StyleSheet.create({
   wrapper: {
-    // flex: 1,
     flexDirection: 'row',
     paddingHorizontal: realSize(20),
-    // width:base.realSize(100),
     paddingVertical: realSize(10),
     backgroundColor: colors.main,
     borderRadius: realSize(8),
     alignItems: 'center',
     justifyContent: 'center',
-    margin: realSize(5),
   },
   textStyle: {
     color: colors.depGrey,

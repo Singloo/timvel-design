@@ -31,7 +31,7 @@ class ReTextInput extends Component {
       this.setState({ isActive: false });
       Animated.timing(this.state.animationState, {
         toValue: 0,
-        duration: 500,
+        duration: 300,
       }).start();
     }
   };
