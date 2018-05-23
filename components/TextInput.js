@@ -26,7 +26,7 @@ class ReTextInput extends Component {
   };
   _handleBlur = () => {
     const { value } = this.props;
-    if (value.length != 0) {
+    if (typeof value != 'undefined' && value.length != 0) {
     } else {
       this.setState({ isActive: false });
       Animated.timing(this.state.animationState, {
@@ -47,11 +47,11 @@ class ReTextInput extends Component {
       value,
       textStyle,
       activeColor,
-      containerStyle
+      containerStyle,
     } = this.props;
     const { animationState, isActive } = this.state;
     return (
-      <View style={[styles.wrapper,containerStyle]}>
+      <View style={[styles.wrapper, containerStyle]}>
         <Animated.Text
           style={[
             styles.placeholder,
@@ -88,14 +88,15 @@ class ReTextInput extends Component {
             activeColor && isActive && { borderColor: activeColor },
           ]}
         />
-        {value.length > 0 && (
-          <Icon
-            uri={'close'}
-            size={'verySmall'}
-            style={styles.icon}
-            onPress={this._clear}
-          />
-        )}
+        {typeof value != 'undefined' &&
+          value.length > 0 && (
+            <Icon
+              uri={'close'}
+              size={'verySmall'}
+              style={styles.icon}
+              onPress={this._clear}
+            />
+          )}
       </View>
     );
   }
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     opacity: 0.6,
     left: 2,
-    letterSpacing:0.5
+    letterSpacing: 0.5,
   },
   textInput: {
     backgroundColor: 'transparent',
