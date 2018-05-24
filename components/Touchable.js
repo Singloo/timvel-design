@@ -10,9 +10,9 @@ import Text from './Text';
 import { base } from '../../js/utils';
 class ReTouchable extends Component {
   render() {
-    const { children, withOutFeedback } = this.props;
+    const { children, withoutFeedback } = this.props;
 
-    return withOutFeedback ? (
+    return withoutFeedback ? (
       <TouchableWithoutFeedback
         {...this.props}
         // onPress={this._onPress}
