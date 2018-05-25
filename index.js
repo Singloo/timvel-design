@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   Touchable,
+  Image,
 } from './components';
 import Assets from './Assets';
 export {
@@ -17,4 +18,5 @@ export {
   TextInput,
   Touchable,
   Assets,
+  Image,
 };

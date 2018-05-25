@@ -3,7 +3,7 @@ import { StyleSheet, View, Animated, TextInput, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 import { base } from '../../js/utils';
 import Text from './Text';
-import Icon from './Icon';
+import Image from './Image';
 
 const { colors, SCREEN_HEIGHT, SCREEN_WIDTH, realSize } = base;
 
@@ -90,7 +90,7 @@ class ReTextInput extends Component {
         />
         {typeof value != 'undefined' &&
           value.length > 0 && (
-            <Icon
+            <Image
               uri={'close'}
               size={'verySmall'}
               style={styles.icon}

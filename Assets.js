@@ -67,8 +67,15 @@ const art = {
   },
 };
 
+const lotties = {
+  LoadingDotsDown: {
+    source: require('./assetsLotties/loading_colorful_dots.json'),
+  },
+};
+
 export default {
   ...icons,
   ...tempUse,
   ...art,
+  ...lotties,
 };

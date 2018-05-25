@@ -9,7 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 import { base } from '../../js/utils';
-import Icon from './Icon';
+import Image from './Image'
 const { colors, isIOS, SCREEN_WIDTH, PADDING_TOP } = base;
 class NavigationBar extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class NavigationBar extends Component {
     const { uriLeft, leftTint, onPressLeft } = this.props;
     if (uriLeft) {
       return (
-        <Icon
+        <Image
           uri={uriLeft}
           tintColor={leftTint}
           onPress={() => {
@@ -42,7 +42,7 @@ class NavigationBar extends Component {
     const { uriRight, rightTint, onPressRight } = this.props;
     if (uriRight) {
       return (
-        <Icon
+        <Image
           uri={uriRight}
           tintColor={rightTint}
           onPress={() => {
