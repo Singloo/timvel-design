@@ -81,6 +81,8 @@ class ReTextInput extends Component {
           {...this.props}
           onFocus={this._handleFocus}
           onBlur={this._handleBlur}
+          autoCorrect={false}
+          autoCapitalize={false}
           style={[
             styles.textInput,
             style,
