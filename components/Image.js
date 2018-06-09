@@ -17,7 +17,9 @@ class Image2 extends Component {
   imageLoaded() {
     const { blur } = this.props;
     if (isAndroid && blur) {
-      this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+      setTimeout(() => {
+        this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+      }, 10);
     }
   }
   _iconSize = size => {
