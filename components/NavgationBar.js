@@ -23,11 +23,11 @@ class NavigationBar extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
   _renderLeft = () => {
-    const { uriLeft, leftTint, onPressLeft } = this.props;
-    if (uriLeft) {
+    const { sourceLeft, leftTint, onPressLeft } = this.props;
+    if (sourceLeft) {
       return (
         <Image
-          uri={uriLeft}
+          source={sourceLeft}
           tintColor={leftTint}
           onPress={() => {
             onPressLeft && onPressLeft();
@@ -39,11 +39,11 @@ class NavigationBar extends Component {
     }
   };
   _renderRight = () => {
-    const { uriRight, rightTint, onPressRight } = this.props;
-    if (uriRight) {
+    const { sourceRight, rightTint, onPressRight } = this.props;
+    if (sourceRight) {
       return (
         <Image
-          uri={uriRight}
+          source={sourceRight}
           tintColor={rightTint}
           onPress={() => {
             onPressRight && onPressRight();

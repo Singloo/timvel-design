@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { base } from '../../js/utils';
 import Text from './Text';
 import Image from './Image';
-
+import Assets from '../Assets';
 const { colors, SCREEN_HEIGHT, SCREEN_WIDTH, realSize } = base;
 
 class ReTextInput extends Component {
@@ -93,7 +93,7 @@ class ReTextInput extends Component {
         {typeof value != 'undefined' &&
           value.length > 0 && (
             <Image
-              uri={'close'}
+              source={Assets.close.source}
               size={'verySmall'}
               style={styles.icon}
               onPress={this._clear}

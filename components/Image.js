@@ -113,7 +113,10 @@ class Image2 extends Component {
     );
     if (typeof onPress !== 'undefined') {
       return (
-        <Touchable onPress={() => onPress && onPress()}>
+        <Touchable
+          onPress={() => onPress && onPress()}
+          hitSlop={{ top: 8, left: 8, bottom: 8, right: 8 }}
+        >
           {renderImage}
         </Touchable>
       );
