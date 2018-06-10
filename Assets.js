@@ -6,7 +6,7 @@ const icons = {
     source: require('./assets/arrow_down.png'),
   },
   arrow_left: {
-    source: require('./assets/arrow_right.png'),
+    source: require('./assets/arrow_left.png'),
   },
   arrow_right: {
     source: require('./assets/arrow_right.png'),

@@ -130,7 +130,7 @@ class Image2 extends Component {
 Image2.propTypes = {};
 Image2.defaultProps = {
   size: 'regular',
-  resizeMode: 'contain',
+  resizeMode: 'cover',
   isRound: false,
 };
 const styles = StyleSheet.create({

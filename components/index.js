@@ -6,6 +6,7 @@ import Text from './Text';
 import TextInput from './TextInput';
 import Touchable from './Touchable';
 import Image from './Image';
+import ActionButton from './ActionButton/ActionButton';
 export {
   Button,
   Icon,
@@ -15,4 +16,5 @@ export {
   TextInput,
   Touchable,
   Image,
+  ActionButton,
 };

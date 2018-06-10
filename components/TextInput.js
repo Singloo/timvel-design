@@ -11,14 +11,15 @@ class ReTextInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      animationState: new Animated.Value(0),
+      // animationState: new Animated.Value(0),
       text: '',
       isActive: false,
     };
+    this.animationState = new Animated.Value(0);
   }
   _handleFocus = () => {
     this.setState({ isActive: true });
-    Animated.spring(this.state.animationState, {
+    Animated.spring(this.animationState, {
       toValue: 1,
       duration: 500,
       // easing:Easing.
@@ -29,7 +30,7 @@ class ReTextInput extends Component {
     if (typeof value != 'undefined' && value.length != 0) {
     } else {
       this.setState({ isActive: false });
-      Animated.timing(this.state.animationState, {
+      Animated.timing(this.animationState, {
         toValue: 0,
         duration: 300,
       }).start();
@@ -56,13 +57,13 @@ class ReTextInput extends Component {
           style={[
             styles.placeholder,
             {
-              bottom: animationState.interpolate({
+              bottom: this.animationState.interpolate({
                 inputRange: [0, 1],
                 outputRange: [8, 30],
               }),
             },
             {
-              fontSize: animationState.interpolate({
+              fontSize: this.animationState.interpolate({
                 inputRange: [0, 1],
                 outputRange: [17, 12],
               }),

@@ -7,6 +7,7 @@ import {
   TextInput,
   Touchable,
   Image,
+  ActionButton,
 } from './components';
 import Assets from './Assets';
 export {
@@ -19,4 +20,5 @@ export {
   Touchable,
   Assets,
   Image,
+  ActionButton,
 };
