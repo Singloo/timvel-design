@@ -24,7 +24,13 @@ class Button extends Component {
     const { onPress, title, buttonStyle, textStyle, size } = this.props;
     return (
       <Touchable style={{ padding: 0 }} onPress={onPress && onPress}>
-        <View style={[styles.wrapper, standardSize[size], buttonStyle]}>
+        <View
+          style={StyleSheet.flatten([
+            styles.wrapper,
+            standardSize[size],
+            buttonStyle,
+          ])}
+        >
           {/* <View style={{ padding: 0 }}> */}
           <Text style={[styles.textStyle, textStyle]}>{title}</Text>
           {/* </View> */}

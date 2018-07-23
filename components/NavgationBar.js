@@ -9,7 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 import { base } from '../../js/utils';
-import Image from './Image'
+import Image from './Image';
 const { colors, isIOS, SCREEN_WIDTH, PADDING_TOP } = base;
 class NavigationBar extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class NavigationBar extends Component {
     }
   };
   _renderRight = () => {
-    const { sourceRight, rightTint, onPressRight } = this.props;
+    const { sourceRight, rightTint, onPressRight, rightIconStyle } = this.props;
     if (sourceRight) {
       return (
         <Image
@@ -48,6 +48,9 @@ class NavigationBar extends Component {
           onPress={() => {
             onPressRight && onPressRight();
           }}
+          size={'small'}
+          style={rightIconStyle}
+          resizeMode={'contain'}
         />
       );
     } else {
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     backgroundColor: 'transparent',
   },
   blank: {

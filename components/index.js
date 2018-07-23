@@ -7,6 +7,12 @@ import TextInput from './TextInput';
 import Touchable from './Touchable';
 import Image from './Image';
 import ActionButton from './ActionButton/ActionButton';
+import MultiLinesTextInput from './MultiLinesTextInput';
+import Separator from './Separator';
+import Tag from './Tag';
+import AnimatedLogo from './AnimatedLogo';
+import Selectors from './Selectors';
+import WeatherInfo from './WeatherInfo';
 export {
   Button,
   Icon,
@@ -17,4 +23,10 @@ export {
   Touchable,
   Image,
   ActionButton,
+  MultiLinesTextInput,
+  Tag,
+  Separator,
+  AnimatedLogo,
+  Selectors,
+  WeatherInfo,
 };

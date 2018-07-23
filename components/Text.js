@@ -5,9 +5,13 @@ import { base } from '../../js/utils';
 const { colors } = base;
 class ReText extends Component {
   render() {
-    const { children, style } = this.props;
+    const { children, style, onPress } = this.props;
     return (
-      <Text {...this.props} style={[styles.default, style]}>
+      <Text
+        {...this.props}
+        onPress={onPress && onPress}
+        style={[styles.default, style]}
+      >
         {children}
       </Text>
     );

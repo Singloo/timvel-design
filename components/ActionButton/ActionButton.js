@@ -131,49 +131,49 @@ class ActionButton extends React.Component {
       );
     });
     return (
-      <Animated.View
-        style={
-          expand
-            ? styles.containerExpand
-            : {
-                position: 'absolute',
-                right: 0,
-                bottom: TAB_BAR_HEIGHT,
-                height: buttonSize + bottom,
-                width: buttonSize + right,
-              }
-        }
-      >
-        {renderIcons}
-        <Touchable withoutFeedback={true} onPress={this._onPress}>
-          <Animated.Image
-            source={buttonSource}
-            resizeMode={'contain'}
-            style={[
-              {
-                width: buttonSize,
-                height: buttonSize,
-                position: 'absolute',
-                right: right,
-                bottom: bottom,
-                backgroundColor: colors.red,
-                tintColor: 'white',
-                borderRadius: buttonSize / 2,
-              },
-              {
-                transform: [
-                  {
-                    rotate: this.animationState.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ['0deg', '45deg'],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          />
-        </Touchable>
-      </Animated.View>
+      <Touchable withoutFeedback={true} onPress={this._onPress}>
+        <Animated.View
+          style={
+            expand
+              ? styles.containerExpand
+              : {
+                  position: 'absolute',
+                  right: 0,
+                  bottom: TAB_BAR_HEIGHT,
+                  height: buttonSize + bottom,
+                  width: buttonSize + right,
+                }
+          }
+        >
+          {renderIcons}
+          <Touchable withoutFeedback={true} onPress={this._onPress}>
+            <Animated.Image
+              source={buttonSource}
+              resizeMode={'contain'}
+              style={[
+                {
+                  width: buttonSize,
+                  height: buttonSize,
+                  position: 'absolute',
+                  right: right,
+                  bottom: bottom,
+                  borderRadius: buttonSize / 2,
+                },
+                {
+                  transform: [
+                    {
+                      rotate: this.animationState.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ['0deg', '135deg'],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            />
+          </Touchable>
+        </Animated.View>
+      </Touchable>
     );
   }
 }

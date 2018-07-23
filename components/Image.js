@@ -62,7 +62,7 @@ class Image2 extends Component {
       ...iconSize,
     };
     if (typeof style !== 'undefined') {
-      imgStyle = style;
+      imgStyle = StyleSheet.flatten([imgStyle, style]);
       // let width
       // let height
       // let absolute
@@ -88,7 +88,6 @@ class Image2 extends Component {
         style={[
           styles.wrapper,
           isRound && { borderRadius: imgStyle.width / 2 },
-          style,
         ]}
       >
         <Image
@@ -96,10 +95,10 @@ class Image2 extends Component {
           source={imgSource}
           onLoadEnd={this.imageLoaded.bind(this)}
           style={[
-            imgStyle,
             isRound && { borderRadius: imgStyle.width / 2 },
             { tintColor: tintColor },
-            style,
+            imgStyle,
+            // style,
           ]}
           resizeMode={resizeMode}
         />
@@ -135,9 +134,7 @@ Image2.defaultProps = {
 };
 const styles = StyleSheet.create({
   wrapper: {
-    // flex: 1,
     backgroundColor: 'transparent',
-    padding: 0,
   },
 });
 

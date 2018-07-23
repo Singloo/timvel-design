@@ -11,7 +11,6 @@ class ReTextInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // animationState: new Animated.Value(0),
       text: '',
       isActive: false,
     };
@@ -50,7 +49,7 @@ class ReTextInput extends Component {
       activeColor,
       containerStyle,
     } = this.props;
-    const { animationState, isActive } = this.state;
+    const {  isActive } = this.state;
     return (
       <View style={[styles.wrapper, containerStyle]}>
         <Animated.Text
@@ -83,7 +82,8 @@ class ReTextInput extends Component {
           onFocus={this._handleFocus}
           onBlur={this._handleBlur}
           autoCorrect={false}
-          autoCapitalize={false}
+          autoCapitalize={'none'}
+          underlineColorAndroid={'transparent'}
           style={[
             styles.textInput,
             style,

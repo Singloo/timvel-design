@@ -32,8 +32,31 @@ const icons = {
   wrong: {
     source: require('./assets/wrong.png'),
   },
+  send: {
+    source: require('./assets/send.png'),
+  },
+  tag: {
+    source: require('./assets/tag.png'),
+  },
+  smile: {
+    source: require('./assets/smile.png'),
+  },
+  cry: {
+    source: require('./assets/cry.png'),
+  },
+  success: {
+    source: require('./assets/success.png'),
+  },
+  coin: {
+    source: require('./assets/coin.png'),
+  },
 };
 
+const target = {
+  actionButton: {
+    source: require('./assets/action_button.png'),
+  },
+};
 const tempUse = {
   bk1: {
     source: require('./assets/bk1.png'),
@@ -73,9 +96,80 @@ const lotties = {
   },
 };
 
+const logo = {
+  center: {
+    source: require('./assets/center.png'),
+  },
+  wrapper1: {
+    source: require('./assets/wrapper1.png'),
+  },
+  wrapper2: {
+    source: require('./assets/wrapper2.png'),
+  },
+};
+
+const weather = {
+  sunny: {
+    source: require('./assets/sunny.png'),
+  },
+  clearNight: {
+    source: require('./assets/clear_night.png'),
+  },
+  snowMid: {
+    source: require('./assets/snow_mid.png'),
+  },
+  smallRain: {
+    source: require('./assets/small_rain.png'),
+  },
+  sleet: {
+    source: require('./assets/sleet.png'),
+  },
+  rainstorm: {
+    source: require('./assets/rainstorm.png'),
+  },
+  sand: {
+    source: require('./assets/sand.png'),
+  },
+  fog: {
+    source: require('./assets/fog.png'),
+  },
+  cloudy: {
+    source: require('./assets/cloudy.png'),
+  },
+  dust: {
+    source: require('./assets/dust.png'),
+  },
+  lessCloudyNight: {
+    source: require('./assets/less_cloudy_night.png'),
+  },
+  cloudySky: {
+    source: require('./assets/cloudy_sky.png'),
+  },
+  thunderstorm: {
+    source: require('./assets/thunder_storm.png'),
+  },
+  thunderShower: {
+    source: require('./assets/thunder_shower.png'),
+  },
+  snowBig: {
+    source: require('./assets/snow_big.png'),
+  },
+  lessCloudy: {
+    source: require('./assets/less_cloudy.png'),
+  },
+  sandstorm: {
+    source: require('./assets/sandstorm.png'),
+  },
+  shower: {
+    source: require('./assets/shower.png'),
+  },
+};
 export default {
   ...icons,
   ...tempUse,
   ...art,
   ...lotties,
+  ...target,
+  ...logo,
+  ...weather,
 };

@@ -30,7 +30,7 @@ class Item extends React.Component {
           },
         ]}
       >
-        {title && <Text>{title}</Text>}
+        {title && <Text style={styles.title}>{title}</Text>}
         <Image
           style={{
             width: iconSize,
@@ -54,5 +54,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     position: 'absolute',
   },
+  title:{
+    backgroundColor:'white',
+    fontSize:15
+  }
 });
 export default Item;

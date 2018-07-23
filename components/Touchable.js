@@ -22,6 +22,7 @@ class ReTouchable extends Component {
       </TouchableWithoutFeedback>
     ) : (
       <TouchableOpacity
+        activeOpacity={0.8}
         {...this.props}
         // onPress={this._onPress}
         // onLongPress={this._onLongPress}

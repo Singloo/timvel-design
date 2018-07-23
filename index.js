@@ -8,6 +8,12 @@ import {
   Touchable,
   Image,
   ActionButton,
+  MultiLinesTextInput,
+  Tag,
+  Separator,
+  AnimatedLogo,
+  Selectors,
+  WeatherInfo
 } from './components';
 import Assets from './Assets';
 export {
@@ -21,4 +27,10 @@ export {
   Assets,
   Image,
   ActionButton,
+  MultiLinesTextInput,
+  Tag,
+  Separator,
+  AnimatedLogo,
+  Selectors,
+  WeatherInfo
 };
