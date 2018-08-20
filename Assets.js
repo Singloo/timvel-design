@@ -50,6 +50,9 @@ const icons = {
   coin: {
     source: require('./assets/coin.png'),
   },
+  questionMark: {
+    source: require('./assets/question_mark.png'),
+  },
 };
 
 const target = {
@@ -93,6 +96,9 @@ const art = {
 const lotties = {
   LoadingDotsDown: {
     source: require('./assetsLotties/loading_colorful_dots.json'),
+  },
+  Tick: {
+    source: require('./assetsLotties/tick.json'),
   },
 };
 
@@ -164,6 +170,23 @@ const weather = {
     source: require('./assets/shower.png'),
   },
 };
+const emojis = {
+  vomit: {
+    source: require('./assets/vomit.png'),
+  },
+  shock: {
+    source: require('./assets/shock.png'),
+  },
+  nofeeling: {
+    source: require('./assets/nofeeling.png'),
+  },
+  laugh: {
+    source: require('./assets/laugh.png'),
+  },
+  angry: {
+    source: require('./assets/angry.png'),
+  },
+};
 export default {
   ...icons,
   ...tempUse,
@@ -172,4 +195,5 @@ export default {
   ...target,
   ...logo,
   ...weather,
+  ...emojis,
 };

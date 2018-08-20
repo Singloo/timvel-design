@@ -7,11 +7,11 @@ import { base } from '../../js/utils';
 const { colors } = base;
 class Tag extends Component {
   render() {
-    const { title, onPress } = this.props;
+    const { title, onPress, style, textStyle } = this.props;
     return (
       <Touchable onPress={onPress && onPress}>
-        <View style={styles.container}>
-          <Text>{title}</Text>
+        <View style={[styles.container, style]}>
+          <Text style={[textStyle]}>{title}</Text>
         </View>
       </Touchable>
     );

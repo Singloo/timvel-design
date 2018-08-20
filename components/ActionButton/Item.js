@@ -4,7 +4,7 @@ import Image from '../Image';
 import Text from '../Text';
 import Touchable from '../Touchable';
 
-class Item extends React.Component {
+class Card extends React.Component {
   render() {
     const {
       title,
@@ -46,7 +46,7 @@ class Item extends React.Component {
   }
 }
 
-Item.defaultProps = {};
+Card.defaultProps = {};
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     position: 'absolute',
   },
-  title:{
-    backgroundColor:'white',
-    fontSize:15
-  }
+  title: {
+    backgroundColor: 'white',
+    fontSize: 15,
+  },
 });
-export default Item;
+export default Card;

@@ -13,6 +13,10 @@ import Tag from './Tag';
 import AnimatedLogo from './AnimatedLogo';
 import Selectors from './Selectors';
 import WeatherInfo from './WeatherInfo';
+import EmojiItem from './EmojiItem';
+import CommentBar from './CommentBar';
+import ContentByTag from './ContentByTag/ContentByTag';
+import Choices from './Choices';
 export {
   Button,
   Icon,
@@ -29,4 +33,8 @@ export {
   AnimatedLogo,
   Selectors,
   WeatherInfo,
+  EmojiItem,
+  CommentBar,
+  ContentByTag,
+  Choices,
 };

@@ -13,7 +13,11 @@ import {
   Separator,
   AnimatedLogo,
   Selectors,
-  WeatherInfo
+  WeatherInfo,
+  EmojiItem,
+  CommentBar,
+  ContentByTag,
+  Choices,
 } from './components';
 import Assets from './Assets';
 export {
@@ -32,5 +36,9 @@ export {
   Separator,
   AnimatedLogo,
   Selectors,
-  WeatherInfo
+  WeatherInfo,
+  EmojiItem,
+  CommentBar,
+  ContentByTag,
+  Choices,
 };

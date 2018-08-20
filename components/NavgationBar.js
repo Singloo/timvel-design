@@ -23,7 +23,7 @@ class NavigationBar extends Component {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   }
   _renderLeft = () => {
-    const { sourceLeft, leftTint, onPressLeft } = this.props;
+    const { sourceLeft, leftTint, onPressLeft, leftIconStyle } = this.props;
     if (sourceLeft) {
       return (
         <Image
@@ -32,6 +32,9 @@ class NavigationBar extends Component {
           onPress={() => {
             onPressLeft && onPressLeft();
           }}
+          size={'small'}
+          style={leftIconStyle}
+          resizeMode={'contain'}
         />
       );
     } else {

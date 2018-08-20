@@ -17,11 +17,7 @@ class WeatherInfo extends Component {
     const { weather, temperature, style } = this.props;
     return (
       <View
-        style={[
-          styles.container,
-          { backgroundColor: this.backgroundColor },
-          style,
-        ]}
+        style={[styles.container, { borderColor: this.backgroundColor }, style]}
       >
         <Text style={styles.text}>{temperature + '℃'}</Text>
         <Image source={Assets[weather].source} resizeMode={'contain'} />
@@ -36,6 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 5,
+    borderRightWidth: 4,
   },
   text: {
     color: colors.white,

@@ -10,7 +10,7 @@ class ReText extends Component {
       <Text
         {...this.props}
         onPress={onPress && onPress}
-        style={[styles.default, style]}
+        style={StyleSheet.flatten([styles.default, style])}
       >
         {children}
       </Text>
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   default: {
     fontSize: 17,
     color: colors.depGrey,
+    fontWeight: '200',
   },
 });
 
