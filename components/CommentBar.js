@@ -82,6 +82,7 @@ class CommentBar extends React.Component {
         style={[styles.container, { marginBottom: this.keyboardHeight }, style]}
       >
         <TextInput
+          ref={r => (this._textInput = r)}
           value={value}
           style={styles.textInput}
           autoCorrect={false}
@@ -94,7 +95,9 @@ class CommentBar extends React.Component {
         <Text
           style={[styles.send]}
           onPress={() => {
-            onPressSend(value.trim());
+            onPressSend(value.trim(), () => {
+              this._textInput.clear();
+            });
           }}
         >
           {'Send'}

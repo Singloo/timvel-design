@@ -13,12 +13,13 @@ const item_width = 250;
 const item_height = 250 * 0.5;
 class Sample extends Component {
   render() {
-    const { date, imageUrl, onPressCard } = this.props;
-    let formated = Moment(date);
+    const { post, onPressCard } = this.props;
+    let formated = Moment(post.happenedAt);
     let year = formated.year();
     let month = formated.format('MMMM');
     let day = formated.format('DD');
-    let hasImage = !!imageUrl;
+    let hasImage = !!post.imageUrls[0];
+    let imageUrl = post.imageUrls[0];
     return (
       <View style={styles.container}>
         <View>
@@ -30,12 +31,18 @@ class Sample extends Component {
         </View>
         <Touchable onPress={onPressCard}>
           <View
-            style={{
-              justifyContent: 'flex-start',
-              width: item_width,
-              marginHorizontal: 10,
-              height: item_height,
-            }}
+            style={[
+              {
+                justifyContent: 'flex-start',
+                width: item_width,
+                marginHorizontal: 10,
+                height: item_height,
+              },
+              !hasImage && {
+                borderWidth: 1,
+                borderColor: randomItem(colorSets),
+              },
+            ]}
           >
             {hasImage && (
               <Image
@@ -56,9 +63,7 @@ class Sample extends Component {
               ]}
               numberOfLines={5}
             >
-              {
-                'do not go gentle into that good night,\n old age should burn and rageasd asdfjkj we rkj asdfkje fklsa dfasdf asdf sdf sddsafsdfae sadfs d qf dfadf'
-              }
+              {post.content}
             </Text>
           </View>
         </Touchable>

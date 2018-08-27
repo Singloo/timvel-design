@@ -10,20 +10,9 @@ import { Separator } from '../..';
 const { colors } = base;
 class ContentByTag extends Component {
   render() {
-    const {} = this.props;
-    const renderCard = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => {
-      return (
-        <Card
-          key={index}
-          date={'2018-07-29'}
-          onPressCard={() => {}}
-          imageUrl={
-            index % 2 == 0
-              ? 'http://lc-uygandza.cn-n1.lcfile.com/bd742bc14e0b0a74e0fa.jpg'
-              : ''
-          }
-        />
-      );
+    const { tag, posts, onPressCard, onPressTag } = this.props;
+    const renderCard = posts.map((item, index) => {
+      return <Card key={index.toString()} post={item} onPressCard={() => {}} />;
     });
     return (
       <View style={styles.container}>
@@ -34,7 +23,7 @@ class ContentByTag extends Component {
             marginLeft: 10,
           }}
         >
-          <Tag title={'daily'} style={{ marginLeft: 10 }} />
+          <Tag title={tag} style={{ marginLeft: 10 }} />
         </View>
         <ScrollView
           style={{
