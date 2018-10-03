@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
 import { base } from '../../js/utils';
+import Image from './Image';
 const { realSize, colors, SCREEN_WIDTH } = base;
 const standardSize = {
   small: {
@@ -21,7 +22,15 @@ const standardSize = {
 };
 class Button extends Component {
   render() {
-    const { onPress, title, buttonStyle, textStyle, size } = this.props;
+    const {
+      onPress,
+      title,
+      buttonStyle,
+      textStyle,
+      size,
+      leftIconSource,
+      leftIconProps,
+    } = this.props;
     return (
       <Touchable style={{ padding: 0 }} onPress={onPress && onPress}>
         <View
@@ -32,6 +41,9 @@ class Button extends Component {
           ])}
         >
           {/* <View style={{ padding: 0 }}> */}
+          {leftIconSource && (
+            <Image source={leftIconSource} {...leftIconProps} />
+          )}
           <Text style={[styles.textStyle, textStyle]}>{title}</Text>
           {/* </View> */}
         </View>
@@ -39,7 +51,15 @@ class Button extends Component {
     );
   }
 }
-Button.propTypes = {};
+Button.propTypes = {
+  onPress: PropTypes.func,
+  title: PropTypes.string,
+  buttonStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  textStyle: PropTypes.object,
+  size: PropTypes.string,
+  leftIconSource: PropTypes.any,
+  leftIconProps: PropTypes.object,
+};
 Button.defaultProps = {
   size: 'regular',
 };

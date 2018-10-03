@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput } from 'react-native';
 
-class MultiLinesTextInput extends React.Component {
+class BaseTextInput extends React.Component {
   render() {
     return (
       <TextInput
@@ -9,10 +9,10 @@ class MultiLinesTextInput extends React.Component {
         autoCorrect={false}
         autoCapitalize={'none'}
         underlineColorAndroid={'transparent'}
-        multiline={true}
+        multiline={false}
       />
     );
   }
 }
 
-export default MultiLinesTextInput;
+export default BaseTextInput;

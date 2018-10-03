@@ -17,7 +17,9 @@ import EmojiItem from './EmojiItem';
 import CommentBar from './CommentBar';
 import ContentByTag from './ContentByTag/ContentByTag';
 import Choices from './Choices';
+import BaseTextInput from './BaseTextInput';
 export {
+  BaseTextInput,
   Button,
   Icon,
   NavBar,

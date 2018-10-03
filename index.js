@@ -18,9 +18,11 @@ import {
   CommentBar,
   ContentByTag,
   Choices,
+  BaseTextInput,
 } from './components';
 import Assets from './Assets';
 export {
+  BaseTextInput,
   Button,
   Icon,
   NavBar,

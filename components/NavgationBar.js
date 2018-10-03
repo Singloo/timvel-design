@@ -100,7 +100,17 @@ class NavigationBar extends Component {
     );
   }
 }
-NavigationBar.propTypes = {};
+NavigationBar.propTypes = {
+  style: PropTypes.any,
+  sourceLeft: PropTypes.any,
+  leftTint: PropTypes.string,
+  onPressLeft: PropTypes.func,
+  leftIconStyle: PropTypes.object,
+  sourceRight: PropTypes.any,
+  rightTint: PropTypes.string,
+  onPressRight: PropTypes.func,
+  rightIconStyle: PropTypes.object,
+};
 const styles = StyleSheet.create({
   absolute: {
     position: 'absolute',
@@ -114,7 +124,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     backgroundColor: 'transparent',
   },
   blank: {
