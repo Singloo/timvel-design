@@ -6,7 +6,7 @@ import Touchable from './Touchable';
 import { base } from '../../js/utils';
 class Sample extends Component {
   render() {
-    const {} = this.props;
+    // const {} = this.props;
     return (
       <View>
         <Text style={styles.wrapper}>{'This is a sample component'}</Text>

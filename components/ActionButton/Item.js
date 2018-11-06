@@ -15,15 +15,16 @@ class Card extends React.Component {
       onPress,
       opacity,
       style,
-      iconStyle,
+      iconProps,
     } = this.props;
+    const { style: imageStyle, ...otherProps } = iconProps;
     return (
       <Animated.View
         style={[
           styles.item,
           style,
           {
-            borderRadius: iconSize / 2,
+            // borderRadius: iconSize / 2,
             right: right,
             bottom: bottom,
             opacity: opacity,
@@ -35,24 +36,28 @@ class Card extends React.Component {
           style={{
             width: iconSize,
             height: iconSize,
-            ...iconStyle,
+            ...(imageStyle ? imageStyle : {}),
           }}
           isRound={true}
           source={source}
-          onPress={onPress && onPress}
+          onPress={onPress}
+          {...otherProps}
         />
       </Animated.View>
     );
   }
 }
 
-Card.defaultProps = {};
+Card.defaultProps = {
+  iconProps: {},
+};
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
     position: 'absolute',
+    // backgroundColor:'red'
   },
   title: {
     backgroundColor: 'white',

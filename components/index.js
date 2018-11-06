@@ -18,7 +18,9 @@ import CommentBar from './CommentBar';
 import ContentByTag from './ContentByTag/ContentByTag';
 import Choices from './Choices';
 import BaseTextInput from './BaseTextInput';
+import BasicView from './BasicView';
 export {
+  BasicView,
   BaseTextInput,
   Button,
   Icon,

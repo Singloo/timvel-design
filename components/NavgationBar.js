@@ -19,9 +19,9 @@ class NavigationBar extends Component {
     };
   }
 
-  imageLoaded() {
+  imageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-  }
+  };
   _renderLeft = () => {
     const { sourceLeft, leftTint, onPressLeft, leftIconStyle } = this.props;
     if (sourceLeft) {
@@ -84,7 +84,7 @@ class NavigationBar extends Component {
             ref={r => {
               this.backgroundImage = r;
             }}
-            onLayout={this.imageLoaded.bind(this)}
+            onLayout={this.imageLoaded}
             style={styles.absolute}
           />
         )}
@@ -93,9 +93,9 @@ class NavigationBar extends Component {
           blurType={'xlight'}
           style={styles.absolute}
         />
-        {this._renderLeft.call(this)}
-        {this._renderTitle.call(this)}
-        {this._renderRight.call(this)}
+        {this._renderLeft()}
+        {this._renderTitle()}
+        {this._renderRight()}
       </View>
     );
   }

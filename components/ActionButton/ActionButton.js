@@ -22,13 +22,14 @@ const getItemPosition = (n, r) => {
       return [f];
     case 2:
       return [f, l];
-    case 3:
+    case 3: {
       let s = {
         x: sinR(60 - 15, r),
         y: cosR(60 - 15, r),
       };
       return [f, s, l];
-    case 4:
+    }
+    case 4: {
       let ss = {
         x: sinR(40 - 15, r),
         y: cosR(40 - 15, r),
@@ -38,6 +39,7 @@ const getItemPosition = (n, r) => {
         y: cosR(40 * 2 - 15, r),
       };
       return [f, ss, tt, l];
+    }
     default:
       break;
   }
@@ -53,7 +55,7 @@ class ActionButton extends React.Component {
     this.animationState = new Animated.Value(0);
   }
 
-  _onPress = () => {
+  _onPress = onPress => () => {
     const { expand } = this.state;
     if (expand === false) {
       this.setState({
@@ -74,6 +76,7 @@ class ActionButton extends React.Component {
         });
       }, animationTime);
     }
+    onPress && onPress();
   };
 
   render() {
@@ -103,10 +106,7 @@ class ActionButton extends React.Component {
           key={index}
           {...item.props}
           iconSize={iconSize}
-          onPress={() => {
-            this._onPress();
-            item.props.onPress && item.props.onPress();
-          }}
+          onPress={this._onPress(item.props.onPress)}
           right={this.animationState.interpolate({
             inputRange: [0 + delay, delayBegin + delay, 1],
             outputRange: [
@@ -131,7 +131,7 @@ class ActionButton extends React.Component {
       );
     });
     return (
-      <Touchable withoutFeedback={true} onPress={this._onPress}>
+      <Touchable withoutFeedback={true} onPress={this._onPress()}>
         <Animated.View
           style={
             expand
@@ -146,7 +146,7 @@ class ActionButton extends React.Component {
           }
         >
           {renderIcons}
-          <Touchable withoutFeedback={true} onPress={this._onPress}>
+          <Touchable withoutFeedback={true} onPress={this._onPress()}>
             <Animated.Image
               source={buttonSource}
               resizeMode={'contain'}

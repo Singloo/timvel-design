@@ -53,11 +53,17 @@ const icons = {
   questionMark: {
     source: require('./assets/question_mark.png'),
   },
+  edit: {
+    source: require('./assets/edit.png'),
+  },
 };
 
 const target = {
   actionButton: {
     source: require('./assets/action_button.png'),
+  },
+  letterPaper1: {
+    source: require('./assets/letter_paper_1.png'),
   },
 };
 const tempUse = {
@@ -99,6 +105,15 @@ const lotties = {
   },
   Tick: {
     source: require('./assetsLotties/tick.json'),
+  },
+  JollyWalker: {
+    source: require('./assetsLotties/jolly_walker.json'),
+  },
+  LoadingHorizontalDots: {
+    source: require('./assetsLotties/loading_horizontal_dots.json'),
+  },
+  LoadingPlane: {
+    source: require('./assetsLotties/loading_plane.json'),
   },
 };
 

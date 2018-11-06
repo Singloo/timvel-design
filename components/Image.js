@@ -14,14 +14,14 @@ class Image2 extends Component {
       viewRef: null,
     };
   }
-  imageLoaded() {
+  imageLoaded = () => {
     const { blur } = this.props;
     if (isAndroid && blur) {
       setTimeout(() => {
-        this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-      }, 10);
+        this.setState({ viewRef: findNodeHandle(this.toBeBlured) });
+      }, 50);
     }
-  }
+  };
   _iconSize = size => {
     switch (size) {
       case 'micro':
@@ -48,6 +48,7 @@ class Image2 extends Component {
       resizeMode,
       tintColor,
       style,
+      containerStyle,
       isRound,
       source,
       blur,
@@ -61,20 +62,15 @@ class Image2 extends Component {
     let imgStyle = {
       ...iconSize,
     };
+    let wrapperStyle = { ...containerStyle };
     if (typeof style !== 'undefined') {
       imgStyle = StyleSheet.flatten([imgStyle, style]);
-      // let width
-      // let height
-      // let absolute
-      // Object.keys(style).forEach(key=>{
-      //   if (key === 'width'){
-      //     width = style.width
-      //   }
-      //   if (key === 'height'){
-      //     height = style.height
-      //   }
-      //   if (key === '')
-      // })
+      if (style['position'] === 'absolute') {
+        wrapperStyle = {
+          ...Styles.absolute,
+        };
+        imgStyle = style;
+      }
     }
 
     let imgSource;
@@ -83,47 +79,46 @@ class Image2 extends Component {
     } else {
       imgSource = source;
     }
-    const renderImage = (
-      <View
+    const Wrapper = onPress ? Touchable : View;
+    const imageComp = (
+      <Image
+        ref={r => (this.toBeBlured = r)}
+        source={imgSource}
+        onLoadEnd={this.imageLoaded}
         style={[
-          styles.wrapper,
           isRound && { borderRadius: imgStyle.width / 2 },
+          { tintColor: tintColor },
+          imgStyle,
+          // style,
         ]}
-      >
-        <Image
-          ref={r => (this.toBeBlured = r)}
-          source={imgSource}
-          onLoadEnd={this.imageLoaded.bind(this)}
-          style={[
-            isRound && { borderRadius: imgStyle.width / 2 },
-            { tintColor: tintColor },
-            imgStyle,
-            // style,
-          ]}
-          resizeMode={resizeMode}
-        />
-        {blur && (
-          <BlurView
-            viewRef={this.state.viewRef}
-            blurType={blurType || 'light'}
-            style={Styles.absolute}
-            blurAmount={typeof blurAmount !== 'undefined' ? blurAmount : 2}
-          />
-        )}
-      </View>
+        resizeMode={resizeMode}
+      />
     );
-    if (typeof onPress !== 'undefined') {
+    const blurComp = (
+      <BlurView
+        viewRef={this.state.viewRef}
+        blurType={blurType || 'light'}
+        style={Styles.absolute}
+        blurAmount={typeof blurAmount !== 'undefined' ? blurAmount : 2}
+      />
+    );
+    if (onPress || blur) {
       return (
-        <Touchable
-          onPress={() => onPress && onPress()}
+        <Wrapper
+          style={[
+            styles.wrapper,
+            wrapperStyle,
+            // isRound && { borderRadius: imgStyle.width / 2 },
+          ]}
           hitSlop={{ top: 8, left: 8, bottom: 8, right: 8 }}
+          onPress={onPress}
         >
-          {renderImage}
-        </Touchable>
+          {imageComp}
+          {blur && blurComp}
+        </Wrapper>
       );
-    } else {
-      return renderImage;
     }
+    return imageComp;
   }
 }
 Image2.propTypes = {};
@@ -131,6 +126,7 @@ Image2.defaultProps = {
   size: 'regular',
   resizeMode: 'cover',
   isRound: false,
+  containerStyle: {},
 };
 const styles = StyleSheet.create({
   wrapper: {

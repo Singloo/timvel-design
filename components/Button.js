@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
 import { base } from '../../js/utils';
+const { Styles } = base;
 import Image from './Image';
 const { realSize, colors, SCREEN_WIDTH } = base;
 const standardSize = {
@@ -31,23 +32,20 @@ class Button extends Component {
       leftIconSource,
       leftIconProps,
     } = this.props;
+    const Wrapper = onPress ? Touchable : View;
     return (
-      <Touchable style={{ padding: 0 }} onPress={onPress && onPress}>
-        <View
-          style={StyleSheet.flatten([
-            styles.wrapper,
-            standardSize[size],
-            buttonStyle,
-          ])}
-        >
-          {/* <View style={{ padding: 0 }}> */}
-          {leftIconSource && (
-            <Image source={leftIconSource} {...leftIconProps} />
-          )}
-          <Text style={[styles.textStyle, textStyle]}>{title}</Text>
-          {/* </View> */}
-        </View>
-      </Touchable>
+      <Wrapper
+        style={StyleSheet.flatten([
+          Styles.shadow,
+          styles.wrapper,
+          standardSize[size],
+          buttonStyle,
+        ])}
+        onPress={onPress && onPress}
+      >
+        {leftIconSource && <Image source={leftIconSource} {...leftIconProps} />}
+        <Text style={[styles.textStyle, textStyle]}>{title}</Text>
+      </Wrapper>
     );
   }
 }
@@ -62,15 +60,17 @@ Button.propTypes = {
 };
 Button.defaultProps = {
   size: 'regular',
+  buttonStyle: {},
+  textStyle: {},
 };
 
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    paddingHorizontal: realSize(20),
-    paddingVertical: realSize(10),
+    // paddingHorizontal: 15,
+    // paddingVertical: 8,
     backgroundColor: colors.main,
-    borderRadius: realSize(8),
+    // borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },

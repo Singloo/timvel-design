@@ -19,9 +19,11 @@ import {
   ContentByTag,
   Choices,
   BaseTextInput,
+  BasicView,
 } from './components';
 import Assets from './Assets';
 export {
+  BasicView,
   BaseTextInput,
   Button,
   Icon,
