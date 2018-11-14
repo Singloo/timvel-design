@@ -65,6 +65,33 @@ const target = {
   letterPaper1: {
     source: require('./assets/letter_paper_1.png'),
   },
+  flower1: {
+    source: require('./assets/flower_1.png'),
+  },
+  flower2: {
+    source: require('./assets/flower_2.png'),
+  },
+  flower3: {
+    source: require('./assets/flower_3.png'),
+  },
+  flower4: {
+    source: require('./assets/flower_4.png'),
+  },
+  shit1: {
+    source: require('./assets/shit_1.png'),
+  },
+  shit2: {
+    source: require('./assets/shit_2.png'),
+  },
+  shit3: {
+    source: require('./assets/shit_3.png'),
+  },
+  shit4: {
+    source: require('./assets/shit_4.png'),
+  },
+  shit5: {
+    source: require('./assets/shit_5.png'),
+  },
 };
 const tempUse = {
   bk1: {

@@ -10,16 +10,6 @@ class EmojiItem extends Component {
   constructor(props) {
     super(props);
     this.animationState = new Animated.Value(1);
-    // this.animation = Animated.sequence([
-    //   Animated.timing(this.animationState, {
-    //     duration: 100,
-    //     toValue: 1.2,
-    //   }),
-    //   Animated.timing(this.animationState, {
-    //     duration: 80,
-    //     toValue: 1,
-    //   }),
-    // ]);
   }
 
   _onPress = () => {

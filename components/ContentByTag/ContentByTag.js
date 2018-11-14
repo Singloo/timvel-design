@@ -12,7 +12,13 @@ class ContentByTag extends Component {
   render() {
     const { tag, posts, onPressCard, onPressTag } = this.props;
     const renderCard = posts.map((item, index) => {
-      return <Card key={index.toString()} post={item} onPressCard={() => {}} />;
+      return (
+        <Card
+          key={'cbt' + index.toString()}
+          post={item}
+          onPressCard={() => {}}
+        />
+      );
     });
     return (
       <View style={styles.container}>
