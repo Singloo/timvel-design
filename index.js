@@ -21,9 +21,10 @@ import {
   BaseTextInput,
   BasicView,
 } from './components';
-import { createAnimatedModal } from './HOCs';
+import { createAnimatedModal, createSelectableItem } from './HOCs';
 import Assets from './Assets';
 export {
+  createSelectableItem,
   createAnimatedModal,
   BasicView,
   BaseTextInput,

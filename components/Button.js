@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './Text';
@@ -21,7 +21,38 @@ const standardSize = {
     height: realSize(50),
   },
 };
-class Button extends Component {
+const types = {
+  main: {
+    backgroundColor: colors.main,
+  },
+  blank: {
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.main,
+  },
+  danger: {
+    backgroundColor: colors.red,
+  },
+  dangerBlank: {
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.red,
+  },
+};
+class Button extends React.Component {
+  static types = {
+    main: 'main',
+    blank: 'blank',
+    danger: 'danger',
+    dangerBlank: 'dangerBlank',
+  };
+  _onPress = () => {
+    const { enable, onPress } = this.props;
+    if (!enable) {
+      return;
+    }
+    onPress();
+  };
   render() {
     const {
       onPress,
@@ -31,17 +62,20 @@ class Button extends Component {
       size,
       leftIconSource,
       leftIconProps,
+      type,
+      enable,
     } = this.props;
     const Wrapper = onPress ? Touchable : View;
     return (
       <Wrapper
         style={StyleSheet.flatten([
-          Styles.shadow,
           styles.wrapper,
           standardSize[size],
+          types[type],
           buttonStyle,
+          !enable && { backgroundColor: colors.mainLight },
         ])}
-        onPress={onPress && onPress}
+        onPress={this._onPress}
       >
         {leftIconSource && <Image source={leftIconSource} {...leftIconProps} />}
         <Text style={[styles.textStyle, textStyle]}>{title}</Text>
@@ -57,20 +91,21 @@ Button.propTypes = {
   size: PropTypes.string,
   leftIconSource: PropTypes.any,
   leftIconProps: PropTypes.object,
+  type: PropTypes.string,
+  enable: PropTypes.bool,
 };
 Button.defaultProps = {
   size: 'regular',
   buttonStyle: {},
   textStyle: {},
+  type: 'main',
+  enable: true,
 };
 
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    // paddingHorizontal: 15,
-    // paddingVertical: 8,
     backgroundColor: colors.main,
-    // borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },

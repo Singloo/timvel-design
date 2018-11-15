@@ -10,23 +10,14 @@ import Text from './Text';
 import { base } from '../../js/utils';
 class ReTouchable extends Component {
   render() {
-    const { children, withoutFeedback } = this.props;
+    const { children, withoutFeedback, ...restProps } = this.props;
 
     return withoutFeedback ? (
-      <TouchableWithoutFeedback
-        {...this.props}
-        // onPress={this._onPress}
-        // onLongPress={this._onLongPress}
-      >
+      <TouchableWithoutFeedback {...restProps}>
         {children}
       </TouchableWithoutFeedback>
     ) : (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        {...this.props}
-        // onPress={this._onPress}
-        // onLongPress={this._onLongPress}
-      >
+      <TouchableOpacity activeOpacity={0.8} {...restProps}>
         {children}
       </TouchableOpacity>
     );
