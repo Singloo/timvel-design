@@ -6,7 +6,7 @@ const { Styles } = base;
 const styles = StyleSheet.create({
   container: {
     ...Styles.absolute,
-    backgroundColor: 'rgba(33,33,33,0.2)',
+    backgroundColor: 'rgba(33,33,33,0.5)',
     ...Styles.center,
   },
 });

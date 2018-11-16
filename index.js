@@ -20,10 +20,12 @@ import {
   Choices,
   BaseTextInput,
   BasicView,
+  PriceTag,
 } from './components';
 import { createAnimatedModal, createSelectableItem } from './HOCs';
 import Assets from './Assets';
 export {
+  PriceTag,
   createSelectableItem,
   createAnimatedModal,
   BasicView,

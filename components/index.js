@@ -19,7 +19,9 @@ import ContentByTag from './ContentByTag/ContentByTag';
 import Choices from './Choices';
 import BaseTextInput from './BaseTextInput';
 import BasicView from './BasicView';
+import PriceTag from './PriceTag';
 export {
+  PriceTag,
   BasicView,
   BaseTextInput,
   Button,
