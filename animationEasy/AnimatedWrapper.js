@@ -70,6 +70,7 @@ export default class AnimatedWrapper extends React.PureComponent {
     const { children } = this.props;
     const { onLayout } = children;
     const instance = getInstance(this.props);
+    setClonedElement(this.props, React.cloneElement(children));
     const { from } = instance;
     this.measure(from.ref, position => {
       set(this.props, 'position', position, 'from');
@@ -82,14 +83,13 @@ export default class AnimatedWrapper extends React.PureComponent {
     const { children } = this.props;
     const { onLayout } = children;
     const instance = getInstance(this.props);
+    setClonedElement(this.props, React.cloneElement(children));
     const { from, to } = instance;
     this.measure(from.ref, position => {
       set(this.props, 'position', position, 'from');
       this.measure(to.ref, position2 => {
         set(this.props, 'position', position2, 'to');
-        setTimeout(() => {
-          this.onStart();
-        }, 0);
+        setTimeout(this.onStart, 0);
       });
     });
     if (typeof onLayout === 'function') {
@@ -99,13 +99,12 @@ export default class AnimatedWrapper extends React.PureComponent {
   _renderChildren() {
     const from = isFrom(this.props);
     const { children } = this.props;
-    setClonedElement(this.props, React.cloneElement(children));
     return React.cloneElement(children, {
       ref: this._setRef,
       onLayout: from ? this._onFromLaylout : this._onToLayout,
     });
   }
-  _getAnimation = instance => {
+  _getAnimation = (instance, isFrom = true) => {
     const { from, to } = instance;
     const { position: fromPosition } = from;
     const { position: toPosition } = to;
@@ -114,38 +113,52 @@ export default class AnimatedWrapper extends React.PureComponent {
     let fromPageY;
     let toPageX;
     let toPageY;
-    console.warn(this.props.type);
-    // if (isFrom(this.props)) {
-    fromPageX = fromPosition.pageX;
-    fromPageY = fromPosition.pageY;
-    toPageX = toPosition.pageX;
-    toPageY = toPosition.pageY;
-    // } else {
-    //   fromPageX = toPosition.pageX;
-    //   fromPageY = toPosition.pageY;
-    //   toPageX = toPosition.pageX;
-    //   toPageY = toPosition.pageY;
-    // }
+    if (isFrom) {
+      fromPageX = fromPosition.pageX;
+      toPageX = toPosition.pageX;
+      fromPageY = fromPosition.pageY;
+      toPageY = toPosition.pageY;
+    } else {
+      fromPageX = toPosition.pageX;
+      toPageX = fromPosition.pageX;
+      fromPageY = toPosition.pageY;
+      toPageY = fromPosition.pageY;
+    }
     const translateY = new Animated.Value(fromPageY);
     this.setState({
       translateY,
     });
     animation.push(
-      Animated.timing(this.state.translateY, {
-        easing: Easing.in(Easing.back()),
+      Animated.timing(translateY, {
+        easing: Easing.out(Easing.back()),
         toValue: toPageY,
         useNativeDrvier: true,
-        duration: 1000,
+        duration: 500,
       }),
     );
+    if (fromPageX !== toPageX) {
+      const translateX = new Animated.Value(fromPageX);
+      this.setState({
+        translateX,
+      });
+      animation.push(
+        Animated.timing(translateX, {
+          easing: Easing.out(Easing.back()),
+          toValue: toPageX,
+          useNativeDrvier: true,
+          duration: 500,
+        }),
+      );
+    }
+
     return animation;
   };
 
-  onStart = () => {
+  onStart = (isFrom = true, callback) => {
     // if (isFrom(this.props)) {
     const { onStart } = this.props;
     const instance = getInstance(this.props);
-    this.move(instance);
+    this.move(instance, isFrom, callback);
     onStart && onStart();
     // }
   };
@@ -154,27 +167,34 @@ export default class AnimatedWrapper extends React.PureComponent {
     onEnd && onEnd();
   };
 
-  move = instance => {
+  move = (instance, isFrom, callback) => {
     const { from, to } = instance;
     const { clonedElement } = from;
     let sibling = new RootSiblings(<View style={styles.absolute} />);
+    const animations = this._getAnimation(instance, isFrom);
     setTimeout(() => {
-      const animations = this._getAnimation(instance);
       sibling.update(this._renderClonedElement(clonedElement));
       Animated.parallel(animations).start(() => {
-        sibling.destroy();
+        callback && callback();
         this.onEnd();
+        sibling.destroy();
       });
     }, 0);
   };
 
   _renderClonedElement = comp => {
+    let transform = [
+      {
+        translateY: this.state.translateY,
+      },
+    ];
+    if (this.state.translateX) {
+      transform.push({
+        translateX: this.state.translateX,
+      });
+    }
     const animationStyle = {
-      transform: [
-        {
-          translateY: this.state.translateY,
-        },
-      ],
+      transform,
     };
     return (
       <Animated.View style={[{ position: 'absolute' }, animationStyle]}>
