@@ -108,7 +108,7 @@ export default class AnimatedWrapper extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    // del(this.props, null, this.props.type);
+    // del(this.props, null, 'to');
   }
 
   componentDidMount() {
@@ -256,6 +256,7 @@ export default class AnimatedWrapper extends React.PureComponent {
   //ref end
 
   _renderClonedElement = comp => {
+    const { style = {} } = this.props;
     let transform = [
       {
         translateY: this.state.translateY,
@@ -270,7 +271,7 @@ export default class AnimatedWrapper extends React.PureComponent {
       transform,
     };
     return (
-      <Animated.View style={[{ position: 'absolute' }, animationStyle]}>
+      <Animated.View style={[{ position: 'absolute' }, animationStyle, style]}>
         {comp}
       </Animated.View>
     );

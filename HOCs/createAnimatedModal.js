@@ -16,13 +16,14 @@ const createAnimatedModal = Comp =>
       super(props);
       this.state = {
         show: false,
+        animationState: new Animated.Value(0),
       };
-      this.animationState = new Animated.Value(0);
-      this.animationStart = Animated.spring(this.animationState, {
+      this.animationStart = Animated.spring(this.state.animationState, {
+        duration: 300,
         toValue: 1,
         useNativeDriver: true,
       });
-      this.animationStop = Animated.timing(this.animationState, {
+      this.animationStop = Animated.timing(this.state.animationState, {
         toValue: 0,
         duration: 200,
         useNativeDriver: true,
@@ -42,7 +43,7 @@ const createAnimatedModal = Comp =>
     modalController = bool => () => {
       if (bool) {
         this.animationStop.stop();
-        this.animationState.setValue(0);
+        this.state.animationState.setValue(0);
         this.setState({
           show: true,
         });
@@ -50,7 +51,7 @@ const createAnimatedModal = Comp =>
         return;
       }
       this.animationStart.stop();
-      this.animationState.setValue(1);
+      this.state.animationState.setValue(1);
       this.animationStop.start(() => {
         this.setState({
           show: false,
@@ -64,18 +65,15 @@ const createAnimatedModal = Comp =>
 
     render() {
       const { style, modalController, ...childProps } = this.props;
-      const { show } = this.state;
+      const { show, animationState } = this.state;
       if (!show) {
         return null;
       }
-      const scale = this.animationState.interpolate({
-        inputRange: [0, 0.8, 1],
-        outputRange: [0.3, 1.1, 1],
-        extrapolate: 'clamp',
-      });
       return (
         <View style={styles.container}>
-          <Animated.View style={[{ transform: [{ scale: scale }] }, style]}>
+          <Animated.View
+            style={[{ transform: [{ scale: animationState }] }, style]}
+          >
             <Comp {...childProps} dismiss={modalController(false)} />
           </Animated.View>
         </View>

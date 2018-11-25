@@ -14,6 +14,7 @@ class EmojiItem extends Component {
 
   _onPress = () => {
     const { onPress } = this.props;
+    onPress();
     this.animationState.setValue(1);
     this.animation = Animated.sequence([
       Animated.timing(this.animationState, {
@@ -27,12 +28,11 @@ class EmojiItem extends Component {
         useNativeDriver: true,
       }),
     ]).start();
-    onPress();
   };
   render() {
-    const { source, onPress, num, style } = this.props;
+    const { source, num, style } = this.props;
     return (
-      <Touchable onPress={this._onPress}>
+      <Touchable onPress={this._onPress} style={{ padding: 5 }}>
         <Animated.View
           style={[
             styles.container,
