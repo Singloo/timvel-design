@@ -229,12 +229,14 @@ export default class AnimatedWrapper extends React.PureComponent {
     const { onEnd, onStart } = this.props;
     let sibling = new RootSiblings(<View style={styles.absolute} />);
     setTimeout(() => {
-      const animations = this._getAnimation(instance, isFrom);
       invoke(onStart);
+      const animations = this._getAnimation(instance, isFrom);
       sibling.update(this._renderClonedElement(_clonedElement));
       Animated.parallel(animations).start(() => {
         invoke(callback);
+        // if (isFrom) {
         invoke(onEnd);
+        // }s
         sibling.destroy();
       });
     }, 0);
