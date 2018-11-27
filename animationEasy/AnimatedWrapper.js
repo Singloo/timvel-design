@@ -114,9 +114,9 @@ export default class AnimatedWrapper extends React.PureComponent {
   componentDidMount() {
     setProps(this.props);
   }
-  // componentWillReceiveProps(nextProps) {
-  //   setProps(nextProps);
-  // }
+  componentWillReceiveProps(nextProps) {
+    setProps(nextProps);
+  }
   componentDidUpdate() {}
 
   _setRef = r => {
@@ -234,9 +234,7 @@ export default class AnimatedWrapper extends React.PureComponent {
       sibling.update(this._renderClonedElement(_clonedElement));
       Animated.parallel(animations).start(() => {
         invoke(callback);
-        // if (isFrom) {
         invoke(onEnd);
-        // }s
         sibling.destroy();
       });
     }, 0);
