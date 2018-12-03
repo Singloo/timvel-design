@@ -21,10 +21,12 @@ import {
   BaseTextInput,
   BasicView,
   PriceTag,
+  ImageSwiper,
 } from './components';
 import { createAnimatedModal, createSelectableItem } from './HOCs';
 import Assets from './Assets';
 export {
+  ImageSwiper,
   PriceTag,
   createSelectableItem,
   createAnimatedModal,

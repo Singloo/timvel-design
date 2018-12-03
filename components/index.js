@@ -20,7 +20,9 @@ import Choices from './Choices';
 import BaseTextInput from './BaseTextInput';
 import BasicView from './BasicView';
 import PriceTag from './PriceTag';
+import ImageSwiper from './ImageSwiper';
 export {
+  ImageSwiper,
   PriceTag,
   BasicView,
   BaseTextInput,
