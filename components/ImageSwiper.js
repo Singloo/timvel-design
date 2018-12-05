@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Swiper from 'react-native-swiper';
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { base } from '../../js/utils';
 const { SCREEN_WIDTH } = base;
 class ImageSwiper extends React.PureComponent {
@@ -8,7 +8,7 @@ class ImageSwiper extends React.PureComponent {
     const { imageUrls, style } = this.props;
     return (
       <Swiper
-        style={[styles.container, style]}
+        style={StyleSheet.flatten[(styles.container, style)]}
         loop={true}
         width={SCREEN_WIDTH}
         height={200}
