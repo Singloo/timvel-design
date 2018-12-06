@@ -7,17 +7,23 @@ import * as Assets from '../Assets';
 const { SCREEN_WIDTH } = base;
 class ImageSwiper extends React.PureComponent {
   render() {
-    const { imageUrls, style = {} } = this.props;
+    const { imageUrls, style = {}, imageStyle } = this.props;
     return (
       <Swiper
         style={StyleSheet.flatten([styles.container, style])}
-        loop={true}
+        loop={false}
         width={SCREEN_WIDTH || style.width}
         height={200 || style.height}
         showsButtons={false}
         showsPagination={false}
       >
         {imageUrls.map(this._renderImage)}
+        <Image
+          source={Assets.default.bk1.source}
+          style={[styles.container, imageStyle]}
+          processType={'post'}
+          resizeMode={'cover'}
+        />
       </Swiper>
     );
   }
@@ -26,19 +32,16 @@ class ImageSwiper extends React.PureComponent {
     return (
       <Image
         key={index}
-        // uri={item}
-        source={Assets.default.bk1.source}
+        uri={item}
         style={[styles.container, imageStyle]}
         processType={'post'}
+        resizeMode={'cover'}
       />
     );
   };
 }
 const styles = {
-  container: {
-    width: SCREEN_WIDTH,
-    height: 200,
-  },
+  container: {},
 };
 
 export default ImageSwiper;
