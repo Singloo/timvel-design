@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, TextInput, Easing } from 'react-native';
-import PropTypes from 'prop-types';
+import { StyleSheet, View, Animated, TextInput } from 'react-native';
 import { base } from '../../js/utils';
 import Text from './Text';
 import Image from './Image';
 import Assets from '../Assets';
-const { colors, SCREEN_HEIGHT, SCREEN_WIDTH, realSize } = base;
+const { colors, realSize } = base;
 
 class ReTextInput extends Component {
   constructor(props) {
@@ -26,7 +25,8 @@ class ReTextInput extends Component {
   };
   _handleBlur = () => {
     const { value } = this.props;
-    if (typeof value != 'undefined' && value.length != 0) {
+    if (typeof value !== 'undefined' && value.length !== 0) {
+      //
     } else {
       this.setState({ isActive: false });
       Animated.timing(this.animationState, {
@@ -49,7 +49,7 @@ class ReTextInput extends Component {
       activeColor,
       containerStyle,
     } = this.props;
-    const {  isActive } = this.state;
+    const { isActive } = this.state;
     return (
       <View style={[styles.wrapper, containerStyle]}>
         <Animated.Text
@@ -91,15 +91,14 @@ class ReTextInput extends Component {
             activeColor && isActive && { borderColor: activeColor },
           ]}
         />
-        {typeof value != 'undefined' &&
-          value.length > 0 && (
-            <Image
-              source={Assets.close.source}
-              size={'verySmall'}
-              style={styles.icon}
-              onPress={this._clear}
-            />
-          )}
+        {typeof value != 'undefined' && value.length > 0 && (
+          <Image
+            source={Assets.close.source}
+            size={'verySmall'}
+            style={styles.icon}
+            onPress={this._clear}
+          />
+        )}
       </View>
     );
   }

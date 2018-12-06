@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
-import Text from './Text';
-import Touchable from './Touchable';
+import { StyleSheet, View } from 'react-native';
 import { base } from '../../js/utils';
-const { SCREEN_WIDTH, colors: colors2 } = base;
+const { colors: colors2 } = base;
 import LinearGradient from 'react-native-linear-gradient';
 class Separator extends Component {
   render() {

@@ -7,6 +7,10 @@ import { base } from '../../js/utils';
 import { BlurView } from 'react-native-blur';
 const { realSize, colors, isAndroid, Styles } = base;
 
+const processSuffixes = {
+  avatar: '?x-oss-process=style/avatar',
+  post: '?x-oss-process=style/post',
+};
 class Image2 extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +58,7 @@ class Image2 extends Component {
       blur,
       blurType,
       blurAmount,
+      processType = null,
     } = this.props;
     const iconSize = {
       width: this._iconSize(size),
@@ -64,7 +69,11 @@ class Image2 extends Component {
     };
     let wrapperStyle = { ...containerStyle };
     if (typeof style !== 'undefined') {
-      imgStyle = StyleSheet.flatten([imgStyle, style]);
+      let _style;
+      if (Array.isArray(style)) {
+        _style = StyleSheet.flatten(style);
+      }
+      imgStyle = StyleSheet.flatten([imgStyle, _style || style]);
       if (style['position'] === 'absolute') {
         wrapperStyle = {
           ...Styles.absolute,
@@ -78,6 +87,12 @@ class Image2 extends Component {
       imgSource = { uri: uri };
     } else {
       imgSource = source;
+    }
+    if (processType && uri) {
+      const suffix = processSuffixes[processType];
+      if (suffix) {
+        imgSource = { uri: uri + suffix };
+      }
     }
     const Wrapper = onPress ? Touchable : View;
     const imageComp = (
