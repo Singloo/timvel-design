@@ -30,7 +30,7 @@ class EmojiItem extends Component {
     ]).start();
   };
   render() {
-    const { source, num, style } = this.props;
+    const { source, num, style, textStyle } = this.props;
     return (
       <Touchable onPress={this._onPress} style={{ padding: 5 }}>
         <Animated.View
@@ -47,7 +47,9 @@ class EmojiItem extends Component {
           ]}
         >
           <Image source={source} style={{ width: 28, height: 28 }} />
-          <Text style={styles.text}>{num}</Text>
+          <Text style={StyleSheet.flatten([styles.text, textStyle])}>
+            {num}
+          </Text>
         </Animated.View>
       </Touchable>
     );
