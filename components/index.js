@@ -21,7 +21,9 @@ import BaseTextInput from './BaseTextInput';
 import BasicView from './BasicView';
 import PriceTag from './PriceTag';
 import ImageSwiper from './ImageSwiper';
+import RFlatList from './RefreshFlatlist';
 export {
+  RFlatList,
   ImageSwiper,
   PriceTag,
   BasicView,

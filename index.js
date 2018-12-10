@@ -22,10 +22,12 @@ import {
   BasicView,
   PriceTag,
   ImageSwiper,
+  RFlatList,
 } from './components';
 import { createAnimatedModal, createSelectableItem } from './HOCs';
 import Assets from './Assets';
 export {
+  RFlatList,
   ImageSwiper,
   PriceTag,
   createSelectableItem,

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, findNodeHandle } from 'react-native';
-import PropTypes from 'prop-types';
 import Touchable from './Touchable';
-import Text from './Text';
 import { base } from '../../js/utils';
 import { BlurView } from 'react-native-blur';
-const { realSize, colors, isAndroid, Styles } = base;
-
+const { realSize, isAndroid, Styles } = base;
+import FastImage from 'react-native-fast-image';
 const processSuffixes = {
   avatar: '?x-oss-process=style/avatar',
   post: '?x-oss-process=style/post',
@@ -51,7 +49,7 @@ class Image2 extends Component {
       size,
       resizeMode,
       tintColor,
-      style,
+      style = {},
       containerStyle,
       isRound,
       source,
@@ -81,6 +79,9 @@ class Image2 extends Component {
         imgStyle = style;
       }
     }
+    if (tintColor) {
+      imgStyle.tintColor = tintColor;
+    }
 
     let imgSource;
     if (typeof uri !== 'undefined') {
@@ -95,17 +96,13 @@ class Image2 extends Component {
       }
     }
     const Wrapper = onPress ? Touchable : View;
+    const TImage = blur || tintColor || style.tintColor ? Image : FastImage;
     const imageComp = (
-      <Image
+      <TImage
         ref={r => (this.toBeBlured = r)}
         source={imgSource}
         onLoadEnd={this.imageLoaded}
-        style={[
-          isRound && { borderRadius: imgStyle.width / 2 },
-          { tintColor: tintColor },
-          imgStyle,
-          // style,
-        ]}
+        style={[isRound && { borderRadius: imgStyle.width / 2 }, imgStyle]}
         resizeMode={resizeMode}
       />
     );
