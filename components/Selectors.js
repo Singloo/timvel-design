@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, ScrollView, Modal } from 'react-native';
+import { StyleSheet, View, ScrollView, Modal } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';

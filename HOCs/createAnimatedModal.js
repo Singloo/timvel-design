@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Animated, Easing } from 'react-native';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import { StyleSheet, View, Animated } from 'react-native';
 import { base } from '../../js/utils';
 const { Styles } = base;
 const styles = StyleSheet.create({

@@ -122,6 +122,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderBottomWidth: 1,
     height: realSize(30),
+    padding: 0,
+    margin: 0,
   },
   icon: {
     position: 'absolute',

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, View, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
@@ -9,10 +9,12 @@ import Assets from '../Assets';
 const { Styles, colors, SCREEN_WIDTH } = base;
 const item_width = SCREEN_WIDTH / 2 - 40;
 const item_height = 50;
-class Choices extends Component {
+class Choices extends React.Component {
   constructor(props) {
     super(props);
-    this.animationState = new Animated.Value(1);
+    this.state = {
+      animationState: new Animated.Value(1),
+    };
   }
   _onPress = () => {
     const { onPress } = this.props;
@@ -20,8 +22,8 @@ class Choices extends Component {
     onPress();
   };
   _showAnimation = () => {
-    this.animationState.setValue(0);
-    this.anmation = Animated.timing(this.animationState, {
+    this.state.animationState.setValue(0);
+    this.anmation = Animated.timing(this.state.animationState, {
       toValue: 1,
       duration: 500,
     }).start();
@@ -51,7 +53,7 @@ class Choices extends Component {
             <LottieView
               source={Assets.Tick.source}
               style={{ width: 40, height: 40, transform: [{ scale: 1.5 }] }}
-              progress={this.animationState}
+              progress={this.state.animationState}
             />
           </View>
         </View>
