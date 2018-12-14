@@ -1,3 +1,4 @@
 import createAnimatedModal from './createAnimatedModal';
 import createSelectableItem from './createSelectableItem';
-export { createAnimatedModal, createSelectableItem };
+import createMoveableComp from './createMoveableComponent';
+export { createAnimatedModal, createSelectableItem, createMoveableComp };

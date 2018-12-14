@@ -24,9 +24,14 @@ import {
   ImageSwiper,
   RFlatList,
 } from './components';
-import { createAnimatedModal, createSelectableItem } from './HOCs';
+import {
+  createAnimatedModal,
+  createSelectableItem,
+  createMoveableComp,
+} from './HOCs';
 import Assets from './Assets';
 export {
+  createMoveableComp,
   RFlatList,
   ImageSwiper,
   PriceTag,
