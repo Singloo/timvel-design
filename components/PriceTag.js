@@ -27,7 +27,7 @@ class Sample extends React.PureComponent {
     this.sub$ && this.sub$.unsubscribe();
   }
 
-  toValue = (newPrice, speed = 100) => {
+  toValue = (newPrice, callback = null, speed = 100) => {
     if (speed < 17) {
       throw Error('speed cannot small than 17!');
     }
@@ -41,10 +41,15 @@ class Sample extends React.PureComponent {
         startWith(parseInt(price, 10)),
         scan((acc, value) => acc + value),
       )
-      .subscribe(value => {
-        this.setState({
-          price: value,
-        });
+      .subscribe({
+        next: value => {
+          this.setState({
+            price: value,
+          });
+        },
+        complete: () => {
+          callback && callback();
+        },
       });
   };
   render() {

@@ -23,7 +23,9 @@ class ReTouchable extends Component {
     );
   }
 }
-ReTouchable.propTypes = {};
+ReTouchable.propTypes = {
+  withoutFeedback: PropTypes.bool,
+};
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
