@@ -85,11 +85,7 @@ const setClonedElement = (props, cloned) => {
   allInstances[props.id][props.type].clonedElement = cloned;
 };
 
-const invoke = method => {
-  if (typeof method === 'function') {
-    method();
-  }
-};
+const invoke = (...funcs) => () => funcs.forEach(func => func && func());
 const isView = children => {
   if (children.type && children.type.name === 'View') {
     return true;
@@ -229,14 +225,12 @@ export default class AnimatedWrapper extends React.PureComponent {
     const { onEnd, onStart } = this.props;
     let sibling = new RootSiblings(<View style={styles.absolute} />);
     setTimeout(() => {
-      invoke(onStart);
+      invoke(onStart)();
       const animations = this._getAnimation(instance, isFrom);
       sibling.update(this._renderClonedElement(_clonedElement));
-      Animated.parallel(animations).start(() => {
-        invoke(callback);
-        invoke(onEnd);
-        sibling.destroy();
-      });
+      Animated.parallel(animations).start(
+        invoke(callback, onEnd, sibling.destroy),
+      );
     }, 0);
   };
 
