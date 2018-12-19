@@ -1,7 +1,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, FlatListProps, View, ActivityIndicator } from 'react-native';
+import {
+  FlatList,
+  FlatListProps,
+  View,
+  ActivityIndicator,
+  Animated,
+} from 'react-native';
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 class RefreshFlatlist extends React.Component {
   static propTypes = {
     onHeaderRefresh: PropTypes.func,
@@ -16,10 +23,12 @@ class RefreshFlatlist extends React.Component {
       onHeaderRefresh,
       onFooterRefresh,
       isHeaderLoading,
+      animated,
       ...childProps
     } = this.props;
+    const Comp = animated ? AnimatedFlatList : FlatList;
     return (
-      <FlatList
+      <Comp
         onRefresh={onHeaderRefresh}
         refreshing={isHeaderLoading}
         onEndReached={onFooterRefresh}
