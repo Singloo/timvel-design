@@ -9,6 +9,19 @@ const processSuffixes = {
   avatar: '?x-oss-process=style/avatar',
   post: '?x-oss-process=style/post',
 };
+const styleMap = (wrapperStyle, imageStyle, style) => {
+  Object.keys(style).map(key => {
+    if (['position', 'top', 'left', 'bottom', 'right'].includes(key)) {
+      wrapperStyle[key] = style[key];
+      return;
+    }
+    if (key.includes('padding' | 'margin')) {
+      wrapperStyle[key] = style[key];
+      return;
+    }
+    imageStyle[key] = style[key];
+  });
+};
 class Image2 extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +62,7 @@ class Image2 extends Component {
       size,
       resizeMode,
       tintColor,
-      style = {},
+      style,
       containerStyle,
       isRound,
       source,
@@ -67,17 +80,18 @@ class Image2 extends Component {
     };
     let wrapperStyle = { ...containerStyle };
     if (typeof style !== 'undefined') {
-      let _style;
+      let _style = style;
       if (Array.isArray(style)) {
         _style = StyleSheet.flatten(style);
       }
-      imgStyle = StyleSheet.flatten([imgStyle, _style || style]);
-      if (style['position'] === 'absolute') {
-        wrapperStyle = {
-          ...Styles.absolute,
-        };
-        imgStyle = style;
-      }
+      styleMap(wrapperStyle, imgStyle, _style);
+      // imgStyle = StyleSheet.flatten([imgStyle, _style || style]);
+      // if (style['position'] === 'absolute') {
+      //   wrapperStyle = {
+      //     ...Styles.absolute,
+      //   };
+      //   imgStyle = style;
+      // }
     }
     if (tintColor) {
       imgStyle.tintColor = tintColor;
@@ -96,7 +110,8 @@ class Image2 extends Component {
       }
     }
     const Wrapper = onPress ? Touchable : View;
-    const TImage = blur || tintColor || style.tintColor ? Image : FastImage;
+    const TImage =
+      blur || tintColor || (style && style.tintColor) ? Image : FastImage;
     const imageComp = (
       <TImage
         ref={r => (this.toBeBlured = r)}

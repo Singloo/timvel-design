@@ -171,8 +171,8 @@ class Selectors extends Component {
             style={[
               {
                 backgroundColor: colors.main,
-                height: 15,
-                width: 30,
+                height: 18,
+                width: 34,
                 borderRadius: 4,
                 marginLeft: 5,
               },
@@ -185,6 +185,7 @@ class Selectors extends Component {
               }
               tintColor={colors.white}
               size={'small'}
+              resizeMode={'contain'}
               onPress={this._onPressShowFull}
             />
           </View>

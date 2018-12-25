@@ -28,9 +28,11 @@ import {
   createAnimatedModal,
   createSelectableItem,
   createMoveableComp,
+  withKeyboardListener,
 } from './HOCs';
 import Assets from './Assets';
 export {
+  withKeyboardListener,
   createMoveableComp,
   RFlatList,
   ImageSwiper,

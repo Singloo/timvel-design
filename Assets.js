@@ -92,6 +92,9 @@ const target = {
   shit5: {
     source: require('./assets/shit_5.png'),
   },
+  touzi: {
+    source: require('./assets/touzi.png'),
+  },
 };
 const tempUse = {
   bk1: {
