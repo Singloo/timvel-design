@@ -18,8 +18,8 @@ class Sample extends Component {
     let year = formated.year();
     let month = formated.format('MMMM');
     let day = formated.format('DD');
-    let hasImage = !!post.imageUrls[0];
-    let imageUrl = post.imageUrls[0];
+    let hasImage = !!post.imageUrls[0].imageUrl;
+    let imageUrl = post.imageUrls[0].imageUrl;
     return (
       <View style={styles.container}>
         <View>
