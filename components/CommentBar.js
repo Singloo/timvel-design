@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { View, StyleSheet, TextInput, Keyboard, Animated } from 'react-native';
+import { StyleSheet, TextInput, Animated } from 'react-native';
 import { base } from '../../js/utils';
 import Text from './Text';
+import withKeyboardListener from '../HOCs/withKeyboardListener';
 const { SCREEN_WIDTH, colors } = base;
 class CommentBar extends React.Component {
   constructor(props) {
@@ -9,80 +10,27 @@ class CommentBar extends React.Component {
     this.state = {
       value: '',
     };
-    this.keyboardHeight = new Animated.Value(0);
+    this._textInput = React.createRef();
   }
-  componentDidMount() {
-    this.keyboardWillShowSub = Keyboard.addListener(
-      'keyboardWillShow',
-      this.keyboardWillShow,
-    );
-    this.keyboardDidShowSub = Keyboard.addListener(
-      'keyboardDidShow',
-      this.keyboardDidShow,
-    );
-    this.keyboardWillHideSub = Keyboard.addListener(
-      'keyboardWillHide',
-      this.keyboardWillHide,
-    );
-    this.keyboardDidHideSub = Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide,
-    );
-  }
+  componentDidMount() {}
 
-  componentWillUnmount() {
-    this.keyboardWillShowSub.remove();
-    this.keyboardWillHideSub.remove();
-    this.keyboardWillShowSub.remove();
-    this.keyboardDidHideSub.remove();
-  }
-  keyboardWillShow = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: event.endCoordinates.height,
-    }).start();
-    // Animated.parallel([
-    //     Animated.timing(this.keyboardHeight,{
-    //         duration: event.duration,
-    //         toValue: event.endCoordinates.height,
-    //     }),
-    //     Animated.timing(this.imageHeight,{
-    //         duration: event.duration,
-    //         toValue: IMAGE_HEIGHT_SMALL
-    //     })
-    // ]).start()
-  };
-  keyboardDidShow = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: event.endCoordinates.height,
-    }).start();
-  };
-  keyboardWillHide = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: 0,
-    }).start();
-  };
-  keyboardDidHide = event => {
-    Animated.timing(this.keyboardHeight, {
-      duration: 400,
-      toValue: 0,
-    }).start();
-  };
+  componentWillUnmount() {}
 
   _onChangeText = value => {
     this.setState({ value });
   };
+  _onPressSend = () => {
+    const { value } = this.state;
+    const { onPressSend } = this.props;
+    onPressSend(value.trim(), this._textInput.current.clear);
+  };
   render() {
-    const { onPressSend, style } = this.props;
+    const { style, keyboardHeight: marginBottom } = this.props;
     const { value } = this.state;
     return (
-      <Animated.View
-        style={[styles.container, { marginBottom: this.keyboardHeight }, style]}
-      >
+      <Animated.View style={[styles.container, { marginBottom }, style]}>
         <TextInput
-          ref={r => (this._textInput = r)}
+          ref={this._textInput}
           value={value}
           style={styles.textInput}
           autoCorrect={false}
@@ -92,14 +40,7 @@ class CommentBar extends React.Component {
           multiline={true}
           placeholder={'say something'}
         />
-        <Text
-          style={[styles.send]}
-          onPress={() => {
-            onPressSend(value.trim(), () => {
-              this._textInput.clear();
-            });
-          }}
-        >
+        <Text style={[styles.send]} onPress={this._onPressSend}>
           {'Send'}
         </Text>
       </Animated.View>
@@ -113,8 +54,6 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     paddingHorizontal: 10,
     paddingVertical: 10,
-    // borderTopWidth: 1,
-    // borderColor: colors.depGrey,
     backgroundColor: colors.lightGrey,
   },
   textInput: {
@@ -130,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommentBar;
+export default withKeyboardListener(CommentBar);
