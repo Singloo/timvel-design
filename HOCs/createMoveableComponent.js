@@ -35,6 +35,9 @@ export default function createMoveableComp(Comp) {
 
     _topAnimation = toValue => () => {
       const diff = Math.abs(toValue - this.state.top._value);
+      if (diff === 0) {
+        return;
+      }
       let duration = 250;
       if (diff < 50) {
         duration = 100;
@@ -57,6 +60,9 @@ export default function createMoveableComp(Comp) {
 
     _leftAnimation = toValue => () => {
       const diff = Math.abs(toValue - this.state.left._value);
+      if (diff === 0) {
+        return;
+      }
       let duration = 250;
       if (diff < 50) {
         duration = 100;
@@ -104,29 +110,20 @@ export default function createMoveableComp(Comp) {
         }
         const { nativeEvent } = evt;
         const { pageX, pageY } = nativeEvent;
+
         const { edge, itemSize } = this.props;
-        let compTop = pageY - this._locationY;
-        let compLeft = pageX - this._locationX;
+        let top = pageY - this._locationY;
+        let left = pageX - this._locationX;
         const TOP_BOUNDARY = edge;
         const LEFT_BOUNDARY = edge;
         const BOTTOM_BOUNDARY =
           SCREEN_HEIGHT - TAB_BAR_HEIGHT - edge - itemSize;
         const RIGHT_BOUNDARY = SCREEN_WIDTH - edge - itemSize;
-        if (compLeft < LEFT_BOUNDARY) {
-          compTop = LEFT_BOUNDARY;
-        }
-        if (compLeft > RIGHT_BOUNDARY) {
-          compLeft = RIGHT_BOUNDARY;
-        }
-        if (compTop < TOP_BOUNDARY) {
-          compTop = TOP_BOUNDARY;
-        }
-        if (compTop > BOTTOM_BOUNDARY) {
-          compTop = BOTTOM_BOUNDARY;
-        }
+        left = Math.min(Math.max(LEFT_BOUNDARY, left), RIGHT_BOUNDARY);
+        top = Math.min(Math.max(TOP_BOUNDARY, top), BOTTOM_BOUNDARY);
         this.state$.next({
-          top: compTop,
-          left: compLeft,
+          top,
+          left,
         });
       },
       onPanResponderRelease: evt => {
@@ -185,20 +182,19 @@ export default function createMoveableComp(Comp) {
     });
     render() {
       const { edge, ...childProps } = this.props;
+      const transform = [
+        {
+          translateX: this.state.left,
+        },
+        {
+          translateY: this.state.top,
+        },
+      ];
       return (
         <Animated.View
           style={{
             position: 'absolute',
-            // padding : 2,
-            // backgroundColor: 'red',
-            transform: [
-              {
-                translateX: this.state.left,
-              },
-              {
-                translateY: this.state.top,
-              },
-            ],
+            transform,
           }}
           {...this._panResponder.panHandlers}
         >
