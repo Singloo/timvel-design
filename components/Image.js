@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, findNodeHandle } from 'react-native';
 import Touchable from './Touchable';
 import { base } from '../../js/utils';
 import { BlurView } from 'react-native-blur';
+// const BlurView = View;
 const { realSize, isAndroid, Styles } = base;
 import FastImage from 'react-native-fast-image';
 const processSuffixes = {

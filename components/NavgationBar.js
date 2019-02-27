@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  findNodeHandle,
-} from 'react-native';
+import { StyleSheet, Text, View, findNodeHandle } from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
+// const BlurView = View;
 import { base } from '../../js/utils';
 import Image from './Image';
 const { colors, isIOS, SCREEN_WIDTH, PADDING_TOP } = base;
