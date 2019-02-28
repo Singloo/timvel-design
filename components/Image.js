@@ -16,7 +16,7 @@ const styleMap = (wrapperStyle, imageStyle, style) => {
       wrapperStyle[key] = style[key];
       return;
     }
-    if (key.includes('padding' | 'margin')) {
+    if (key.includes('padding' || 'margin')) {
       wrapperStyle[key] = style[key];
       return;
     }
