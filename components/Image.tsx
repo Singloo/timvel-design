@@ -94,12 +94,12 @@ export default class Image2 extends React.Component<IImageProps, IState> {
       width: imageSizeMap(size),
       height: imageSizeMap(size),
     };
-    Object.assign(imgSize, imgSize);
+    Object.assign(imgStyle, imgSize);
     if (tintColor) {
       Object.assign(imgStyle, { tintColor });
     }
     if (isRound) {
-      Object.assign(imgSize, { borderRadius: imgSize.width / 2 });
+      Object.assign(imgStyle, { borderRadius: imgSize.width / 2 });
     }
     if (style) {
       const _style = flattenStyles(style) as IDict;
