@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, TextInputProps } from 'react-native';
 
-class BaseTextInput extends React.Component {
+export default class BaseTextInput extends React.Component<IProp> {
   render() {
     return (
       <TextInput
@@ -15,4 +15,4 @@ class BaseTextInput extends React.Component {
   }
 }
 
-export default BaseTextInput;
+interface IProp extends TextInputProps {}

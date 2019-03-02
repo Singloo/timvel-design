@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated, TextInput } from 'react-native';
-import { base } from '../../js/utils';
-import Text from './Text';
 import Image from './Image';
-import Assets from '../Assets';
-const { colors, realSize } = base;
+import utils from '../utils';
+const { colors, Assets } = utils;
 
 class ReTextInput extends Component {
   constructor(props) {
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: 'transparent',
     borderBottomWidth: 1,
-    height: realSize(30),
+    height: 30,
     padding: 0,
     margin: 0,
   },

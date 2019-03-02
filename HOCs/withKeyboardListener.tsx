@@ -1,9 +1,25 @@
 import * as React from 'react';
-import { Animated, Keyboard, Platform } from 'react-native';
-const isIos = Platform.OS === 'ios';
-const main = Comp =>
-  class extends React.PureComponent {
-    constructor(props) {
+import { Animated, Keyboard, EmitterSubscription } from 'react-native';
+import utils from '../utils';
+const { isIos } = utils;
+interface IState {
+  keyboardHeight: Animated.Value;
+  keyboardIsShown: boolean;
+}
+interface ICompWithKeyboardListenerProps {
+  keyboardHeight: Animated.Value;
+  keyboardIsShown: boolean;
+}
+const main = <P extends object>(Comp: React.ComponentType<P>) =>
+  class CompWithListener extends React.PureComponent<
+    P & ICompWithKeyboardListenerProps,
+    IState
+  > {
+    keyboardWillShowSub?: EmitterSubscription;
+    keyboardWillHideSub?: EmitterSubscription;
+    keyboardDidShowSub?: EmitterSubscription;
+    keyboardDidHideSub?: EmitterSubscription;
+    constructor(props: any) {
       super(props);
       this.state = {
         keyboardHeight: new Animated.Value(0),
@@ -41,7 +57,7 @@ const main = Comp =>
         this.keyboardDidHideSub && this.keyboardDidHideSub.remove();
       }
     }
-    keyboardWillShow = event => {
+    keyboardWillShow = (event: any) => {
       this.setState({
         keyboardIsShown: true,
       });
@@ -50,7 +66,7 @@ const main = Comp =>
         toValue: event.endCoordinates.height,
       }).start();
     };
-    keyboardDidShow = event => {
+    keyboardDidShow = (event: any) => {
       this.setState({
         keyboardIsShown: true,
       });
@@ -59,7 +75,7 @@ const main = Comp =>
         toValue: event.endCoordinates.height,
       }).start();
     };
-    keyboardWillHide = event => {
+    keyboardWillHide = (event: any) => {
       this.setState({
         keyboardIsShown: false,
       });
@@ -68,7 +84,7 @@ const main = Comp =>
         toValue: 0,
       }).start();
     };
-    keyboardDidHide = event => {
+    keyboardDidHide = (event: any) => {
       this.setState({
         keyboardIsShown: false,
       });

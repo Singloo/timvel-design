@@ -1,25 +1,32 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
-import PropTypes from 'prop-types';
-import Text from './Text';
-import Touchable from './Touchable';
-import { base } from '../../js/utils';
-import Assets from '../Assets';
-const { SCREEN_WIDTH, Styles } = base;
-class AnimatedLogo extends Component {
-  constructor(props) {
+import { StyleSheet, View, Animated } from 'react-native';
+import utils from '../utils';
+const { SCREEN_WIDTH, Styles, Assets } = utils;
+export default class AnimatedLogo extends Component<IProp, IState> {
+  animation: Animated.CompositeAnimation;
+  animation1: Animated.CompositeAnimation;
+  animation2: Animated.CompositeAnimation;
+  animation3: Animated.CompositeAnimation;
+  loop1: Animated.CompositeAnimation;
+  loop2: Animated.CompositeAnimation;
+  static defaultProps = {
+    size: SCREEN_WIDTH * 0.9,
+  };
+  constructor(props: any) {
     super(props);
-    this.animationState = new Animated.Value(0);
-    this.rotateState = new Animated.Value(0);
-    this.animation1 = Animated.timing(this.animationState, {
+    this.state = {
+      animationState: new Animated.Value(0),
+      rotateState: new Animated.Value(0),
+    };
+    this.animation1 = Animated.timing(this.state.animationState, {
       toValue: 1,
       duration: 1500,
     });
-    this.animation2 = Animated.timing(this.animationState, {
+    this.animation2 = Animated.timing(this.state.animationState, {
       toValue: 0,
       duration: 1500,
     });
-    this.animation3 = Animated.timing(this.rotateState, {
+    this.animation3 = Animated.timing(this.state.rotateState, {
       toValue: 1,
       duration: 15000,
     });
@@ -38,24 +45,19 @@ class AnimatedLogo extends Component {
   }
   render() {
     const { size } = this.props;
-    let logo_width = size || SCREEN_WIDTH * 0.9;
     return (
       <View
-        style={[
-          styles.wrapper,
-          Styles.center,
-          { width: logo_width, height: logo_width },
-        ]}
+        style={[styles.wrapper, Styles.center, { width: size, height: size }]}
       >
         <Animated.Image
           source={Assets.wrapper1.source}
           style={{
             position: 'absolute',
-            width: logo_width,
-            height: logo_width,
+            width: size,
+            height: size,
             transform: [
               {
-                rotate: this.rotateState.interpolate({
+                rotate: this.state.rotateState.interpolate({
                   inputRange: [0, 1],
                   outputRange: ['0deg', '360deg'],
                 }),
@@ -69,11 +71,11 @@ class AnimatedLogo extends Component {
           resizeMode={'contain'}
           style={{
             position: 'absolute',
-            width: logo_width,
-            height: logo_width,
+            width: size,
+            height: size,
             transform: [
               {
-                rotate: this.rotateState.interpolate({
+                rotate: this.state.rotateState.interpolate({
                   inputRange: [0, 1],
                   outputRange: ['0deg', '-360deg'],
                 }),
@@ -87,11 +89,11 @@ class AnimatedLogo extends Component {
           resizeMode={'contain'}
           style={{
             position: 'absolute',
-            width: logo_width * 0.9,
-            height: logo_width * 0.9,
+            width: size * 0.9,
+            height: size * 0.9,
             transform: [
               {
-                scale: this.animationState.interpolate({
+                scale: this.state.animationState.interpolate({
                   inputRange: [0, 1],
                   outputRange: [1, 0.9],
                 }),
@@ -103,7 +105,6 @@ class AnimatedLogo extends Component {
     );
   }
 }
-AnimatedLogo.propTypes = {};
 const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
@@ -111,4 +112,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnimatedLogo;
+interface IProp {
+  size: number;
+}
+interface IState {
+  animationState: Animated.Value;
+  rotateState: Animated.Value;
+}

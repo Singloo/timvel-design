@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 import Text from './Text';
 import Image from './Image';
-import { base } from '../../js/utils';
-const { colors } = base;
-import Assets from '../Assets';
+import utils from '../utils';
+const { colors, Assets } = utils;
 import { interval } from 'rxjs';
 import { take, mapTo, startWith, scan } from 'rxjs/operators';
 class Sample extends React.PureComponent {

@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, Animated, StyleSheet, Easing } from 'react-native';
-import Image from '../Image';
-import Text from '../Text';
+import { Animated, StyleSheet } from 'react-native';
 import Touchable from '../Touchable';
 import Item from './Item';
-import { base } from '../../../js/utils';
-const { Styles, TAB_BAR_HEIGHT, sinR, cosR, colors } = base;
+import utils from '../../utils';
+const { TAB_BAR_HEIGHT, sinR, cosR } = utils;
 
 const getItemPosition = (n, r) => {
   let f = {

@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Swiper from 'react-native-swiper';
-import { StyleSheet, View, Text } from 'react-native';
-import { base } from '../../js/utils';
+import {} from 'react-native';
 import Image from './Image';
-import * as Assets from '../Assets';
-const { SCREEN_WIDTH } = base;
+import utils from '../utils';
+const { SCREEN_WIDTH } = utils;
 class ImageSwiper extends React.PureComponent {
   render() {
     const {

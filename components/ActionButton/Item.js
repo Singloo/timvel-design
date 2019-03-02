@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
+import { Animated, StyleSheet } from 'react-native';
 import Image from '../Image';
 import Text from '../Text';
-import Touchable from '../Touchable';
 
 class Card extends React.Component {
   render() {

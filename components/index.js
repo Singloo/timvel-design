@@ -1,5 +1,4 @@
 import Button from './Button';
-import Icon from './Icon';
 import NavBar from './NavgationBar';
 import InfiniteText from './InfiniteText';
 import Text from './Text';
@@ -29,7 +28,6 @@ export {
   BasicView,
   BaseTextInput,
   Button,
-  Icon,
   NavBar,
   InfiniteText,
   Text,

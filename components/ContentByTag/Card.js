@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
+import { StyleSheet, View } from 'react-native';
 import Text from '../Text';
 import Touchable from '../Touchable';
 import Image from '../Image';
-import { base } from '../../../js/utils';
 import Separator from '../Separator';
 import Moment from 'moment';
-import Assets from '../../Assets';
-const { colors, randomItem, colorSets, Styles } = base;
+import utils from '../../utils';
+const { Styles, colorSets, colors, randomItem } = utils;
 const item_width = 250;
 const item_height = 250 * 0.5;
 class Sample extends Component {

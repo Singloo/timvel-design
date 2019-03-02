@@ -30,7 +30,8 @@ import {
   createMoveableComp,
   withKeyboardListener,
 } from './HOCs';
-import Assets from './Assets';
+import utils from './utils';
+const { Assets } = utils;
 export {
   withKeyboardListener,
   createMoveableComp,

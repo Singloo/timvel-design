@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import PropTypes from 'prop-types';
-import Text from '../Text';
-import Touchable from '../Touchable';
 import Card from './Card';
 import Tag from '../Tag';
-import { base } from '../../../js/utils';
-import { Separator } from '../..';
-const { colors } = base;
+import Separator from '../Separator';
 class ContentByTag extends Component {
   render() {
     const { tag, posts, onPressCard, onPressTag } = this.props;

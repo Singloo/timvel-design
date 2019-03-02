@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
-import Text from './Text';
-import Touchable from './Touchable';
-import { base } from '../../js/utils';
+import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import Assets from '../Assets';
-const { Styles, randomItem } = base;
+import utils from '../utils';
+const { Styles, Assets, randomItem } = utils;
 const loadingLotties = [
   Assets.LoadingHorizontalDots.source,
   Assets.LoadingPlane.source,

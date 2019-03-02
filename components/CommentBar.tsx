@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, TextInput, Animated } from 'react-native';
-import { base } from '../../js/utils';
+import { StyleSheet, TextInput, Animated, ViewStyle } from 'react-native';
+import utils from '../utils';
 import Text from './Text';
+// @ts-ignore
 import withKeyboardListener from '../HOCs/withKeyboardListener';
-const { SCREEN_WIDTH, colors } = base;
-class CommentBar extends React.Component {
-  constructor(props) {
+const { SCREEN_WIDTH, colors, flattenStyles } = utils;
+class CommentBar extends React.Component<IProps, IState> {
+  _textInput: React.RefObject<any>;
+  constructor(props: any) {
     super(props);
     this.state = {
       value: '',
@@ -16,7 +18,7 @@ class CommentBar extends React.Component {
 
   componentWillUnmount() {}
 
-  _onChangeText = value => {
+  _onChangeText = (value: string) => {
     this.setState({ value });
   };
   _onPressSend = () => {
@@ -28,7 +30,9 @@ class CommentBar extends React.Component {
     const { style, keyboardHeight: marginBottom } = this.props;
     const { value } = this.state;
     return (
-      <Animated.View style={[styles.container, { marginBottom }, style]}>
+      <Animated.View
+        style={flattenStyles(styles.container, { marginBottom }, style)}
+      >
         <TextInput
           ref={this._textInput}
           value={value}
@@ -70,3 +74,12 @@ const styles = StyleSheet.create({
 });
 
 export default withKeyboardListener(CommentBar);
+
+interface IProps {
+  onPressSend: (value: string, callback: () => void) => void;
+  style?: ViewStyle;
+  keyboardHeight: Animated.Value;
+}
+interface IState {
+  value: string;
+}

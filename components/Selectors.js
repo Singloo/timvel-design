@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, Modal } from 'react-native';
-import PropTypes from 'prop-types';
-import Text from './Text';
 import Touchable from './Touchable';
-import { base } from '../../js/utils';
 import Image from './Image';
-import Assets from '../Assets';
+import utils from '../utils';
+const { colors, Styles } = utils;
 import _ from 'lodash';
-const { colors, Styles, realSize } = base;
 const allWeathers = [
   'sunny',
   'lessCloudy',
@@ -39,14 +36,14 @@ class SelectorModal extends React.Component {
     this._scrollView &&
       this._scrollView.scrollTo({
         x: 0,
-        y: (index + 1) * realSize(48),
+        y: (index + 1) * 48,
         animated: true,
       });
   }
   render() {
     const { show, value, onChangeValue, modalPosition, dismiss } = this.props;
     let index = allWeathers.indexOf(value);
-    let offSetY = index * realSize(48);
+    let offSetY = index * 48;
     const renderChoices = allWeathers.map((item, index) => {
       let selected = item === value;
       return (
@@ -133,25 +130,6 @@ class Selectors extends Component {
   render() {
     const { initialValue, onChangeValue, value } = this.props;
     const { showFull } = this.state;
-    // const renderChoices = allWeathers.map((item, index) => {
-    //   let selected = item === value;
-    //   return (
-    //     <View key={index} style={[styles.itemContainer]}>
-    //       <Image
-    //         source={Assets[item].source}
-    //         resizeMode={'contain'}
-    //         size={'large'}
-    //         style={{
-    //           backgroundColor: selected ? colors.redLight : colors.transparent,
-    //         }}
-    //         onPress={() => {
-    //           this._onPressShowFull();
-    //           onChangeValue(item);
-    //         }}
-    //       />
-    //     </View>
-    //   );
-    // });
     return (
       <View style={{ marginLeft: 10 }}>
         <View
@@ -163,7 +141,6 @@ class Selectors extends Component {
             source={Assets[value || 'sunny'].source}
             onPress={() => {
               this._onPressShowFull();
-              // this._modal.scrollToCurrentValue();
             }}
             resizeMode={'contain'}
           />
@@ -201,16 +178,6 @@ class Selectors extends Component {
           }}
           dismiss={this._dismiss}
         />
-
-        {/* // <Animated.View style={{ position: 'absolute', top: 40 }}>
-          //   <ScrollView
-          //     style={{ height: 200, width: 80 }}
-          //     contentContainerStyle={{}}
-          //     showsVerticalScrollIndicator={false}
-          //   >
-          //     {renderChoices}
-          //   </ScrollView>
-          // </Animated.View> */}
       </View>
     );
   }
