@@ -12,7 +12,39 @@ import Image from './Image';
 import utils from '../utils';
 import { IImageProps } from './Image';
 const { SCREEN_WIDTH, colors, flattenStyles } = utils;
+const TEXT_SIZE_STYLE = {
+  verySmall: {
+    fontSize: 14,
+  },
+  small: {
+    fontSize: 16,
+  },
+  regular: {
+    fontSize: 18,
+  },
+  large: {
+    fontSize: 20,
+  },
+};
+const TEXT_TYPE_STYLE = {
+  main: {
+    color: colors.white,
+  },
+  mainBlank: {
+    color: colors.main,
+  },
+  danger: {
+    color: colors.white,
+  },
+  dangerBlank: {
+    color: colors.red,
+  },
+};
 const SIZE = {
+  verySmall: {
+    width: 80,
+    height: 27,
+  },
   small: {
     width: 120,
     height: 40,
@@ -33,7 +65,7 @@ const TYPES = {
   mainBlank: {
     backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: colors.main,
+    borderColor: colors.mainLight,
   },
   danger: {
     backgroundColor: colors.red,
@@ -41,7 +73,7 @@ const TYPES = {
   dangerBlank: {
     backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: colors.red,
+    borderColor: colors.redLight,
   },
 };
 
@@ -50,9 +82,11 @@ const switchSize = (
   {
     regular,
     small,
+    vertySmall,
     large,
     defaultValue,
   }: {
+    vertySmall: any;
     regular: any;
     small: any;
     large: any;
@@ -66,49 +100,92 @@ const switchSize = (
       return small;
     case 'large':
       return large;
+    case 'verySmall':
+      return vertySmall;
     default:
       return defaultValue || regular;
   }
 };
-// const switchType = (type)
-const getSize = (size: ISize) => {
-  switch (size) {
-    case 'regular':
-      return SIZE.regular;
-    case 'small':
-      return SIZE.small;
-    case 'large':
-      return SIZE.large;
+
+const switchType = (
+  type: IType,
+  {
+    main,
+    mainBlank,
+    danger,
+    dangerBlank,
+    defaultValue,
+  }: {
+    main: any;
+    mainBlank: any;
+    danger: any;
+    dangerBlank: any;
+    defaultValue?: any;
+  },
+) => {
+  switch (type) {
+    case 'main':
+      return main;
+    case 'mainBlank':
+      return mainBlank;
+    case 'danger':
+      return danger;
+    case 'dangerBlank':
+      return dangerBlank;
     default:
-      return SIZE.regular;
+      return defaultValue || main;
   }
+};
+const getSize = (size: ISize) => {
+  return switchSize(size, {
+    regular: SIZE.regular,
+    small: SIZE.small,
+    vertySmall: SIZE.verySmall,
+    large: SIZE.large,
+  });
 };
 const getTypeStyle = (type: IType, disable?: boolean) => {
   const style = {};
-  switch (type) {
-    case 'main':
-      Object.assign(style, TYPES.main);
-      break;
-    case 'mainBlank':
-      Object.assign(style, TYPES.mainBlank);
-      break;
-    case 'danger':
-      Object.assign(style, TYPES.danger);
-      break;
-    case 'dangerBlank':
-      Object.assign(style, TYPES.dangerBlank);
-      break;
-    default:
-      Object.assign(style, TYPES.main);
-      break;
-  }
+  Object.assign(
+    style,
+    switchType(type, {
+      main: TYPES.main,
+      mainBlank: TYPES.mainBlank,
+      danger: TYPES.danger,
+      dangerBlank: TYPES.dangerBlank,
+    }),
+  );
   if (disable) {
     Object.assign(style, styles.disableStyle);
   }
   return style;
 };
-const getTextStye = (type: IType, size: ISize, disable?: boolean) => {
+const getTextStyle = (type: IType, size: ISize, disable?: boolean) => {
   const textStyle = {};
+  Object.assign(
+    textStyle,
+    switchSize(size, {
+      vertySmall: TEXT_SIZE_STYLE.verySmall,
+      small: TEXT_SIZE_STYLE.verySmall,
+      regular: TEXT_SIZE_STYLE.regular,
+      large: TEXT_SIZE_STYLE.large,
+    }),
+  );
+  Object.assign(
+    textStyle,
+    switchType(type, {
+      main: TEXT_TYPE_STYLE.main,
+      mainBlank: TEXT_TYPE_STYLE.mainBlank,
+      danger: TEXT_TYPE_STYLE.danger,
+      dangerBlank: TEXT_TYPE_STYLE.dangerBlank,
+    }),
+  );
+  if (disable) {
+    Object.assign(textStyle, {
+      color: colors.white,
+    });
+  }
+  return textStyle;
 };
 class Button extends React.Component<IProps> {
   static defaultProps = {
@@ -140,12 +217,20 @@ class Button extends React.Component<IProps> {
     return containerProps;
   };
   render() {
-    const { title, textStyle } = this.props;
+    const { title, textStyle, type, size, disable } = this.props;
     const containerProps = this._getContainerProps();
     return (
       <Touchable {...containerProps}>
         {this._renderLeftIcon()}
-        <Text style={[styles.textStyle, textStyle]}>{title}</Text>
+        <Text
+          style={flattenStyles(
+            styles.textStyle,
+            getTextStyle(type, size, disable),
+            textStyle,
+          )}
+        >
+          {title}
+        </Text>
       </Touchable>
     );
   }
@@ -175,7 +260,7 @@ const styles = StyleSheet.create({
 });
 
 export default Button;
-type ISize = 'small' | 'regular' | 'large';
+type ISize = 'verySmall' | 'small' | 'regular' | 'large';
 type IType = 'main' | 'mainBlank' | 'danger' | 'dangerBlank';
 interface IProps {
   onPress?: () => void;

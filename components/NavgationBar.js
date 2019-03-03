@@ -43,9 +43,7 @@ class NavigationBar extends Component {
         <Image
           source={sourceRight}
           tintColor={rightTint}
-          onPress={() => {
-            onPressRight && onPressRight();
-          }}
+          onPress={onPressRight}
           size={'small'}
           style={rightIconStyle}
           resizeMode={'contain'}
