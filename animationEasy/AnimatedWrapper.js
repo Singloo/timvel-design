@@ -157,15 +157,6 @@ export default class AnimatedWrapper extends React.PureComponent {
       onLayout(data);
     }
   };
-  _renderChildren() {
-    const from = isFrom(this.props);
-    const { children } = this.props;
-    let _children = isView(children) ? children : <View>{children}</View>;
-    return React.cloneElement(_children, {
-      ref: this._setRef,
-      onLayout: from ? this._onFromLaylout : this._onToLayout,
-    });
-  }
   _getAnimation = (instance, isFrom = true) => {
     const { from, to } = instance;
     const { position: fromPosition } = from;
@@ -283,6 +274,15 @@ export default class AnimatedWrapper extends React.PureComponent {
 
   render() {
     return this._renderChildren();
+  }
+  _renderChildren() {
+    const from = isFrom(this.props);
+    const { children } = this.props;
+    let _children = isView(children) ? children : <View>{children}</View>;
+    return React.cloneElement(_children, {
+      ref: this._setRef,
+      onLayout: from ? this._onFromLaylout : this._onToLayout,
+    });
   }
 }
 

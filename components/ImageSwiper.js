@@ -8,22 +8,21 @@ class ImageSwiper extends React.PureComponent {
   render() {
     const {
       imageUrls,
-      style = {},
+      style,
       width,
       height,
-      imageStyle = {},
+      imageStyle,
+      showsPagination,
     } = this.props;
     return (
       <Swiper
-        // style={style}
-        loop={true}
+        // style={\style}
+        // loop={true}
         width={width || imageStyle.width || SCREEN_WIDTH}
         height={height || imageStyle.height || 200}
         // autoplay={true}
-        // width={SCREEN_WIDTH || style.width}
-        // height={200 || style.height}
         // showsButtons={false}
-        showsPagination={true}
+        showsPagination={showsPagination}
         scrollEnabled={true}
       >
         {imageUrls.map(this._renderImage)}
