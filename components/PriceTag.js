@@ -57,7 +57,7 @@ class Sample extends React.PureComponent {
       <View style={[styles.wrapper, style]}>
         <Image
           source={Assets.coin.source}
-          style={[{ width: 25, height: 25 }, imageStyle]}
+          style={[{ width: 20, height: 20 }, imageStyle]}
         />
         <Text style={[styles.text, textStyle]}>{price}</Text>
       </View>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.deepOrange,
     fontWeight: '500',
-    marginLeft: 5,
+    marginLeft: 2,
   },
 });
 
