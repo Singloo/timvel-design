@@ -147,6 +147,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
         resizeMode={resizeMode}
       />
     );
+
     const blurComp = (
       <BlurView
         viewRef={this.state.viewRef}
