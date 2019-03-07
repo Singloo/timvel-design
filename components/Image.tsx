@@ -50,6 +50,10 @@ const imageSizeMap = (
       return size;
   }
 };
+const whichKeyForWrapper = (key: string): boolean =>
+  ['position', 'top', 'left', 'bottom', 'right'].includes(key) ||
+  key.includes('padding') ||
+  key.includes('margin');
 export default class Image2 extends React.Component<IImageProps, IState> {
   toBeBlured = React.createRef<React.Component<FastImageProperties>>();
   static defaultProps = {
@@ -104,10 +108,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
     if (style) {
       const _style = flattenStyles(style) as IDict;
       Object.keys(_style).forEach(key => {
-        if (
-          ['position', 'top', 'left', 'bottom', 'right'].includes(key) ||
-          key.includes('padding' || 'margin')
-        ) {
+        if (whichKeyForWrapper(key)) {
           Object.assign(wrapperStyle, { [key]: _style[key] });
           return;
         }
