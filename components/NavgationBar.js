@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 import { base } from '../../js/utils';
 import Image from './Image';
+import Touchable from './Touchable';
 const { colors, isIOS, SCREEN_WIDTH, PADDING_TOP } = base;
 class NavigationBar extends Component {
   constructor(props) {
@@ -16,53 +17,20 @@ class NavigationBar extends Component {
   imageLoaded = () => {
     this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
-  _renderLeft = () => {
-    const { sourceLeft, leftTint, onPressLeft, leftIconStyle } = this.props;
-    if (sourceLeft) {
-      return (
-        <Image
-          source={sourceLeft}
-          tintColor={leftTint}
-          onPress={() => {
-            onPressLeft && onPressLeft();
-          }}
-          size={'small'}
-          style={leftIconStyle}
-          resizeMode={'contain'}
-        />
-      );
-    } else {
-      return <View style={styles.blank} />;
-    }
-  };
-  _renderRight = () => {
-    const { sourceRight, rightTint, onPressRight, rightIconStyle } = this.props;
-    if (sourceRight) {
-      return (
-        <Image
-          source={sourceRight}
-          tintColor={rightTint}
-          onPress={onPressRight}
-          size={'small'}
-          style={rightIconStyle}
-          resizeMode={'contain'}
-        />
-      );
-    } else {
-      return <View style={styles.blank} />;
-    }
-  };
-
-  _renderTitle = () => {
-    const { title, titleStyle } = this.props;
-    if (title) {
-      return <Text style={[styles.title, titleStyle]}>{title}</Text>;
-    } else {
-      return <View style={[styles.blank, { flex: 1 }]} />;
-    }
-  };
   render() {
-    const { style } = this.props;
+    const {
+      style,
+      sourceLeft,
+      leftTint,
+      onPressLeft,
+      leftIconStyle,
+      leftTitle,
+      sourceRight,
+      rightTint,
+      onPressRight,
+      rightIconStyle,
+      rightTitle,
+    } = this.props;
     return (
       <View
         style={[
@@ -85,12 +53,55 @@ class NavigationBar extends Component {
           blurType={'xlight'}
           style={styles.absolute}
         />
-        {this._renderLeft()}
+        {this._renderSide({
+          source: sourceLeft,
+          tint: leftTint,
+          onPress: onPressLeft,
+          iconStyle: leftIconStyle,
+          title: leftTitle,
+        })}
         {this._renderTitle()}
-        {this._renderRight()}
+        {this._renderSide({
+          source: sourceRight,
+          tint: rightTint,
+          onPress: onPressRight,
+          iconStyle: rightIconStyle,
+          title: rightTitle,
+        })}
       </View>
     );
   }
+  _renderSide = ({ source, tint, onPress, iconStyle, title }) => {
+    if (title) {
+      return (
+        <Text style={styles.subTitle} onPress={onPress}>
+          {title}
+        </Text>
+      );
+    }
+    if (source) {
+      return (
+        <Image
+          source={source}
+          tintColor={tint}
+          onPress={onPress}
+          size={'small'}
+          style={iconStyle}
+          resizeMode={'contain'}
+        />
+      );
+    } else {
+      return <View style={styles.blank} />;
+    }
+  };
+  _renderTitle = () => {
+    const { title, titleStyle } = this.props;
+    if (title) {
+      return <Text style={[styles.title, titleStyle]}>{title}</Text>;
+    } else {
+      return <View style={[styles.blank, { flex: 1 }]} />;
+    }
+  };
 }
 NavigationBar.propTypes = {
   style: PropTypes.any,
@@ -132,6 +143,11 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     fontWeight: '100',
     backgroundColor: 'transparent',
+  },
+  subTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.main,
   },
 });
 

@@ -8,7 +8,7 @@ const { SCREEN_HEIGHT, SCREEN_WIDTH, NAV_BAR_HEIGHT, TAB_BAR_HEIGHT } = base;
 export default function createMoveableComp(Comp) {
   return class extends React.Component {
     static defaultProps = {
-      edge: 20,
+      edge: 10,
       itemSize: 70,
     };
     constructor(props) {

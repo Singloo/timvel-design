@@ -232,6 +232,11 @@ const emojis = {
     source: require('../assets/angry.png'),
   },
 };
+const notification = {
+  NotificationReplay: {
+    source: require('../assets/notification_reply.png'),
+  },
+};
 export default {
   ...icons,
   ...tempUse,
@@ -241,4 +246,5 @@ export default {
   ...logo,
   ...weather,
   ...emojis,
+  ...notification,
 };
