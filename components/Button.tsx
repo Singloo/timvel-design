@@ -46,8 +46,8 @@ const SIZE = {
     height: 27,
   },
   small: {
-    width: 120,
-    height: 40,
+    width: 100,
+    height: 33,
   },
   regular: {
     width: 150,
