@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import { StyleSheet, View, Animated, ViewStyle } from 'react-native';
 import utils from '../utils';
@@ -6,9 +7,7 @@ import { HOC } from './hocTypes';
 
 const styles = StyleSheet.create({
   container: {
-    ...Styles.absolute,
     backgroundColor: 'rgba(33,33,33,0.5)',
-    ...Styles.center,
   },
 });
 interface IModalProps {
@@ -74,15 +73,14 @@ const createAnimatedModal: HOC<IModalProps> = Comp =>
     };
 
     render() {
-      const { style, modalController, ...childProps } = this.props;
+      const { style, modalController, children, ...childProps } = this.props;
       const { show, animationState: scale } = this.state;
       if (!show) {
         return null;
       }
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, Styles.center, Styles.absolute]}>
           <Animated.View style={[{ transform: [{ scale }] }, style]}>
-          // @ts-ignore
             <Comp {...childProps} dismiss={this.dismiss} />
           </Animated.View>
         </View>

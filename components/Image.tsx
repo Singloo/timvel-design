@@ -76,7 +76,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
       }, 50);
     }
   };
-  _propMap = () => {
+  _propMap = (hasWrapper: boolean) => {
     const { source, uri, processType } = this.props;
     let imgSource = source;
     if (typeof uri !== 'undefined') {
@@ -87,10 +87,10 @@ export default class Image2 extends React.Component<IImageProps, IState> {
     }
     return {
       imgSource,
-      ...this._getImgStyle(),
+      ...this._getImgStyle(hasWrapper),
     };
   };
-  _getImgStyle = () => {
+  _getImgStyle = (hasWrapper: boolean) => {
     const { size, style, tintColor, isRound, containerStyle } = this.props;
     let imgStyle = {};
     let wrapperStyle = {};
@@ -108,7 +108,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
     if (style) {
       const _style = flattenStyles(style) as IDict;
       Object.keys(_style).forEach(key => {
-        if (whichKeyForWrapper(key)) {
+        if (whichKeyForWrapper(key) && hasWrapper) {
           Object.assign(wrapperStyle, { [key]: _style[key] });
           return;
         }
@@ -134,7 +134,8 @@ export default class Image2 extends React.Component<IImageProps, IState> {
       blurType,
       blurAmount,
     } = this.props;
-    const { imgSource, imgStyle, wrapperStyle } = this._propMap();
+    const hasWrapper = !!(onPress || blur);
+    const { imgSource, imgStyle, wrapperStyle } = this._propMap(hasWrapper);
     const Wrapper: React.ReactType =
       typeof onPress !== 'undefined' ? Touchable : View;
     const TImage =
@@ -157,7 +158,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
         blurAmount={blurAmount}
       />
     );
-    if (onPress || blur) {
+    if (hasWrapper) {
       return (
         <Wrapper
           style={flattenStyles(styles.wrapper, wrapperStyle)}
