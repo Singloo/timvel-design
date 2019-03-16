@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   default: {
     fontSize: 17,
     color: colors.depGrey,
-    fontWeight: '200',
+    fontWeight: '300',
   },
 });
 
