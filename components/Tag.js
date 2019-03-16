@@ -37,6 +37,8 @@ class Tag extends Component {
         fontSize = 40;
       }
     }
+    const _selectedStyle = selectedStyle || styles.selectedStyle;
+    const _selectedTextStyle = selectedTextStyle || styles.selectedTextStyle;
     return (
       <Touchable onPress={onPress && onPress}>
         <View
@@ -44,14 +46,14 @@ class Tag extends Component {
             styles.container,
             style,
             { borderColor: textColor },
-            isSelected && selectedStyle,
+            isSelected && _selectedStyle,
           ]}
         >
           <Text
             style={[
               textStyle,
               { color: textColor, fontSize: fontSize },
-              isSelected && selectedTextStyle,
+              isSelected && _selectedTextStyle,
             ]}
           >
             {title}
@@ -87,6 +89,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   text: {},
+  selectedStyle: { backgroundColor: colors.main, borderColor: 'transparent' },
+  selectedTextStyle: {
+    color: 'white',
+  },
 });
 
 export default Tag;
