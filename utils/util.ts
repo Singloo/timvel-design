@@ -4,7 +4,7 @@
  * Created Date: Thursday February 28th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 2nd 2019 9:12:09 pm
+ * Last Modified: Sunday March 17th 2019 12:00:46 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -38,8 +38,19 @@ const _isIphoneXR =
 const isIphoneX = _isIphoneX || _isIphoneXR;
 
 const PADDING_TOP = booleanMap(isAndroid, 0, booleanMap(isIphoneX, 44, 20));
+const ANDROID_TRANSPARENT_PADDING_TOP = booleanMap(isAndroid, 30, 0);
+const PADDING_TOP_FULL = booleanMap(
+  isAndroid,
+  ANDROID_TRANSPARENT_PADDING_TOP,
+  PADDING_TOP,
+);
 const PADDING_BOTTOM = booleanMap(isIphoneX, 34, 0);
 const NAV_BAR_HEIGHT = isIos ? (isIphoneX ? 44 + 44 : 20 + 44) : 44;
+const NAV_BAR_HEIGHT_FULL = booleanMap(
+  isAndroid,
+  44 + ANDROID_TRANSPARENT_PADDING_TOP,
+  NAV_BAR_HEIGHT,
+);
 const TAB_BAR_HEIGHT = isIphoneX ? 34 + 48 : 48;
 const toDegree = (angle: number) => {
   return angle * (Math.PI / 180);
@@ -91,4 +102,7 @@ export default {
   PADDING_BOTTOM,
   NAV_BAR_HEIGHT,
   TAB_BAR_HEIGHT,
+  ANDROID_TRANSPARENT_PADDING_TOP,
+  PADDING_TOP_FULL,
+  NAV_BAR_HEIGHT_FULL,
 };

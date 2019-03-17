@@ -3,7 +3,7 @@ import { View, PanResponder, Animated, Easing } from 'react-native';
 import { base } from '../../js/utils';
 import { Subject } from 'rxjs';
 import { delay } from 'rxjs/operators';
-const { SCREEN_HEIGHT, SCREEN_WIDTH, NAV_BAR_HEIGHT, TAB_BAR_HEIGHT } = base;
+const { SCREEN_HEIGHT, SCREEN_WIDTH, TAB_BAR_HEIGHT } = base;
 
 export default function createMoveableComp(Comp) {
   return class extends React.Component {

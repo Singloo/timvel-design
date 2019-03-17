@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Animated, View, StyleSheet, Easing } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
-
+const debugLog = (...messages) => console.warn(...messages);
 const WAITING_FOR_TO_MOUNT = 'watingForToMount';
 const POSITION = 'position';
 const allInstances = {};
@@ -97,6 +97,7 @@ export default class AnimatedWrapper extends React.PureComponent {
     from: 'from',
     to: 'to',
   };
+  static subscribe = () => {};
   constructor(props) {
     super(props);
     this.state = {};
@@ -229,6 +230,7 @@ export default class AnimatedWrapper extends React.PureComponent {
   moveTo = callback => {
     const instance = getInstance(this.props);
     if (!instance.to.position) {
+      debugLog('target component havent mount');
       set(this.props, WAITING_FOR_TO_MOUNT, true);
       return;
     }

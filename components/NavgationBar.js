@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, findNodeHandle } from 'react-native';
 import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
-import { base } from '../../js/utils';
 import Image from './Image';
 import Touchable from './Touchable';
-const { colors, isIOS, SCREEN_WIDTH, PADDING_TOP } = base;
+import utils from '../utils';
+const {
+  SCREEN_WIDTH,
+  PADDING_TOP_FULL,
+  isIos,
+  colors,
+  NAV_BAR_HEIGHT_FULL,
+} = utils;
 class NavigationBar extends Component {
   constructor(props) {
     super(props);
@@ -32,14 +38,8 @@ class NavigationBar extends Component {
       rightTitle,
     } = this.props;
     return (
-      <View
-        style={[
-          styles.wrapper,
-          { height: 44 + PADDING_TOP, paddingTop: PADDING_TOP },
-          style,
-        ]}
-      >
-        {!isIOS && (
+      <View style={[styles.wrapper, style]}>
+        {!isIos && (
           <View
             ref={r => {
               this.backgroundImage = r;
@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
     right: 0,
   },
   wrapper: {
-    height: 44,
+    height: NAV_BAR_HEIGHT_FULL,
+    paddingTop: PADDING_TOP_FULL,
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
