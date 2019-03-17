@@ -1,10 +1,31 @@
 import * as React from 'react';
 import { Animated, View, StyleSheet, Easing } from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
+import { Subject } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
+import { curried } from '../../js/utils';
+import { colors } from '../utils/colors';
 const debugLog = (...messages) => console.warn(...messages);
+const $event = new Subject();
+const generateEvent = (props, eventName) => ({
+  id: props.id,
+  type: props.type,
+  eventName,
+});
+const $subscribe = filterEvt => $event.pipe(filter(filterEvt));
 const WAITING_FOR_TO_MOUNT = 'watingForToMount';
 const POSITION = 'position';
 const allInstances = {};
+const extractPosition = (from, to) => ({
+  fromPageX: from.pageX,
+  fromPageY: from.pageY,
+  fromWidth: from.width,
+  fromHeight: from.height,
+  toHeight: to.height,
+  toWidth: to.width,
+  toPageX: to.pageX,
+  toPageY: to.pageY,
+});
 const isFrom = props => {
   return props.type === AnimatedWrapper.types.from;
 };
@@ -92,12 +113,68 @@ const isView = children => {
   }
   return false;
 };
+const absDiff = (v1, v2) => Math.abs(v1 - v2);
+const calAnimationTime = distance => {
+  if (distance > 300) {
+    return {
+      y: 800,
+      x: 600,
+    };
+  }
+  if (distance > 150) {
+    return {
+      y: 700,
+      x: 500,
+    };
+  }
+  if (distance > 100) {
+    return {
+      y: 600,
+      x: 500,
+    };
+  }
+  return {
+    y: 500,
+    x: 400,
+  };
+};
 export default class AnimatedWrapper extends React.PureComponent {
   static types = {
     from: 'from',
     to: 'to',
   };
-  static subscribe = () => {};
+  static subscribe = (props, { onMove, onEnd }) =>
+    // { onSourceMove, onSourceEnd, onTargetMove, onTargetEnd },
+    {
+      const $onMove = $subscribe(
+        evt => evt.id === props.id && evt.eventName === 'start',
+      ).subscribe(onMove);
+      const $onEnd = $subscribe(
+        evt => evt.id === props.id && evt.eventName === 'end',
+      ).subscribe(onEnd);
+      return {
+        $onMove,
+        $onEnd,
+      };
+      // const $onSourceMove = $subscribe(
+      //   evt => evt.id === props.id && evt.eventName === 'start',
+      // ).subscribe(onSourceMove);
+      // const $onSourceEnd = $subscribe(
+      //   evt => evt.id === props.id && evt.eventName === 'end',
+      // ).subscribe(onSourceEnd);
+      // const $onTargetMove = $subscribe(
+      //   evt => evt.id === props.id && evt.eventName === 'start',
+      // ).subscribe(onTargetMove);
+      // const $onTargetEnd = $subscribe(
+      //   evt => evt.id === props.id && evt.eventName === 'end',
+      // ).subscribe(onTargetEnd);
+      // return {
+      //   $onSourceMove,
+      //   $onSourceEnd,
+      //   $onTargetMove,
+      //   $onTargetEnd,
+      // };
+    };
   constructor(props) {
     super(props);
     this.state = {};
@@ -164,50 +241,68 @@ export default class AnimatedWrapper extends React.PureComponent {
     const { position: toPosition } = to;
     const { animationProps = {} } = this.props;
     let animation = [];
-    let fromPageX;
-    let fromPageY;
-    let toPageX;
-    let toPageY;
-    if (isFrom) {
-      fromPageX = fromPosition.pageX;
-      toPageX = toPosition.pageX;
-      fromPageY = fromPosition.pageY;
-      toPageY = toPosition.pageY;
-    } else {
-      fromPageX = toPosition.pageX;
-      toPageX = fromPosition.pageX;
-      fromPageY = toPosition.pageY;
-      toPageY = fromPosition.pageY;
-    }
+    const {
+      fromPageX,
+      fromPageY,
+      fromWidth,
+      fromHeight,
+      toPageX,
+      toPageY,
+      toWidth,
+      toHeight,
+    } = extractPosition(
+      ...(isFrom ? [fromPosition, toPosition] : [toPosition, fromPosition]),
+    );
     const translateY = new Animated.Value(fromPageY);
+    const translateX = new Animated.Value(fromPageX);
+    const width = new Animated.Value(fromWidth);
+    const height = new Animated.Value(fromHeight);
     this.setState({
       translateY,
+      width,
+      height,
+      translateX,
     });
+    const { y, x } = calAnimationTime(
+      absDiff(fromPageX, toPageX),
+      absDiff(fromPageY, toPageY),
+    );
     animation.push(
       Animated.timing(translateY, {
         easing: Easing.out(Easing.back()),
         toValue: toPageY,
         useNativeDrvier: true,
-        duration: 500,
+        duration: y,
         ...animationProps,
       }),
     );
-    if (fromPageX !== toPageX) {
-      const translateX = new Animated.Value(fromPageX);
-      this.setState({
-        translateX,
-      });
-      animation.push(
-        Animated.timing(translateX, {
-          easing: Easing.out(Easing.back()),
-          toValue: toPageX,
-          useNativeDrvier: true,
-          duration: 500,
-          ...animationProps,
-        }),
-      );
-    }
-
+    animation.push(
+      Animated.timing(translateX, {
+        // easing: Easing.out(Easing.back()),
+        toValue: toPageX,
+        useNativeDrvier: true,
+        duration: x,
+        ...animationProps,
+      }),
+    );
+    animation.push(
+      Animated.timing(width, {
+        // easing: Easing.out(Easing.back()),
+        toValue: toWidth,
+        // useNativeDrvier: true,
+        duration: x,
+        ...animationProps,
+      }),
+    );
+    animation.push(
+      Animated.timing(height, {
+        // easing: Easing.out(Easing.back()),
+        toValue: toHeight,
+        // useNativeDrvier: true,
+        duration: x,
+        ...animationProps,
+      }),
+    );
     return animation;
   };
 
@@ -220,8 +315,8 @@ export default class AnimatedWrapper extends React.PureComponent {
       invoke(onStart)();
       const animations = this._getAnimation(instance, isFrom);
       sibling.update(this._renderClonedElement(_clonedElement));
-      Animated.parallel(animations).start(
-        invoke(callback, onEnd, sibling.destroy),
+      Animated.parallel(animations).start(() =>
+        setTimeout(invoke(callback, onEnd, sibling.destroy), 100),
       );
     }, 0);
   };
@@ -234,16 +329,29 @@ export default class AnimatedWrapper extends React.PureComponent {
       set(this.props, WAITING_FOR_TO_MOUNT, true);
       return;
     }
-    this._move(instance, true, callback);
+    this._fireEvent('start');
+    this._move(
+      instance,
+      true,
+      invoke(curried(this._fireEvent)('end'), callback),
+    );
   };
   moveBack = callback => {
     const instance = getInstance(this.props);
-    this._move(instance, false, callback);
+    this._fireEvent('start');
+    this._move(
+      instance,
+      false,
+      invoke(curried(this._fireEvent)('end'), callback),
+    );
   };
   //ref end
 
+  _fireEvent = eventName => {
+    $event.next(generateEvent(this.props, eventName));
+  };
   _renderClonedElement = comp => {
-    const { style = {} } = this.props;
+    const { style = {}, renderClonedElement } = this.props;
     let transform = [
       {
         translateY: this.state.translateY,
@@ -256,12 +364,20 @@ export default class AnimatedWrapper extends React.PureComponent {
     }
     const animationStyle = {
       transform,
+      width: this.state.width,
+      height: this.state.height,
     };
-    return (
-      <Animated.View style={[{ position: 'absolute' }, animationStyle, style]}>
-        {comp}
-      </Animated.View>
-    );
+    const _style = [
+      {
+        position: 'absolute',
+        backgroundColor: colors.lightGrey,
+      },
+      animationStyle,
+    ];
+    if (renderClonedElement) {
+      return renderClonedElement(_style);
+    }
+    return <Animated.View style={_style}>{comp}</Animated.View>;
   };
   _measure = (ref, callback) => {
     if (ref) {

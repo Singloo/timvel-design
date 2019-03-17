@@ -24,6 +24,7 @@ class RefreshFlatlist extends React.Component {
       onFooterRefresh,
       isHeaderLoading,
       animated,
+      isFooterLoading,
       ...childProps
     } = this.props;
     const Comp = animated ? AnimatedFlatList : FlatList;
@@ -33,7 +34,7 @@ class RefreshFlatlist extends React.Component {
         refreshing={isHeaderLoading}
         onEndReached={onFooterRefresh}
         ListFooterComponent={this._renderFooter}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.01}
         {...childProps}
       />
     );

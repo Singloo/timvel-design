@@ -25,7 +25,6 @@ class WeatherInfo extends Component {
 WeatherInfo.propTypes = {};
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: backgroundColor,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 5,

@@ -39,20 +39,22 @@ class NavigationBar extends Component {
     } = this.props;
     return (
       <View style={[styles.wrapper, style]}>
-        {!isIos && (
+        {/* {!isIos && (
           <View
             ref={r => {
               this.backgroundImage = r;
             }}
             onLayout={this.imageLoaded}
+            style={[styles.absolute]}
+          />
+        )} */}
+        {this.state.viewRef && (
+          <BlurView
+            viewRef={this.state.viewRef}
+            blurType={'xlight'}
             style={styles.absolute}
           />
         )}
-        <BlurView
-          viewRef={this.state.viewRef}
-          blurType={'xlight'}
-          style={styles.absolute}
-        />
         {this._renderSide({
           source: sourceLeft,
           tint: leftTint,

@@ -5,6 +5,9 @@ import Image from './Image';
 import utils from '../utils';
 const { SCREEN_WIDTH } = utils;
 class ImageSwiper extends React.PureComponent {
+  static defaultProps = {
+    additionalProps: {},
+  };
   render() {
     const {
       imageUrls,
@@ -13,17 +16,15 @@ class ImageSwiper extends React.PureComponent {
       height,
       imageStyle,
       showsPagination,
+      additionalProps,
     } = this.props;
     return (
       <Swiper
-        // style={\style}
-        // loop={true}
         width={width || imageStyle.width || SCREEN_WIDTH}
         height={height || imageStyle.height || 200}
-        // autoplay={true}
-        // showsButtons={false}
         showsPagination={showsPagination}
         scrollEnabled={true}
+        {...additionalProps}
       >
         {imageUrls.map(this._renderImage)}
       </Swiper>

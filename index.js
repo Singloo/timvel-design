@@ -36,6 +36,7 @@ const {
   ANDROID_TRANSPARENT_PADDING_TOP,
   PADDING_TOP_FULL,
   NAV_BAR_HEIGHT_FULL,
+  flattenStyles
 } = utils;
 export {
   withKeyboardListener,
@@ -70,4 +71,5 @@ export {
   ANDROID_TRANSPARENT_PADDING_TOP,
   PADDING_TOP_FULL,
   NAV_BAR_HEIGHT_FULL,
+  flattenStyles,
 };
