@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated } from 'react-native';
+import { StyleSheet, View, Animated, ViewStyle } from 'react-native';
 import utils from '../utils';
 const { SCREEN_WIDTH, Styles, Assets } = utils;
 export default class AnimatedLogo extends Component<IProp, IState> {
@@ -44,10 +44,15 @@ export default class AnimatedLogo extends Component<IProp, IState> {
     this.loop2.stop();
   }
   render() {
-    const { size } = this.props;
+    const { size, style } = this.props;
     return (
       <View
-        style={[styles.wrapper, Styles.center, { width: size, height: size }]}
+        style={[
+          styles.wrapper,
+          Styles.center,
+          { width: size, height: size },
+          style,
+        ]}
       >
         <Animated.Image
           source={Assets.wrapper1.source}
@@ -114,6 +119,7 @@ const styles = StyleSheet.create({
 
 interface IProp {
   size: number;
+  style?: ViewStyle;
 }
 interface IState {
   animationState: Animated.Value;

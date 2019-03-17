@@ -27,7 +27,7 @@ const allWeathers = [
 ];
 class SelectorModal extends React.Component {
   componentDidMount() {}
-  scrollToCurrentValue() {
+  scrollToCurrentValue = () => {
     const { value } = this.props;
     let index = allWeathers.indexOf(value);
     if (index === -1) {
@@ -39,7 +39,7 @@ class SelectorModal extends React.Component {
         y: (index + 1) * 48,
         animated: true,
       });
-  }
+  };
   render() {
     const { show, value, onChangeValue, modalPosition, dismiss } = this.props;
     let index = allWeathers.indexOf(value);
@@ -127,6 +127,7 @@ class Selectors extends Component {
       showFull: false,
     });
   };
+  _onLayout = () => {};
   render() {
     const { initialValue, onChangeValue, value } = this.props;
     const { showFull } = this.state;
@@ -134,7 +135,7 @@ class Selectors extends Component {
       <View style={{ marginLeft: 10 }}>
         <View
           ref={r => (this._container = r)}
-          style={{ flexDirection: 'row', alignItems: 'center' }}
+          style={{ flexDirection: 'row', alignItems: 'center', opacity: 1 }}
           onLayout={this._onLayout}
         >
           <Image

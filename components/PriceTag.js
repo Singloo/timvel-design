@@ -6,7 +6,8 @@ import utils from '../utils';
 const { colors, Assets } = utils;
 import { interval } from 'rxjs';
 import { take, mapTo, startWith, scan } from 'rxjs/operators';
-class Sample extends React.PureComponent {
+const diffPrice = (currentProps, nextProps) => currentProps.price !== nextProps;
+class Sample extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +21,19 @@ class Sample extends React.PureComponent {
         price,
       });
     }
+  }
+  componentDidUpdate(prevProps) {
+    if (!prevProps) {
+      return;
+    }
+    if (this.props.price !== prevProps.price) {
+      this.setState({
+        price: this.props.price,
+      });
+    }
+  }
+  shouldComponentUpdate(nextProps) {
+    return diffPrice(this.props, nextProps);
   }
   componentWillUnmount() {
     this.sub$ && this.sub$.unsubscribe();

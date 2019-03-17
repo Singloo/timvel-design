@@ -30,9 +30,10 @@ const createAnimatedModal: HOC<IModalProps> = Comp =>
         show: false,
         animationState: new Animated.Value(0),
       };
-      this.animationStart = Animated.spring(this.state.animationState, {
+      this.animationStart = Animated.timing(this.state.animationState, {
         toValue: 1,
         useNativeDriver: true,
+        duration: 400,
       });
       this.animationStop = Animated.timing(this.state.animationState, {
         toValue: 0,

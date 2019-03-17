@@ -1,10 +1,16 @@
 import * as React from 'react';
-import { StyleSheet, TextInput, Animated, ViewStyle } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  Animated,
+  ViewStyle,
+  Keyboard,
+} from 'react-native';
 import utils from '../utils';
 import Text from './Text';
 // @ts-ignore
 import withKeyboardListener from '../HOCs/withKeyboardListener';
-const { SCREEN_WIDTH, colors, flattenStyles } = utils;
+const { SCREEN_WIDTH, colors, flattenStyles, invoke } = utils;
 class CommentBar extends React.Component<IProps, IState> {
   _textInput: React.RefObject<any>;
   constructor(props: any) {
@@ -24,7 +30,10 @@ class CommentBar extends React.Component<IProps, IState> {
   _onPressSend = () => {
     const { value } = this.state;
     const { onPressSend } = this.props;
-    onPressSend(value.trim(), this._textInput.current.clear);
+    onPressSend(
+      value.trim(),
+      invoke(Keyboard.dismiss, this._textInput.current.clear),
+    );
   };
   render() {
     const { style, keyboardHeight: marginBottom } = this.props;

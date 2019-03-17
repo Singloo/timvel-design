@@ -4,7 +4,7 @@
  * Created Date: Thursday February 28th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday March 17th 2019 12:00:46 pm
+ * Last Modified: Sunday March 17th 2019 5:48:46 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -88,6 +88,13 @@ const randomItem = (
     return randomItem(newArr, returnNum, returnArr);
   }
 };
+const invoke = (...funcs: (() => void)[]) => () =>
+  funcs.forEach(func => func && func());
+const clearTimers = (...timers: NodeJS.Timeout[]) =>
+  timers.forEach(timer => timer && clearTimeout(timer));
+const curried = (func: (...args: (any)[]) => void, ctx = null) => (
+  ...args: (any)[]
+) => () => func && func.apply(ctx, args);
 export default {
   randomItem,
   cosR,
@@ -105,4 +112,7 @@ export default {
   ANDROID_TRANSPARENT_PADDING_TOP,
   PADDING_TOP_FULL,
   NAV_BAR_HEIGHT_FULL,
+  invoke,
+  clearTimers,
+  curried,
 };
