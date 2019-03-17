@@ -143,38 +143,18 @@ export default class AnimatedWrapper extends React.PureComponent {
     from: 'from',
     to: 'to',
   };
-  static subscribe = (props, { onMove, onEnd }) =>
-    // { onSourceMove, onSourceEnd, onTargetMove, onTargetEnd },
-    {
-      const $onMove = $subscribe(
-        evt => evt.id === props.id && evt.eventName === 'start',
-      ).subscribe(onMove);
-      const $onEnd = $subscribe(
-        evt => evt.id === props.id && evt.eventName === 'end',
-      ).subscribe(onEnd);
-      return {
-        $onMove,
-        $onEnd,
-      };
-      // const $onSourceMove = $subscribe(
-      //   evt => evt.id === props.id && evt.eventName === 'start',
-      // ).subscribe(onSourceMove);
-      // const $onSourceEnd = $subscribe(
-      //   evt => evt.id === props.id && evt.eventName === 'end',
-      // ).subscribe(onSourceEnd);
-      // const $onTargetMove = $subscribe(
-      //   evt => evt.id === props.id && evt.eventName === 'start',
-      // ).subscribe(onTargetMove);
-      // const $onTargetEnd = $subscribe(
-      //   evt => evt.id === props.id && evt.eventName === 'end',
-      // ).subscribe(onTargetEnd);
-      // return {
-      //   $onSourceMove,
-      //   $onSourceEnd,
-      //   $onTargetMove,
-      //   $onTargetEnd,
-      // };
+  static subscribe = (props, { onMove, onEnd }) => {
+    const $onMove = $subscribe(
+      evt => evt.id === props.id && evt.eventName === 'start',
+    ).subscribe(onMove);
+    const $onEnd = $subscribe(
+      evt => evt.id === props.id && evt.eventName === 'end',
+    ).subscribe(onEnd);
+    return {
+      $onMove,
+      $onEnd,
     };
+  };
   constructor(props) {
     super(props);
     this.state = {};
