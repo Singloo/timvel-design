@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
 import Image from './Image';
-import { base } from '../../js/utils';
-const { colors } = base;
+import { colors } from '../../js/utils';
 class EmojiItem extends Component {
   constructor(props) {
     super(props);

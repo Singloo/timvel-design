@@ -3,8 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
-import { base } from '../../js/utils';
-const { colors } = base;
+import { colors } from '../../js/utils';
 class Tag extends Component {
   render() {
     const {

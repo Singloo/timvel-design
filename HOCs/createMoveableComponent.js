@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, PanResponder, Animated, Easing } from 'react-native';
-import { base } from '../../js/utils';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, TAB_BAR_HEIGHT } from '../../js/utils';
 import { Subject, interval, from, of } from 'rxjs';
 import {
   delay,
@@ -10,7 +10,6 @@ import {
   startWith,
   filter,
 } from 'rxjs/operators';
-const { SCREEN_HEIGHT, SCREEN_WIDTH, TAB_BAR_HEIGHT } = base;
 const getLastestTwoValue = arr => [arr[arr.length - 2], arr[arr.length - 1]];
 const generatePointObj = (left, top) => ({ left, top });
 const getBoundays = (edge, itemSize) => ({

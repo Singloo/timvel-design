@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, Animated } from 'react-native';
 import PropTypes from 'prop-types';
-import { base } from '../../js/utils';
+import {} from '../../js/utils';
 import Text from './Text';
 class Sample extends Component {
   render() {

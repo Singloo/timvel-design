@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { base } from '../../js/utils';
-const { colors: colors2 } = base;
+import { colors as colors2 } from '../../js/utils';
 import LinearGradient from 'react-native-linear-gradient';
 class Separator extends Component {
   render() {
