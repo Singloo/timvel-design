@@ -4,7 +4,7 @@
  * Created Date: Thursday February 28th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Sunday March 17th 2019 5:48:46 pm
+ * Last Modified: Friday March 22nd 2019 9:32:43 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -95,7 +95,8 @@ const clearTimers = (...timers: NodeJS.Timeout[]) =>
 const curried = (func: (...args: (any)[]) => void, ctx = null) => (
   ...args: (any)[]
 ) => () => func && func.apply(ctx, args);
-export default {
+
+export {
   randomItem,
   cosR,
   sinR,

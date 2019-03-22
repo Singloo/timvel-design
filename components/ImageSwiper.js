@@ -2,8 +2,7 @@ import * as React from 'react';
 import Swiper from 'react-native-swiper';
 import {} from 'react-native';
 import Image from './Image';
-import utils from '../utils';
-const { SCREEN_WIDTH } = utils;
+import { SCREEN_WIDTH } from '../utils';
 class ImageSwiper extends React.PureComponent {
   static defaultProps = {
     additionalProps: {},

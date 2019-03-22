@@ -2,8 +2,7 @@ import * as React from 'react';
 import { View, Animated } from 'react-native';
 import { Touchable } from '../components/';
 import LottieView from 'lottie-react-native';
-import utils from '../utils';
-const { Assets } = utils;
+import { Assets } from '../utils';
 export default function createSelectableItem(Comp) {
   return class extends React.Component {
     constructor(props) {

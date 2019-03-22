@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Animated, Keyboard, EmitterSubscription } from 'react-native';
-import utils from '../utils';
-const { isIos } = utils;
+import { isIos } from '../utils';
 interface IState {
   keyboardHeight: Animated.Value;
   keyboardIsShown: boolean;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TextProps } from 'react-native';
-import utils from '../utils';
-const { colors, flattenStyles } = utils;
+import { colors, flattenStyles } from '../utils';
 class ReText extends React.Component<IProps> {
   render() {
     const { children, style, ...restProps } = this.props;

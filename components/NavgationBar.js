@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { BlurView } from 'react-native-blur';
 import Image from './Image';
 import Touchable from './Touchable';
-import utils from '../utils';
-const {
+import {
   SCREEN_WIDTH,
   PADDING_TOP_FULL,
   isIos,
   colors,
   NAV_BAR_HEIGHT_FULL,
-} = utils;
+} from '../utils';
+
 class NavigationBar extends Component {
   constructor(props) {
     super(props);

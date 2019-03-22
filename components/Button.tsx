@@ -9,9 +9,8 @@ import {
 import Text from './Text';
 import Touchable from './Touchable';
 import Image from './Image';
-import utils from '../utils';
+import { SCREEN_WIDTH, colors, flattenStyles } from '../utils';
 import { IImageProps } from './Image';
-const { SCREEN_WIDTH, colors, flattenStyles } = utils;
 const TEXT_SIZE_STYLE = {
   verySmall: {
     fontSize: 14,

@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import Touchable, { ITouchableProps } from './Touchable';
 import { BlurView } from 'react-native-blur';
-import utils from '../utils';
-const { isAndroid, Styles, flattenStyles } = utils;
+import { isAndroid, Styles, flattenStyles } from '../utils';
 import FastImage, { FastImageProperties } from 'react-native-fast-image';
 const getProcessSuffixes = (processType: IProcessType) => {
   switch (processType) {

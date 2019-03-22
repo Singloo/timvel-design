@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import utils from '../utils';
-const { Styles, Assets, randomItem } = utils;
+import { Styles, Assets, randomItem } from '../utils';
 const loadingLotties = [
   Assets.LoadingHorizontalDots.source,
   Assets.LoadingPlane.source,

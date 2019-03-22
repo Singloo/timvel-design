@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import Text from './Text';
 import Image from './Image';
-import utils from '../utils';
-const { colorSets, randomItem, colors, Assets } = utils;
+import { colorSets, randomItem, colors, Assets } from '../utils';
 class WeatherInfo extends Component {
   constructor(props) {
     super(props);

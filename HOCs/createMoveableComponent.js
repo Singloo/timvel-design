@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, PanResponder, Animated, Easing } from 'react-native';
-import { SCREEN_HEIGHT, SCREEN_WIDTH, TAB_BAR_HEIGHT } from '../../js/utils';
+import { SCREEN_HEIGHT, SCREEN_WIDTH, TAB_BAR_HEIGHT } from '../utils';
 import { Subject, interval, from, of } from 'rxjs';
 import {
   delay,

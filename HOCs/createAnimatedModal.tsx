@@ -1,8 +1,7 @@
 // @ts-nocheck
 import * as React from 'react';
 import { StyleSheet, View, Animated, ViewStyle } from 'react-native';
-import utils from '../utils';
-const { Styles } = utils;
+import { Styles } from '../utils';
 import { HOC } from './hocTypes';
 
 const styles = StyleSheet.create({

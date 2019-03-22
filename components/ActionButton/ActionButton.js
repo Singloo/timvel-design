@@ -2,8 +2,7 @@ import React from 'react';
 import { Animated, StyleSheet } from 'react-native';
 import Touchable from '../Touchable';
 import Item from './Item';
-import utils from '../../utils';
-const { TAB_BAR_HEIGHT, sinR, cosR } = utils;
+import { TAB_BAR_HEIGHT, sinR, cosR } from '../../utils';
 
 const getItemPosition = (n, r) => {
   let f = {

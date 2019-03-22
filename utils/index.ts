@@ -4,18 +4,12 @@
  * Created Date: Thursday February 28th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 2nd 2019 9:16:19 pm
+ * Last Modified: Friday March 22nd 2019 9:25:54 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
-import util from './util';
+export * from './util';
 import Styles from './CommonStyles';
 import Assets from './Assets';
 import { colorSets, colors } from './colors';
-export default {
-  ...util,
-  Styles,
-  Assets,
-  colors,
-  colorSets,
-};
+export { Styles, Assets, colors, colorSets };

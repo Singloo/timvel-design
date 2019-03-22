@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, TextInputProps, StyleSheet } from 'react-native';
-import utils from '../utils';
-const { flattenStyles } = utils;
+import { flattenStyles } from '../utils';
 export default class BaseTextInput extends React.Component<IProp> {
   render() {
     const { style, ...restProps } = this.props;

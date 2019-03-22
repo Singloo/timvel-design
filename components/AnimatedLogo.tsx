@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated, ViewStyle } from 'react-native';
-import utils from '../utils';
-const { SCREEN_WIDTH, Styles, Assets } = utils;
+import { SCREEN_WIDTH, Styles, Assets } from '../utils';
 export default class AnimatedLogo extends Component<IProp, IState> {
   animation: Animated.CompositeAnimation;
   animation1: Animated.CompositeAnimation;

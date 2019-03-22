@@ -5,8 +5,7 @@ import Touchable from '../Touchable';
 import Image from '../Image';
 import Separator from '../Separator';
 import Moment from 'moment';
-import utils from '../../utils';
-const { Styles, colorSets, colors, randomItem } = utils;
+import { Styles, colorSets, colors, randomItem } from '../../utils';
 const item_width = 250;
 const item_height = 250 * 0.5;
 class Sample extends Component {

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, Modal } from 'react-native';
 import Touchable from './Touchable';
 import Image from './Image';
-import utils from '../utils';
-const { colors, Styles, Assets } = utils;
+import { colors, Styles, Assets } from '../utils';
 import _ from 'lodash';
 const allWeathers = [
   'sunny',

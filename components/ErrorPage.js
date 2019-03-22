@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
-import { Styles } from '../../js/utils';
+import { Styles } from '../utils';
 import Button from './Button';
 class Sample extends Component {
   render() {

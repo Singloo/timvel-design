@@ -6,11 +6,10 @@ import {
   ViewStyle,
   Keyboard,
 } from 'react-native';
-import utils from '../utils';
+import { SCREEN_WIDTH, colors, flattenStyles, invoke } from '../utils';
 import Text from './Text';
 // @ts-ignore
 import withKeyboardListener from '../HOCs/withKeyboardListener';
-const { SCREEN_WIDTH, colors, flattenStyles, invoke } = utils;
 class CommentBar extends React.Component<IProps, IState> {
   _textInput: React.RefObject<any>;
   constructor(props: any) {

@@ -3,8 +3,7 @@ import { StyleSheet, View, Animated, ViewStyle } from 'react-native';
 import Text from './Text';
 import Touchable from './Touchable';
 import LottieView from 'lottie-react-native';
-import utils from '../utils';
-const { Styles, colors, SCREEN_WIDTH, flattenStyles, Assets } = utils;
+import { Styles, colors, SCREEN_WIDTH, flattenStyles, Assets } from '../utils';
 const item_width = SCREEN_WIDTH / 2 - 40;
 const item_height = 50;
 class Choices extends React.Component<IProps, IState> {

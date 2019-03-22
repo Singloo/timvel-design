@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated, TextInput } from 'react-native';
 import Image from './Image';
-import utils from '../utils';
-const { colors, Assets } = utils;
+import { colors, Assets } from '../utils';
 
 class ReTextInput extends Component {
   constructor(props) {
