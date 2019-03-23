@@ -27,11 +27,30 @@ const extractPosition = (from, to) => ({
   toPageY: to.pageY,
 });
 const isFrom = props => {
-  return props.type === AnimatedWrapper.types.from;
+  return props.type === 'from';
+};
+const initInstance = props => {
+  allInstances[props.id] = allInstances[props.id] || {
+    from: {
+      props: {},
+      clonedElement: null,
+      ref: null,
+      position: null,
+    },
+    to: {
+      props: {},
+      clonedElement: null,
+      ref: null,
+      position: null,
+    },
+  };
 };
 const setProps = props => {
   if (!props) {
     return;
+  }
+  if (!allInstances[props.id]) {
+    initInstance(props);
   }
   allInstances[props.id][props.type].props = props;
 };
@@ -76,22 +95,6 @@ const del = (props, key = null, type = null) => {
     }
     return;
   }
-};
-const initInstance = props => {
-  allInstances[props.id] = allInstances[props.id] || {
-    from: {
-      props: {},
-      clonedElement: null,
-      ref: null,
-      position: null,
-    },
-    to: {
-      props: {},
-      clonedElement: null,
-      ref: null,
-      position: null,
-    },
-  };
 };
 const setRef = (props, r) => {
   if (!props) {
