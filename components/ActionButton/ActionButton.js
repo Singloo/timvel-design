@@ -52,8 +52,10 @@ class ActionButton extends React.Component {
     this.animationState = new Animated.Value(0);
   }
 
-  _onPress = onPress => () => {
+  _onPress = onPressChild => () => {
     const { expand } = this.state;
+    const { onPress } = this.props;
+    onPress && onPress();
     if (expand === false) {
       this.setState({
         expand: !expand,
@@ -73,7 +75,7 @@ class ActionButton extends React.Component {
         });
       }, animationTime);
     }
-    onPress && onPress();
+    onPressChild && onPressChild();
   };
 
   render() {
@@ -83,7 +85,6 @@ class ActionButton extends React.Component {
       buttonSource,
       children,
       iconSize,
-      style,
       right,
       bottom,
     } = this.props;
