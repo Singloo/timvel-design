@@ -5,6 +5,8 @@ import {
   TextStyle,
   ImageProps,
   ImageURISource,
+  TouchableOpacityProps,
+  TouchableWithoutFeedbackProps,
 } from 'react-native';
 import Text from './Text';
 import Touchable from './Touchable';
@@ -62,7 +64,7 @@ const TYPES = {
     backgroundColor: colors.main,
   },
   mainBlank: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.pureWhite,
     borderWidth: 1,
     borderColor: colors.mainLight,
   },
@@ -70,7 +72,7 @@ const TYPES = {
     backgroundColor: colors.red,
   },
   dangerBlank: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.pureWhite,
     borderWidth: 1,
     borderColor: colors.redLight,
   },
@@ -194,7 +196,14 @@ class Button extends React.Component<IProps> {
 
   _getContainerProps = () => {
     const containerProps = {};
-    const { disable, onPress, size, type, buttonStyle } = this.props;
+    const {
+      disable,
+      onPress,
+      size,
+      type,
+      buttonStyle,
+      touchableProps,
+    } = this.props;
     Object.assign(containerProps, {
       style: flattenStyles(
         styles.wrapper,
@@ -212,6 +221,9 @@ class Button extends React.Component<IProps> {
       Object.assign(containerProps, {
         onPress: undefined,
       });
+    }
+    if (touchableProps) {
+      Object.assign(containerProps, touchableProps);
     }
     return containerProps;
   };
@@ -271,4 +283,5 @@ interface IProps {
   leftIconProps?: IImageProps;
   type: IType;
   disable?: boolean;
+  touchableProps?: TouchableOpacityProps & TouchableWithoutFeedbackProps;
 }
