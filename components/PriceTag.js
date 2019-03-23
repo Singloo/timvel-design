@@ -6,6 +6,18 @@ import { colors, Assets } from '../utils';
 import { interval } from 'rxjs';
 import { take, mapTo, startWith, scan } from 'rxjs/operators';
 const diffPrice = (currentProps, nextProps) => currentProps.price !== nextProps;
+const calSpeed = diff => {
+  if (diff > 500) {
+    return 20;
+  }
+  if (diff > 300) {
+    return 40;
+  }
+  if (diff > 100) {
+    return 60;
+  }
+  return 80;
+};
 class Sample extends React.Component {
   constructor(props) {
     super(props);
@@ -38,13 +50,14 @@ class Sample extends React.Component {
     this.sub$ && this.sub$.unsubscribe();
   }
 
-  toValue = (newPrice, callback = null, speed = 100) => {
-    if (speed < 17) {
-      throw Error('speed cannot small than 17!');
-    }
+  toValue = (newPrice, callback = null) => {
+    // if (speed < 17) {
+    //   throw Error('speed cannot small than 17!');
+    // }
     this.sub$ && this.sub$.unsubscribe();
     const { price } = this.state;
     const diff = Math.abs(parseInt(price, 10) - parseInt(newPrice, 10));
+    const speed = calSpeed(diff);
     this.sub$ = interval(speed)
       .pipe(
         take(diff),

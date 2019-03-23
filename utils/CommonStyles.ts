@@ -4,7 +4,7 @@
  * Created Date: Friday March 1st 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 2nd 2019 10:34:44 am
+ * Last Modified: Saturday March 23rd 2019 4:13:32 pm
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -32,6 +32,14 @@ const Styles = StyleSheet.create({
   center: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textShadow: {
+    textShadowColor: '#f5f5f5',
+    textShadowOffset: {
+      width: 1.5,
+      height: 0,
+    },
+    textShadowRadius: 5,
   },
 });
 export default Styles;
