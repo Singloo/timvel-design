@@ -70,7 +70,7 @@ const main = <P extends object>(Comp: React.ComponentType<P>) =>
         keyboardIsShown: true,
       });
       Animated.timing(this.state.keyboardHeight, {
-        duration: 200,
+        duration: 300,
         toValue: event.endCoordinates.height,
       }).start();
     };
@@ -88,7 +88,7 @@ const main = <P extends object>(Comp: React.ComponentType<P>) =>
         keyboardIsShown: false,
       });
       Animated.timing(this.state.keyboardHeight, {
-        duration: 200,
+        duration: 300,
         toValue: 0,
       }).start();
     };
