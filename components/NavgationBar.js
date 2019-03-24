@@ -73,10 +73,10 @@ class NavigationBar extends Component {
       </View>
     );
   }
-  _renderSide = ({ source, tint, onPress, iconStyle, title }) => {
+  _renderSide = ({ source, tint, onPress, iconStyle, title, titleStyle }) => {
     if (title) {
       return (
-        <Text style={styles.subTitle} onPress={onPress}>
+        <Text style={[styles.subTitle, titleStyle]} onPress={onPress}>
           {title}
         </Text>
       );

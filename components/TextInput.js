@@ -59,14 +59,21 @@ class ReTextInput extends Component {
               }),
             },
             {
-              fontSize: this.animationState.interpolate({
-                inputRange: [0, 1],
-                outputRange: [17, 12],
-              }),
+              transform: [
+                {
+                  scale: this.animationState.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [1, 0.7],
+                  }),
+                },
+              ],
+              // fontSize: this.animationState.interpolate({
+              //   inputRange: [0, 1],
+              //   outputRange: [17, 12],
+              // }),
             },
             textStyle,
-            { color: isActive ? colors.main : colors.depGrey },
-            isActive && activeColor && { color: activeColor },
+            isActive && { color: activeColor || colors.main },
           ]}
         >
           {placeholderText}
@@ -84,8 +91,7 @@ class ReTextInput extends Component {
           style={[
             styles.textInput,
             style,
-            { borderColor: isActive ? colors.main : colors.midGrey },
-            activeColor && isActive && { borderColor: activeColor },
+            isActive && { borderColor: activeColor || colors.main },
           ]}
         />
         {typeof value != 'undefined' && value.length > 0 && (
@@ -112,8 +118,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     position: 'absolute',
     opacity: 0.6,
-    left: 2,
+    left: 0,
     letterSpacing: 0.5,
+    // backgroundColor: 'blue',
   },
   textInput: {
     backgroundColor: 'transparent',
