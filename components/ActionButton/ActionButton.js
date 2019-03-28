@@ -2,7 +2,7 @@ import React from 'react';
 import { Animated, StyleSheet } from 'react-native';
 import Touchable from '../Touchable';
 import Item from './Item';
-import { TAB_BAR_HEIGHT, sinR, cosR } from '../../utils';
+import { TAB_BAR_HEIGHT, sinR, cosR, curried } from '../../utils';
 
 const getItemPosition = (n, r) => {
   let f = {
@@ -48,34 +48,41 @@ class ActionButton extends React.Component {
     super(props);
     this.state = {
       expand: false,
+      animationState: new Animated.Value(0),
     };
-    this.animationState = new Animated.Value(0);
+    this.isAnimating = false;
   }
 
-  _onPress = onPressChild => () => {
+  _onPress = onPressChild => {
+    if (this.isAnimating) {
+      return;
+    }
     const { expand } = this.state;
     const { onPress } = this.props;
     onPress && onPress();
+    this.isAnimating = true;
     if (expand === false) {
       this.setState({
         expand: !expand,
       });
-      Animated.timing(this.animationState, {
+      Animated.timing(this.state.animationState, {
         toValue: 1,
         duration: animationTime,
-      }).start();
+      }).start(() => {
+        this.isAnimating = false;
+      });
     } else {
-      Animated.spring(this.animationState, {
+      Animated.spring(this.state.animationState, {
         toValue: 0,
         duration: animationTime,
-      }).start();
-      setTimeout(() => {
+      }).start(() => {
+        this.isAnimating = false;
         this.setState({
           expand: !expand,
         });
-      }, animationTime);
+      });
     }
-    onPressChild && onPressChild();
+    typeof onPressChild === 'function' && onPressChild();
   };
 
   render() {
@@ -104,8 +111,8 @@ class ActionButton extends React.Component {
           key={index}
           {...item.props}
           iconSize={iconSize}
-          onPress={this._onPress(item.props.onPress)}
-          right={this.animationState.interpolate({
+          onPress={curried(this._onPress)(item.props.onPress)}
+          right={this.state.animationState.interpolate({
             inputRange: [0 + delay, delayBegin + delay, 1],
             outputRange: [
               iconRight,
@@ -113,7 +120,7 @@ class ActionButton extends React.Component {
               iconRight + position.x,
             ],
           })}
-          bottom={this.animationState.interpolate({
+          bottom={this.state.animationState.interpolate({
             inputRange: [0 + delay, delayBegin + delay, 1],
             outputRange: [
               iconBottom,
@@ -121,7 +128,7 @@ class ActionButton extends React.Component {
               iconBottom + position.y,
             ],
           })}
-          opacity={this.animationState.interpolate({
+          opacity={this.state.animationState.interpolate({
             inputRange: [0 + delay, 0 + delay + 0.01, 1],
             outputRange: [0, 1, 1],
           })}
@@ -129,7 +136,7 @@ class ActionButton extends React.Component {
       );
     });
     return (
-      <Touchable withoutFeedback={true} onPress={this._onPress()}>
+      <Touchable withoutFeedback={true} onPress={this._onPress}>
         <Animated.View
           style={
             expand
@@ -144,7 +151,7 @@ class ActionButton extends React.Component {
           }
         >
           {renderIcons}
-          <Touchable withoutFeedback={true} onPress={this._onPress()}>
+          <Touchable withoutFeedback={true} onPress={this._onPress}>
             <Animated.Image
               source={buttonSource}
               resizeMode={'contain'}
@@ -160,7 +167,7 @@ class ActionButton extends React.Component {
                 {
                   transform: [
                     {
-                      rotate: this.animationState.interpolate({
+                      rotate: this.state.animationState.interpolate({
                         inputRange: [0, 1],
                         outputRange: ['0deg', '135deg'],
                       }),
