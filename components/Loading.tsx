@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { Styles, Assets, randomItem } from '../utils';
@@ -7,8 +7,10 @@ const loadingLotties = [
   Assets.LoadingPlane.source,
   Assets.JollyWalker.source,
 ];
-class Sample extends Component {
-  constructor(props) {
+class Sample extends React.PureComponent<IProps> {
+  currentLottie: any;
+  _lottie: any;
+  constructor(props: any) {
     super(props);
     this.currentLottie = randomItem(loadingLotties);
   }
@@ -31,7 +33,7 @@ class Sample extends Component {
     );
   }
 }
-Sample.propTypes = {};
+interface IProps {}
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,

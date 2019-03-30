@@ -4,7 +4,7 @@
  * Created Date: Thursday February 28th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Friday March 22nd 2019 9:32:43 am
+ * Last Modified: Saturday March 30th 2019 11:58:00 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -65,10 +65,10 @@ const sinR = (degree: number, r: number) => {
 };
 const randomItem = (
   arr: any[],
-  returnLength: number,
+  returnLength: number = 1,
   returnArray?: any[],
-): any[] => {
-  let returnNum = returnLength || 1;
+): any[] | any => {
+  let returnNum = returnLength;
   let returnArr = returnArray || [];
   let i = Math.floor(Math.random() * arr.length);
   let item = arr[i];

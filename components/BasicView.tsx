@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ViewProps } from 'react-native';
 import Loading from './Loading';
 import ErrorPage from './ErrorPage';
-export default class Sample extends React.Component<IProps> {
+export default class Sample extends React.PureComponent<IProps> {
   static defaultProps = {};
   componentDidMount() {
     const { isError, onPressError } = this.props;
