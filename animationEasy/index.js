@@ -1,2 +1,3 @@
 import AnimatedWrapper from './AnimatedWrapper';
-export { AnimatedWrapper };
+import AnimatedImage from './AnimatedImage';
+export { AnimatedWrapper, AnimatedImage };
