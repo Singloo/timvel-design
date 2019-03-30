@@ -6,12 +6,12 @@ import { TAB_BAR_HEIGHT, sinR, cosR, curried } from '../../utils';
 
 const getItemPosition = (n, r) => {
   let f = {
-    x: -sinR(15, r),
-    y: cosR(15, r),
+    x: -sinR(10, r),
+    y: cosR(10, r),
   };
   let l = {
-    x: cosR(15, r),
-    y: -sinR(15, r),
+    x: cosR(10, r),
+    y: -sinR(10, r),
   };
   const wide = 120;
   switch (n) {
@@ -21,8 +21,8 @@ const getItemPosition = (n, r) => {
       return [f, l];
     case 3: {
       let s = {
-        x: sinR(60 - 15, r),
-        y: cosR(60 - 15, r),
+        x: sinR(60 - 10, r),
+        y: cosR(60 - 10, r),
       };
       return [f, s, l];
     }
@@ -41,7 +41,7 @@ const getItemPosition = (n, r) => {
       break;
   }
 };
-const animationTime = 400;
+const animationTime = 300;
 class ActionButton extends React.Component {
   static Icon = Item;
   constructor(props) {
