@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Animated, TextInput } from 'react-native';
 import Image from './Image';
-import { colors, Assets } from '../utils';
+import { colors, Assets, flattenStyles } from '../utils';
 
 class ReTextInput extends Component {
   constructor(props) {
@@ -45,6 +45,7 @@ class ReTextInput extends Component {
       textStyle,
       activeColor,
       containerStyle,
+      iconStyle,
     } = this.props;
     const { isActive } = this.state;
     return (
@@ -98,7 +99,7 @@ class ReTextInput extends Component {
           <Image
             source={Assets.close.source}
             size={'verySmall'}
-            style={styles.icon}
+            style={flattenStyles(styles.icon, iconStyle)}
             onPress={this._clear}
           />
         )}

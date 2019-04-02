@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import Card from './Card';
 import Tag from '../Tag';
 import Separator from '../Separator';
+import { curried } from '../../utils';
 class ContentByTag extends Component {
   render() {
     const { tag, posts, onPressCard, onPressTag } = this.props;
@@ -11,7 +12,7 @@ class ContentByTag extends Component {
         <Card
           key={'cbt' + index.toString()}
           post={item}
-          onPressCard={() => {}}
+          onPressCard={curried(onPressCard)(item)}
         />
       );
     });

@@ -32,7 +32,7 @@ const createAnimatedModal: HOC<IModalProps> = Comp =>
       this.animationStart = Animated.timing(this.state.animationState, {
         toValue: 1,
         useNativeDriver: true,
-        duration: 400,
+        duration: 350,
       });
       this.animationStop = Animated.timing(this.state.animationState, {
         toValue: 0,
@@ -78,9 +78,14 @@ const createAnimatedModal: HOC<IModalProps> = Comp =>
       if (!show) {
         return null;
       }
+      const opacity = scale.interpolate({
+        inputRange: [0, 0.2],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+      });
       return (
         <View style={[styles.container, Styles.center, Styles.absolute]}>
-          <Animated.View style={[{ transform: [{ scale }] }, style]}>
+          <Animated.View style={[{ opacity, transform: [{ scale }] }, style]}>
             <Comp {...childProps} dismiss={this.dismiss} />
           </Animated.View>
         </View>
