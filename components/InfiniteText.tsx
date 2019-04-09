@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Animated } from 'react-native';
+import { StyleSheet, View, Animated, TextStyle, ViewStyle } from 'react-native';
 import Text from './Text';
-class Sample extends Component {
+class Sample extends Component<IProps> {
   render() {
     const { text, textStyle, children, style, containerStyle } = this.props;
     return (
@@ -25,6 +25,12 @@ class Sample extends Component {
       </Animated.ScrollView>
     );
   }
+}
+interface IProps {
+  text: string;
+  textStyle?: TextStyle;
+  style?: ViewStyle;
+  containerStyle?: ViewStyle;
 }
 const styles = StyleSheet.create({
   wrapper: {

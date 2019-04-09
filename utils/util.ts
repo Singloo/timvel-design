@@ -4,13 +4,13 @@
  * Created Date: Thursday February 28th 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 30th 2019 11:58:00 am
+ * Last Modified: Tuesday April 9th 2019 10:12:43 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import _ from 'lodash';
-const flattenStyles = (...styles: any[]) =>
+const flattenStyles = (...styles: any[]): any =>
   StyleSheet.flatten(
     styles.map((style: any) =>
       Array.isArray(style) ? StyleSheet.flatten(style) : style,

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import {
   FlatList,
   FlatListProps,
@@ -9,22 +8,13 @@ import {
 } from 'react-native';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-class RefreshFlatlist extends React.Component {
-  static propTypes = {
-    onHeaderRefresh: PropTypes.func,
-    onFooterRefresh: PropTypes.func,
-    isHeaderLoading: PropTypes.bool,
-    isFooterLoading: PropTypes.bool,
-    ...FlatListProps,
-  };
-
+class RefreshFlatlist extends React.Component<IProps> {
   render() {
     const {
       onHeaderRefresh,
       onFooterRefresh,
       isHeaderLoading,
       animated,
-      isFooterLoading,
       ...childProps
     } = this.props;
     const Comp = animated ? AnimatedFlatList : FlatList;
@@ -57,5 +47,12 @@ class RefreshFlatlist extends React.Component {
       </View>
     );
   };
+}
+interface IProps extends FlatListProps<any> {
+  onHeaderRefresh?: () => void;
+  onFooterRefresh?: () => void;
+  isHeaderLoading?: boolean;
+  animated?: boolean;
+  isFooterLoading?: boolean;
 }
 export default RefreshFlatlist;

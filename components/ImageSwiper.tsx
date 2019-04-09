@@ -1,16 +1,15 @@
 import * as React from 'react';
-import Swiper from 'react-native-swiper';
-import {} from 'react-native';
+import Swiper, { SwiperProps } from 'react-native-swiper';
+import { StyleSheet, ImageStyle, ViewStyle } from 'react-native';
 import Image from './Image';
-import { SCREEN_WIDTH } from '../utils';
-class ImageSwiper extends React.PureComponent {
+import { SCREEN_WIDTH, flattenStyles } from '../utils';
+class ImageSwiper extends React.PureComponent<IProps> {
   static defaultProps = {
     additionalProps: {},
   };
   render() {
     const {
       imageUrls,
-      style,
       width,
       height,
       imageStyle,
@@ -19,8 +18,8 @@ class ImageSwiper extends React.PureComponent {
     } = this.props;
     return (
       <Swiper
-        width={width || imageStyle.width || SCREEN_WIDTH}
-        height={height || imageStyle.height || 200}
+        width={width || (imageStyle.width as number) || SCREEN_WIDTH}
+        height={height || (imageStyle.height as number) || 200}
         showsPagination={showsPagination}
         scrollEnabled={true}
         {...additionalProps}
@@ -29,24 +28,32 @@ class ImageSwiper extends React.PureComponent {
       </Swiper>
     );
   }
-  _renderImage = (item, index) => {
+  _renderImage = (item: string, index: number) => {
     const { imageStyle } = this.props;
     return (
       <Image
         key={index}
         uri={item}
-        style={[styles.container, imageStyle]}
+        style={flattenStyles(styles.container, imageStyle)}
         processType={'post'}
         resizeMode={'cover'}
       />
     );
   };
 }
-const styles = {
+interface IProps {
+  imageStyle: ImageStyle;
+  imageUrls: string[];
+  width?: number;
+  height?: number;
+  showsPagination?: boolean;
+  additionalProps?: SwiperProps;
+}
+const styles = StyleSheet.create({
   container: {
     width: SCREEN_WIDTH,
     height: 200,
   },
-};
+});
 
 export default ImageSwiper;

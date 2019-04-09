@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, TextInputProps } from 'react-native';
 
-class MultiLinesTextInput extends React.Component {
+class MultiLinesTextInput extends React.Component<IProps> {
   render() {
     return (
       <TextInput
@@ -15,4 +15,5 @@ class MultiLinesTextInput extends React.Component {
   }
 }
 
+interface IProps extends TextInputProps {}
 export default MultiLinesTextInput;

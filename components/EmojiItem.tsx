@@ -1,32 +1,43 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
-import PropTypes from 'prop-types';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Animated,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 import Text from './Text';
 import Touchable from './Touchable';
 import Image from './Image';
 import { colors } from '../utils';
-class EmojiItem extends Component {
-  constructor(props) {
-    super(props);
-    this.animationState = new Animated.Value(1);
-  }
+import { TImageSource } from '../models';
+class EmojiItem extends Component<IProps, IState> {
+  animation?: Animated.CompositeAnimation;
+  state = {
+    animationState: new Animated.Value(1),
+  };
 
   _onPress = () => {
     const { onPress } = this.props;
     onPress();
-    this.animationState.setValue(1);
+    if (this.animation) {
+      this.animation.stop();
+    }
+    this.state.animationState.setValue(1);
     this.animation = Animated.sequence([
-      Animated.timing(this.animationState, {
+      Animated.timing(this.state.animationState, {
         duration: 90,
         toValue: 1.2,
         useNativeDriver: true,
       }),
-      Animated.timing(this.animationState, {
+      Animated.timing(this.state.animationState, {
         duration: 70,
         toValue: 1,
         useNativeDriver: true,
       }),
-    ]).start();
+    ]);
+    this.animation.start();
   };
   render() {
     const { source, num, style, textStyle } = this.props;
@@ -38,7 +49,7 @@ class EmojiItem extends Component {
             {
               transform: [
                 {
-                  scale: this.animationState,
+                  scale: this.state.animationState,
                 },
               ],
             },
@@ -54,7 +65,16 @@ class EmojiItem extends Component {
     );
   }
 }
-EmojiItem.propTypes = {};
+interface IProps {
+  source: TImageSource;
+  num: number;
+  style: ViewStyle;
+  textStyle: TextStyle;
+  onPress: () => void;
+}
+interface IState {
+  animationState: Animated.Value;
+}
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

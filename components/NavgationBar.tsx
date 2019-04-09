@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, findNodeHandle } from 'react-native';
-import PropTypes from 'prop-types';
+import {
+  StyleSheet,
+  Text,
+  View,
+  findNodeHandle,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
+} from 'react-native';
 import { BlurView } from 'react-native-blur';
 import Image from './Image';
-import Touchable from './Touchable';
 import {
   SCREEN_WIDTH,
   PADDING_TOP_FULL,
@@ -11,17 +17,15 @@ import {
   colors,
   NAV_BAR_HEIGHT_FULL,
 } from '../utils';
+import { TImageSource } from '../models';
 
-class NavigationBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      viewRef: null,
-    };
-  }
+class NavigationBar extends Component<IProps, IState> {
+  state = {
+    viewRef: null,
+  };
 
   imageLoaded = () => {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+    // this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   };
   render() {
     const {
@@ -73,7 +77,21 @@ class NavigationBar extends Component {
       </View>
     );
   }
-  _renderSide = ({ source, tint, onPress, iconStyle, title, titleStyle }) => {
+  _renderSide = ({
+    source,
+    tint,
+    onPress,
+    iconStyle,
+    title,
+    titleStyle,
+  }: {
+    source?: TImageSource;
+    tint?: string;
+    onPress?: () => void;
+    iconStyle?: ImageStyle;
+    title?: string;
+    titleStyle?: TextStyle;
+  }) => {
     if (title) {
       return (
         <Text style={[styles.subTitle, titleStyle]} onPress={onPress}>
@@ -105,17 +123,24 @@ class NavigationBar extends Component {
     }
   };
 }
-NavigationBar.propTypes = {
-  style: PropTypes.any,
-  sourceLeft: PropTypes.any,
-  leftTint: PropTypes.string,
-  onPressLeft: PropTypes.func,
-  leftIconStyle: PropTypes.object,
-  sourceRight: PropTypes.any,
-  rightTint: PropTypes.string,
-  onPressRight: PropTypes.func,
-  rightIconStyle: PropTypes.object,
-};
+interface IProps {
+  title?: string;
+  titleStyle?: TextStyle;
+  style?: ViewStyle;
+  sourceLeft?: TImageSource;
+  leftTint?: string;
+  onPressLeft?: () => void;
+  leftIconStyle?: ImageStyle;
+  leftTitle?: string;
+  sourceRight?: TImageSource;
+  rightTint?: string;
+  onPressRight?: () => void;
+  rightIconStyle?: ImageStyle;
+  rightTitle?: string;
+}
+interface IState {
+  viewRef: null | any;
+}
 const styles = StyleSheet.create({
   absolute: {
     position: 'absolute',
