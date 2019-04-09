@@ -72,7 +72,6 @@ class Sample extends Component {
     );
   }
 }
-Sample.propTypes = {};
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

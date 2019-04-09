@@ -26,7 +26,6 @@ class Sample extends Component {
     );
   }
 }
-Sample.propTypes = {};
 const styles = StyleSheet.create({
   wrapper: {
     // paddingVertical: 0,

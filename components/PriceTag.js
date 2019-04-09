@@ -90,7 +90,6 @@ class Sample extends React.Component {
     );
   }
 }
-Sample.propTypes = {};
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',

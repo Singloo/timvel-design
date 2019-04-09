@@ -4,6 +4,37 @@ import PropTypes from 'prop-types';
 import Text from './Text';
 import Touchable from './Touchable';
 import { colors } from '../utils';
+
+const textStyleMap = popularity => {
+  if (popularity >= 400) {
+    return {
+      textColor: colors.red,
+      fontSize: 40,
+    };
+  }
+  if (popularity >= 80) {
+    return {
+      textColor: colors.yellow,
+      fontSize: 34,
+    };
+  }
+  if (popularity >= 40) {
+    return {
+      textColor: colors.teal,
+      fontSize: 30,
+    };
+  }
+  if (popularity >= 10) {
+    return {
+      textColor: colors.lime,
+      fontSize: 22,
+    };
+  }
+  return {
+    textColor: colors.depGrey,
+    fontSize: 18,
+  };
+};
 class Tag extends Component {
   render() {
     const {
@@ -16,26 +47,7 @@ class Tag extends Component {
       selectedStyle,
       selectedTextStyle,
     } = this.props;
-    let textColor = colors.depGrey;
-    let fontSize = 18;
-    if (typeof popularity !== 'undefined') {
-      if (popularity > 0 && popularity < 10) {
-        textColor = colors.lime;
-        fontSize = 22;
-      } else if (popularity >= 10 && popularity < 40) {
-        textColor = colors.purple;
-        fontSize = 26;
-      } else if (popularity >= 40 && popularity < 80) {
-        textColor = colors.teal;
-        fontSize = 30;
-      } else if (popularity >= 80 && popularity < 200) {
-        textColor = colors.yellow;
-        fontSize = 34;
-      } else if (popularity >= 400) {
-        textColor = colors.red;
-        fontSize = 40;
-      }
-    }
+    const { textColor, fontSize } = textStyleMap(popularity);
     const _selectedStyle = selectedStyle || styles.selectedStyle;
     const _selectedTextStyle = selectedTextStyle || styles.selectedTextStyle;
     return (
@@ -51,7 +63,7 @@ class Tag extends Component {
           <Text
             style={[
               textStyle,
-              { color: textColor, fontSize: fontSize },
+              { color: textColor, fontSize },
               isSelected && _selectedTextStyle,
             ]}
           >
