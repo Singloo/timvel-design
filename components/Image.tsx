@@ -7,6 +7,7 @@ import {
   ImageURISource,
   ImageStyle,
   ViewStyle,
+  StyleProp,
 } from 'react-native';
 import Touchable, { ITouchableProps } from './Touchable';
 import { BlurView } from 'react-native-blur';
@@ -105,7 +106,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
       Object.assign(imgStyle, { borderRadius: imgSize.width / 2 });
     }
     if (style) {
-      const _style = flattenStyles(style) as IDict;
+      const _style = Array.isArray(style) ? flattenStyles(style) : style;
       Object.keys(_style).forEach(key => {
         if (whichKeyForWrapper(key) && hasWrapper) {
           Object.assign(wrapperStyle, { [key]: _style[key] });
@@ -134,11 +135,12 @@ export default class Image2 extends React.Component<IImageProps, IState> {
       blurAmount,
     } = this.props;
     const hasWrapper = !!(onPress || blur);
+    const _style = Array.isArray(style) ? flattenStyles(style) : style;
     const { imgSource, imgStyle, wrapperStyle } = this._propMap(hasWrapper);
     const Wrapper: React.ReactType =
       typeof onPress !== 'undefined' ? Touchable : View;
     const TImage =
-      blur || tintColor || (style && style.tintColor) ? Image : FastImage;
+      blur || tintColor || (_style && _style.tintColor) ? Image : FastImage;
     const imageComp = (
       <TImage
         ref={this.toBeBlured}
@@ -194,7 +196,7 @@ export interface IImageProps {
     | number;
   resizeMode?: 'cover' | 'contain' | 'stretch' | 'center';
   tintColor?: string;
-  style?: ImageStyle;
+  style?: ImageStyle | ImageStyle[] | StyleProp<ImageStyle>[];
   containerStyle?: ViewStyle;
   isRound?: boolean;
   source?: number | ImageURISource | ImageURISource[];

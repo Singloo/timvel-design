@@ -3,8 +3,9 @@ import { Animated, StyleSheet } from 'react-native';
 import Touchable from '../Touchable';
 import Item from './Item';
 import { TAB_BAR_HEIGHT, sinR, cosR, curried } from '../../utils';
-
-const getItemPosition = (n, r) => {
+import { TImageSource } from '../../models';
+import { get } from 'lodash';
+const getItemPosition = (n: number, r: number) => {
   let f = {
     x: -sinR(10, r),
     y: cosR(10, r),
@@ -42,9 +43,16 @@ const getItemPosition = (n, r) => {
   }
 };
 const animationTime = 300;
-class ActionButton extends React.Component {
+class ActionButton extends React.Component<IProps, IState> {
   static Icon = Item;
-  constructor(props) {
+  static defaultProps = {
+    buttonSize: 60,
+    iconSize: 40,
+    right: 20,
+    bottom: 20,
+  };
+  isAnimating: boolean;
+  constructor(props: IProps) {
     super(props);
     this.state = {
       expand: false,
@@ -53,7 +61,7 @@ class ActionButton extends React.Component {
     this.isAnimating = false;
   }
 
-  _onPress = onPressChild => {
+  _onPress = (onPressChild?: any | (() => void)) => {
     if (this.isAnimating) {
       return;
     }
@@ -74,7 +82,7 @@ class ActionButton extends React.Component {
     } else {
       Animated.spring(this.state.animationState, {
         toValue: 0,
-        duration: animationTime,
+        // duration: animationTime,
       }).start(() => {
         this.isAnimating = false;
         this.setState({
@@ -101,7 +109,7 @@ class ActionButton extends React.Component {
       iconSize / 2 + buttonSize / 2 + 40,
     );
     const renderIcons = icons.map((item, index) => {
-      const position = positions[index];
+      const position = positions![index];
       const delay = 0.15 * index;
       const delayBegin = 1 - 0.15 * icons.length;
       const iconRight = right + (buttonSize - iconSize) / 2;
@@ -109,9 +117,11 @@ class ActionButton extends React.Component {
       return (
         <Item
           key={index}
-          {...item.props}
+          {...get(item, 'props', {})}
           iconSize={iconSize}
-          onPress={curried(this._onPress)(item.props.onPress)}
+          onPress={curried(this._onPress)(
+            get(item, 'props.onPress', undefined),
+          )}
           right={this.state.animationState.interpolate({
             inputRange: [0 + delay, delayBegin + delay, 1],
             outputRange: [
@@ -182,13 +192,18 @@ class ActionButton extends React.Component {
     );
   }
 }
-
-ActionButton.defaultProps = {
-  buttonSize: 60,
-  iconSize: 40,
-  right: 20,
-  bottom: 20,
-};
+interface IProps {
+  buttonSize: number;
+  buttonSource: TImageSource;
+  iconSize: number;
+  right: number;
+  bottom: number;
+  onPress?: () => void;
+}
+interface IState {
+  expand: boolean;
+  animationState: Animated.Value;
+}
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',

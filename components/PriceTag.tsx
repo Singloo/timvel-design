@@ -1,12 +1,19 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
+} from 'react-native';
 import Text from './Text';
 import Image from './Image';
 import { colors, Assets } from '../utils';
-import { interval } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { take, mapTo, startWith, scan } from 'rxjs/operators';
-const diffPrice = (currentProps, nextProps) => currentProps.price !== nextProps;
-const calSpeed = diff => {
+const diffPrice = (currentProps: IProps, nextProps: IProps) =>
+  currentProps.price !== nextProps.price;
+const calSpeed = (diff: number) => {
   if (diff > 500) {
     return 20;
   }
@@ -18,13 +25,11 @@ const calSpeed = diff => {
   }
   return 80;
 };
-class Sample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      price: 0,
-    };
-  }
+class Sample extends React.Component<IProps, IState> {
+  state = {
+    price: 0,
+  };
+  sub$?: Subscription;
   componentWillMount() {
     const { price } = this.props;
     if (!!price) {
@@ -33,7 +38,7 @@ class Sample extends React.Component {
       });
     }
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: IProps) {
     if (!prevProps) {
       return;
     }
@@ -43,26 +48,26 @@ class Sample extends React.Component {
       });
     }
   }
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: IProps) {
     return diffPrice(this.props, nextProps);
   }
   componentWillUnmount() {
     this.sub$ && this.sub$.unsubscribe();
   }
 
-  toValue = (newPrice, callback = null) => {
+  toValue = (newPrice: number, callback?: () => void) => {
     // if (speed < 17) {
     //   throw Error('speed cannot small than 17!');
     // }
     this.sub$ && this.sub$.unsubscribe();
     const { price } = this.state;
-    const diff = Math.abs(parseInt(price, 10) - parseInt(newPrice, 10));
+    const diff = Math.abs(price - newPrice);
     const speed = calSpeed(diff);
     this.sub$ = interval(speed)
       .pipe(
         take(diff),
-        mapTo(parseInt(price, 10) - parseInt(newPrice, 10) > 0 ? -1 : 1),
-        startWith(parseInt(price, 10)),
+        mapTo(price - newPrice > 0 ? -1 : 1),
+        startWith(price),
         scan((acc, value) => acc + value),
       )
       .subscribe({
@@ -103,4 +108,13 @@ const styles = StyleSheet.create({
   },
 });
 
+interface IProps {
+  price: number;
+  style: ViewStyle;
+  imageStyle: ImageStyle;
+  textStyle: TextStyle;
+}
+interface IState {
+  price: number;
+}
 export default Sample;

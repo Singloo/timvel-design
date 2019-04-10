@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Animated, TextInput } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Animated,
+  TextInput,
+  TextStyle,
+  ViewStyle,
+  ImageStyle,
+} from 'react-native';
 import Image from './Image';
 import { colors, Assets, flattenStyles } from '../utils';
 
-class ReTextInput extends Component {
-  constructor(props) {
+class ReTextInput extends Component<IProps, IState> {
+  textInput?: any;
+  constructor(props: IProps) {
     super(props);
     this.state = {
       text: '',
       isActive: false,
+      animationState: new Animated.Value(0),
     };
-    this.animationState = new Animated.Value(0);
   }
   _handleFocus = () => {
     this.setState({ isActive: true });
-    Animated.spring(this.animationState, {
+    Animated.spring(this.state.animationState, {
       toValue: 1,
-      duration: 500,
+      // duration: 500,
       // easing:Easing.
     }).start();
   };
@@ -26,7 +35,7 @@ class ReTextInput extends Component {
       //
     } else {
       this.setState({ isActive: false });
-      Animated.timing(this.animationState, {
+      Animated.timing(this.state.animationState, {
         toValue: 0,
         duration: 300,
       }).start();
@@ -54,7 +63,7 @@ class ReTextInput extends Component {
           style={[
             styles.placeholder,
             {
-              bottom: this.animationState.interpolate({
+              bottom: this.state.animationState.interpolate({
                 inputRange: [0, 1],
                 outputRange: [8, 30],
               }),
@@ -62,16 +71,12 @@ class ReTextInput extends Component {
             {
               transform: [
                 {
-                  scale: this.animationState.interpolate({
+                  scale: this.state.animationState.interpolate({
                     inputRange: [0, 1],
                     outputRange: [1, 0.7],
                   }),
                 },
               ],
-              // fontSize: this.animationState.interpolate({
-              //   inputRange: [0, 1],
-              //   outputRange: [17, 12],
-              // }),
             },
             textStyle,
             isActive && { color: activeColor || colors.main },
@@ -107,7 +112,6 @@ class ReTextInput extends Component {
     );
   }
 }
-ReTextInput.propTypes = {};
 const styles = StyleSheet.create({
   wrapper: {
     paddingTop: 20,
@@ -136,5 +140,19 @@ const styles = StyleSheet.create({
     bottom: 8,
   },
 });
-
+interface IProps {
+  placeholderText: string;
+  style: TextStyle;
+  value?: string;
+  textStyle?: TextStyle;
+  activeColor?: string;
+  containerStyle?: ViewStyle;
+  iconStyle?: ImageStyle;
+  clearText?: () => void;
+}
+interface IState {
+  text: string;
+  isActive: boolean;
+  animationState: Animated.Value;
+}
 export default ReTextInput;

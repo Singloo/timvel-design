@@ -1,9 +1,10 @@
 import React from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated, StyleSheet, ViewStyle, ImageProps } from 'react-native';
 import Image from '../Image';
 import Text from '../Text';
+import { TImageSource } from '../../models';
 
-class Card extends React.Component {
+class Card extends React.Component<IProps> {
   render() {
     const {
       title,
@@ -32,11 +33,13 @@ class Card extends React.Component {
       >
         {title && <Text style={styles.title}>{title}</Text>}
         <Image
-          style={{
-            width: iconSize,
-            height: iconSize,
-            ...(imageStyle ? imageStyle : {}),
-          }}
+          style={[
+            {
+              width: iconSize,
+              height: iconSize,
+            },
+            imageStyle,
+          ]}
           isRound={true}
           source={source}
           onPress={onPress}
@@ -47,9 +50,17 @@ class Card extends React.Component {
   }
 }
 
-Card.defaultProps = {
-  iconProps: {},
-};
+interface IProps {
+  title?: string;
+  source?: TImageSource;
+  iconSize: number;
+  right: Animated.Value;
+  bottom: Animated.Value;
+  onPress?: () => void;
+  opacity: Animated.Value;
+  style?: ViewStyle;
+  iconProps: any;
+}
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',

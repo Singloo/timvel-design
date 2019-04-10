@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { colors as colors2 } from '../utils';
 import LinearGradient from 'react-native-linear-gradient';
-class Separator extends Component {
+class Separator extends Component<IProps> {
   render() {
     const { style, colors, gradient } = this.props;
     let gradientColors = colors || ['#00bcd4', '#ef9a9a'];
@@ -19,7 +19,6 @@ class Separator extends Component {
     return <View style={[styles.separator, style]} />;
   }
 }
-Separator.propTypes = {};
 const styles = StyleSheet.create({
   separator: {
     height: 1,
@@ -27,5 +26,9 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
 });
-
+interface IProps {
+  style?: ViewStyle;
+  colors?: string[];
+  gradient?: boolean;
+}
 export default Separator;

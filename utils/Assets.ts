@@ -237,7 +237,7 @@ const notification = {
     source: require('../assets/notification_reply.png'),
   },
 };
-export default {
+const Assets = {
   ...icons,
   ...tempUse,
   ...art,
@@ -248,3 +248,4 @@ export default {
   ...emojis,
   ...notification,
 };
+export default Assets;

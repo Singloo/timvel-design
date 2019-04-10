@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView, Modal } from 'react-native';
 import Touchable from './Touchable';
 import Image from './Image';
 import { colors, Styles, Assets } from '../utils';
-import _ from 'lodash';
+import { get } from 'lodash';
 const allWeathers = [
   'sunny',
   'lessCloudy',
@@ -24,8 +24,8 @@ const allWeathers = [
   'dust',
   'sandstorm',
 ];
-class SelectorModal extends React.Component {
-  componentDidMount() {}
+class SelectorModal extends React.Component<IModalProps> {
+  _scrollView?: any;
   scrollToCurrentValue = () => {
     const { value } = this.props;
     let index = allWeathers.indexOf(value);
@@ -48,7 +48,7 @@ class SelectorModal extends React.Component {
       return (
         <View key={index} style={[styles.itemContainer]}>
           <Image
-            source={Assets[item].source}
+            source={get(Assets, `${item}.source`, undefined)}
             resizeMode={'contain'}
             size={'large'}
             style={{
@@ -95,8 +95,11 @@ class SelectorModal extends React.Component {
     );
   }
 }
-class Selectors extends Component {
-  constructor(props) {
+class Selectors extends Component<ISelectorProps, ISelectorState> {
+  modalPosition: { x: number; y: number };
+  _modal?: any;
+  _container?: any;
+  constructor(props: ISelectorProps) {
     super(props);
     this.state = {
       showFull: false,
@@ -109,16 +112,25 @@ class Selectors extends Component {
 
   _onPressShowFull = () => {
     const { showFull } = this.state;
-    this._container.measure((x, y, width, height, pageX, pageY) => {
-      // console.warn(x, y, width, height, pageX, pageY);
-      this.modalPosition = {
-        x: pageX,
-        y: pageY + height,
-      };
-      this.setState({
-        showFull: true,
-      });
-    });
+    this._container.measure(
+      (
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        pageX: number,
+        pageY: number,
+      ) => {
+        // console.warn(x, y, width, height, pageX, pageY);
+        this.modalPosition = {
+          x: pageX,
+          y: pageY + height,
+        };
+        this.setState({
+          showFull: true,
+        });
+      },
+    );
   };
 
   _dismiss = () => {
@@ -138,7 +150,7 @@ class Selectors extends Component {
           onLayout={this._onLayout}
         >
           <Image
-            source={Assets[value || 'sunny'].source}
+            source={get(Assets, `${value || 'sunny'}.source`, undefined)}
             onPress={() => {
               this._onPressShowFull();
             }}
@@ -182,11 +194,25 @@ class Selectors extends Component {
     );
   }
 }
-Selectors.propTypes = {};
+
 const styles = StyleSheet.create({
   itemContainer: {
     marginVertical: 2,
   },
 });
-
+interface IModalProps {
+  show: boolean;
+  value: any;
+  onChangeValue: (value: any) => void;
+  modalPosition: { x: number; y: number };
+  dismiss: () => void;
+}
+interface ISelectorProps {
+  initialValue?: any;
+  value: any;
+  onChangeValue: (value: any) => void;
+}
+interface ISelectorState {
+  showFull: boolean;
+}
 export default Selectors;

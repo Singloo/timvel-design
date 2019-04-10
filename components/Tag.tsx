@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
+import { StyleSheet, View, ViewStyle, TextStyle } from 'react-native';
 import Text from './Text';
 import Touchable from './Touchable';
 import { colors } from '../utils';
 
-const textStyleMap = popularity => {
+const textStyleMap = (popularity?: number) => {
+  if (typeof popularity === 'undefined') {
+    return {
+      textColor: colors.depGrey,
+      fontSize: 18,
+    };
+  }
   if (popularity >= 400) {
     return {
       textColor: colors.red,
@@ -35,7 +40,7 @@ const textStyleMap = popularity => {
     fontSize: 18,
   };
 };
-class Tag extends Component {
+class Tag extends Component<IProps> {
   render() {
     const {
       title,
@@ -74,20 +79,16 @@ class Tag extends Component {
     );
   }
 }
-Tag.propTypes = {
-  title: PropTypes.string,
-  onPress: PropTypes.func,
-  style: PropTypes.object,
-  textStyle: PropTypes.object,
-  popularity: PropTypes.number,
-  isSelected: PropTypes.bool,
-  selectedStyle: PropTypes.object,
-  selectedTextStyle: PropTypes.object,
-};
-Tag.defaultProps = {
-  selectedStyle: {},
-  selectedTextStyle: {},
-};
+interface IProps {
+  title: string;
+  onPress?: () => void;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+  popularity?: number;
+  isSelected?: true;
+  selectedStyle?: ViewStyle;
+  selectedTextStyle?: TextStyle;
+}
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
