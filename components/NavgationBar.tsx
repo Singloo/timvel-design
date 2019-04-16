@@ -20,13 +20,13 @@ import {
 import { TImageSource } from '../models';
 
 class NavigationBar extends Component<IProps, IState> {
-  state = {
-    viewRef: null,
-  };
+  // state = {
+  //   viewRef: null,
+  // };
 
-  imageLoaded = () => {
+  // imageLoaded = () => {
     // this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-  };
+  // };
   render() {
     const {
       style,
@@ -40,31 +40,19 @@ class NavigationBar extends Component<IProps, IState> {
       onPressRight,
       rightIconStyle,
       rightTitle,
+      renderLeft,
+      renderRight,
     } = this.props;
     return (
       <View style={[styles.wrapper, style]}>
-        {/* {!isIos && (
-          <View
-            ref={r => {
-              this.backgroundImage = r;
-            }}
-            onLayout={this.imageLoaded}
-            style={[styles.absolute]}
-          />
-        )} */}
-        {this.state.viewRef && (
-          <BlurView
-            viewRef={this.state.viewRef}
-            blurType={'xlight'}
-            style={styles.absolute}
-          />
-        )}
+        {isIos && <BlurView blurType={'xlight'} style={styles.absolute} />}
         {this._renderSide({
           source: sourceLeft,
           tint: leftTint,
           onPress: onPressLeft,
           iconStyle: leftIconStyle,
           title: leftTitle,
+          render: renderLeft,
         })}
         {this._renderTitle()}
         {this._renderSide({
@@ -73,6 +61,7 @@ class NavigationBar extends Component<IProps, IState> {
           onPress: onPressRight,
           iconStyle: rightIconStyle,
           title: rightTitle,
+          render: renderRight,
         })}
       </View>
     );
@@ -84,6 +73,7 @@ class NavigationBar extends Component<IProps, IState> {
     iconStyle,
     title,
     titleStyle,
+    render,
   }: {
     source?: TImageSource;
     tint?: string;
@@ -91,7 +81,11 @@ class NavigationBar extends Component<IProps, IState> {
     iconStyle?: ImageStyle;
     title?: string;
     titleStyle?: TextStyle;
+    render?: () => JSX.Element;
   }) => {
+    if (render) {
+      return render();
+    }
     if (title) {
       return (
         <Text style={[styles.subTitle, titleStyle]} onPress={onPress}>
@@ -115,7 +109,10 @@ class NavigationBar extends Component<IProps, IState> {
     }
   };
   _renderTitle = () => {
-    const { title, titleStyle } = this.props;
+    const { title, titleStyle, renderCenter } = this.props;
+    if (renderCenter) {
+      return renderCenter();
+    }
     if (title) {
       return <Text style={[styles.title, titleStyle]}>{title}</Text>;
     } else {
@@ -137,6 +134,9 @@ interface IProps {
   onPressRight?: () => void;
   rightIconStyle?: ImageStyle;
   rightTitle?: string;
+  renderCenter?: () => JSX.Element;
+  renderLeft?: () => JSX.Element;
+  renderRight?: () => JSX.Element;
 }
 interface IState {
   viewRef: null | any;
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: isIos ? 'transparent' : 'rgba(250,250,250,0.6)',
   },
   blank: {
     width: 32,
