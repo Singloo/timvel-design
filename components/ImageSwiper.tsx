@@ -29,7 +29,7 @@ class ImageSwiper extends React.PureComponent<IProps> {
     );
   }
   _renderImage = (item: string, index: number) => {
-    const { imageStyle } = this.props;
+    const { imageStyle, onPressImage } = this.props;
     return (
       <Image
         key={index}
@@ -37,6 +37,7 @@ class ImageSwiper extends React.PureComponent<IProps> {
         style={flattenStyles(styles.container, imageStyle)}
         processType={'post'}
         resizeMode={'cover'}
+        onPress={onPressImage}
       />
     );
   };
@@ -48,6 +49,7 @@ interface IProps {
   height?: number;
   showsPagination?: boolean;
   additionalProps?: SwiperProps;
+  onPressImage?: () => void;
 }
 const styles = StyleSheet.create({
   container: {
