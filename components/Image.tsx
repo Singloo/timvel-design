@@ -13,14 +13,18 @@ import Touchable, { ITouchableProps } from './Touchable';
 import { BlurView } from 'react-native-blur';
 import { isAndroid, Styles, flattenStyles } from '../utils';
 import FastImage, { FastImageProperties } from 'react-native-fast-image';
-const getProcessSuffixes = (processType: IProcessType) => {
+const TIMVEL_ALIYUN_ENDPOINT = 'timvel-1.oss-cn-hangzhou.aliyuncs.com';
+const getProcessSuffixes = (uri: string, processType: IProcessType) => {
+  if (!uri.includes(TIMVEL_ALIYUN_ENDPOINT)) {
+    return uri;
+  }
   switch (processType) {
     case 'avatar':
-      return '?x-oss-process=style/avatar';
+      return uri + '?x-oss-process=style/avatar';
     case 'post':
-      return '?x-oss-process=style/post';
+      return uri + '?x-oss-process=style/post';
     default:
-      return '';
+      return uri + '';
   }
 };
 const imageSizeMap = (
@@ -82,7 +86,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
     if (typeof uri !== 'undefined') {
       imgSource = { uri };
       if (processType) {
-        imgSource = { uri: uri + getProcessSuffixes(processType) };
+        imgSource = { uri: getProcessSuffixes(uri, processType) };
       }
     }
     return {
