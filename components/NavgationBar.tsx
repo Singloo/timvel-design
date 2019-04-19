@@ -25,7 +25,7 @@ class NavigationBar extends Component<IProps, IState> {
   // };
 
   // imageLoaded = () => {
-    // this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
+  // this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
   // };
   render() {
     const {
@@ -42,10 +42,13 @@ class NavigationBar extends Component<IProps, IState> {
       rightTitle,
       renderLeft,
       renderRight,
+      blur,
     } = this.props;
     return (
       <View style={[styles.wrapper, style]}>
-        {isIos && <BlurView blurType={'xlight'} style={styles.absolute} />}
+        {isIos && blur && (
+          <BlurView blurType={'xlight'} style={styles.absolute} />
+        )}
         {this._renderSide({
           source: sourceLeft,
           tint: leftTint,
@@ -137,6 +140,7 @@ interface IProps {
   renderCenter?: () => JSX.Element;
   renderLeft?: () => JSX.Element;
   renderRight?: () => JSX.Element;
+  blur?: boolean;
 }
 interface IState {
   viewRef: null | any;
