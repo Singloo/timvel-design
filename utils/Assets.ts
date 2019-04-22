@@ -56,6 +56,9 @@ const icons = {
   edit: {
     source: require('../assets/edit.png'),
   },
+  gift: {
+    source: require('../assets/gift.png'),
+  },
 };
 
 const target = {

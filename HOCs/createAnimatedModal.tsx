@@ -32,7 +32,7 @@ const createAnimatedModal: HOC<IModalProps> = Comp =>
       this.animationStart = Animated.timing(this.state.animationState, {
         toValue: 1,
         useNativeDriver: true,
-        duration: 350,
+        duration: 250,
       });
       this.animationStop = Animated.timing(this.state.animationState, {
         toValue: 0,
