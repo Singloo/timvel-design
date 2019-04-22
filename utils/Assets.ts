@@ -59,6 +59,12 @@ const icons = {
   gift: {
     source: require('../assets/gift.png'),
   },
+  calendar: {
+    source: require('../assets/calendar.png'),
+  },
+  time_travel: {
+    source: require('../assets/time_travel.png'),
+  },
 };
 
 const target = {

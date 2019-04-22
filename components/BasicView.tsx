@@ -2,6 +2,8 @@ import React from 'react';
 import { View, ViewProps } from 'react-native';
 import Loading from './Loading';
 import ErrorPage from './ErrorPage';
+import Text from './Text';
+import { colors, Styles } from '../utils';
 export default class Sample extends React.PureComponent<IProps> {
   static defaultProps = {};
   componentDidMount() {
@@ -11,19 +13,51 @@ export default class Sample extends React.PureComponent<IProps> {
     }
   }
   render() {
-    const { isLoading, isError, onPressError, children, ...props } = this.props;
+    const {
+      isLoading,
+      isError,
+      onPressError,
+      isEmpty,
+      children,
+      ...props
+    } = this.props;
     return (
       <View {...props}>
         {children}
+        {isEmpty && this._renderEmpty()}
         {isLoading && <Loading />}
         {isError && <ErrorPage onPressError={onPressError} />}
       </View>
     );
   }
+  _renderEmpty = () => {
+    const { renderEmpty, emptyMessage } = this.props;
+    if (renderEmpty) {
+      return renderEmpty();
+    }
+    return (
+      <View
+        style={[
+          Styles.absolute,
+          Styles.center,
+          {
+            backgroundColor: colors.white,
+          },
+        ]}
+      >
+        <Text>
+          {typeof emptyMessage === 'string' ? emptyMessage : '这里空空如也...'}
+        </Text>
+      </View>
+    );
+  };
 }
 
 interface IProps extends ViewProps {
   isLoading?: boolean;
   isError?: boolean;
+  isEmpty?: boolean;
+  renderEmpty?: () => JSX.Element;
   onPressError?: () => void;
+  emptyMessage?: string;
 }
