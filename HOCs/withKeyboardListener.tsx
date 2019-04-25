@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Animated, Keyboard, EmitterSubscription } from 'react-native';
+import { Animated, Keyboard, EmitterSubscription,LayoutAnimation } from 'react-native';
 import { isIos } from '../utils';
 interface IState {
   keyboardHeight: Animated.Value;
@@ -69,10 +69,10 @@ const main = <P extends object>(Comp: React.ComponentType<P>) =>
       this.setState({
         keyboardIsShown: true,
       });
-      Animated.timing(this.state.keyboardHeight, {
-        duration: 300,
-        toValue: event.endCoordinates.height,
-      }).start();
+      // Animated.timing(this.state.keyboardHeight, {
+      //   duration: 300,
+      //   toValue: event.endCoordinates.height,
+      // }).start();
     };
     keyboardWillHide = (event: any) => {
       this.setState({
@@ -87,10 +87,10 @@ const main = <P extends object>(Comp: React.ComponentType<P>) =>
       this.setState({
         keyboardIsShown: false,
       });
-      Animated.timing(this.state.keyboardHeight, {
-        duration: 300,
-        toValue: 0,
-      }).start();
+      // Animated.timing(this.state.keyboardHeight, {
+      //   duration: 300,
+      //   toValue: 0,
+      // }).start();
     };
 
     render() {

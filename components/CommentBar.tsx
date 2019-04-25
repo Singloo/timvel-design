@@ -10,7 +10,7 @@ import { SCREEN_WIDTH, colors, flattenStyles, invoke } from '../utils';
 import Text from './Text';
 // @ts-ignore
 import withKeyboardListener from '../HOCs/withKeyboardListener';
-class CommentBar extends React.Component<IProps, IState> {
+class CommentBar extends React.PureComponent<IProps, IState> {
   _textInput: React.RefObject<any>;
   constructor(props: any) {
     super(props);
@@ -38,9 +38,7 @@ class CommentBar extends React.Component<IProps, IState> {
     const { style, keyboardHeight: marginBottom } = this.props;
     const { value } = this.state;
     return (
-      <Animated.View
-        style={flattenStyles(styles.container, { marginBottom }, style)}
-      >
+      <Animated.View style={[styles.container, style]}>
         <TextInput
           ref={this._textInput}
           value={value}
