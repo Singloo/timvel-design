@@ -83,7 +83,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
   _propMap = (hasWrapper: boolean) => {
     const { source, uri, processType } = this.props;
     let imgSource = source;
-    if (typeof uri !== 'undefined') {
+    if (typeof uri !== 'undefined' && uri !== null) {
       imgSource = { uri };
       if (processType) {
         imgSource = { uri: getProcessSuffixes(uri, processType) };
