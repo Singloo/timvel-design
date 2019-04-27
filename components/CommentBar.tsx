@@ -38,7 +38,7 @@ class CommentBar extends React.PureComponent<IProps, IState> {
     const { style, keyboardHeight: marginBottom } = this.props;
     const { value } = this.state;
     return (
-      <Animated.View style={[styles.container, style]}>
+      <Animated.View style={[styles.container, style, { marginBottom }]}>
         <TextInput
           ref={this._textInput}
           value={value}
