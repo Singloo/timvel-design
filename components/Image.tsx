@@ -163,6 +163,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
         blurAmount={blurAmount}
       />
     );
+    const tempCover = <View style={Styles.absolute} />;
     if (hasWrapper) {
       return (
         <Wrapper
@@ -171,6 +172,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
         >
           {imageComp}
           {blur && blurComp}
+          {blur && isAndroid && !this.state.viewRef && tempCover}
         </Wrapper>
       );
     }
