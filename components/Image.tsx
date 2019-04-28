@@ -77,7 +77,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
     if (isAndroid && blur) {
       setTimeout(() => {
         this.setState({ viewRef: findNodeHandle(this.toBeBlured.current) });
-      }, 50);
+      }, 100);
     }
   };
   _propMap = (hasWrapper: boolean) => {
@@ -163,7 +163,11 @@ export default class Image2 extends React.Component<IImageProps, IState> {
         blurAmount={blurAmount}
       />
     );
-    const tempCover = <View style={Styles.absolute} />;
+    const tempCover = (
+      <View
+        style={[Styles.absolute, { backgroundColor: 'rgba(250,250,250,0.8)' }]}
+      />
+    );
     if (hasWrapper) {
       return (
         <Wrapper
