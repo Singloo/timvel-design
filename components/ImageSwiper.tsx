@@ -29,7 +29,7 @@ class ImageSwiper extends React.PureComponent<IProps> {
     );
   }
   _renderImage = (item: string, index: number) => {
-    const { imageStyle, onPressImage } = this.props;
+    const { imageStyle, onPressImage, onLongPressImage } = this.props;
     return (
       <Image
         key={index}
@@ -38,6 +38,7 @@ class ImageSwiper extends React.PureComponent<IProps> {
         processType={'post'}
         resizeMode={'cover'}
         onPress={onPressImage}
+        onLongPress={onLongPressImage}
       />
     );
   };
@@ -50,6 +51,7 @@ interface IProps {
   showsPagination?: boolean;
   additionalProps?: SwiperProps;
   onPressImage?: () => void;
+  onLongPressImage?: () => void;
 }
 const styles = StyleSheet.create({
   container: {

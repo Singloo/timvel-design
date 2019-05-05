@@ -11,8 +11,8 @@ import Image from './Image';
 import { colors, Assets } from '../utils';
 import { interval, Subscription } from 'rxjs';
 import { take, mapTo, startWith, scan } from 'rxjs/operators';
-const diffPrice = (currentProps: IProps, nextProps: IProps) =>
-  currentProps.price !== nextProps.price;
+const diffPrice = (currentState: IState, nextState: IState) =>
+  currentState.price !== nextState.price;
 const calSpeed = (diff: number) => {
   if (diff > 500) {
     return 20;
@@ -48,8 +48,8 @@ class Sample extends React.Component<IProps, IState> {
       });
     }
   }
-  shouldComponentUpdate(nextProps: IProps) {
-    return diffPrice(this.props, nextProps);
+  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
+    return diffPrice(this.state, nextState);
   }
   componentWillUnmount() {
     this.sub$ && this.sub$.unsubscribe();
@@ -83,14 +83,13 @@ class Sample extends React.Component<IProps, IState> {
   };
   render() {
     const { style, imageStyle, textStyle } = this.props;
-    const { price } = this.state;
     return (
       <View style={[styles.wrapper, style]}>
         <Image
           source={Assets.coin.source}
           style={[{ width: 20, height: 20 }, imageStyle]}
         />
-        <Text style={[styles.text, textStyle]}>{price}</Text>
+        <Text style={[styles.text, textStyle]}>{this.state.price}</Text>
       </View>
     );
   }

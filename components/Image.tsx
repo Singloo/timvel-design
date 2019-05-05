@@ -137,6 +137,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
       blur,
       blurType,
       blurAmount,
+      onLongPress,
     } = this.props;
     const hasWrapper = !!(onPress || blur);
     const _style = Array.isArray(style) ? flattenStyles(style) : style;
@@ -173,6 +174,7 @@ export default class Image2 extends React.Component<IImageProps, IState> {
         <Wrapper
           style={flattenStyles(styles.wrapper, wrapperStyle)}
           onPress={onPress}
+          onLongPress={onLongPress}
         >
           {imageComp}
           {blur && blurComp}
@@ -214,6 +216,7 @@ export interface IImageProps {
   blurType: 'regular' | 'xlight' | 'light' | 'dark' | 'extraDark' | 'prominent';
   blurAmount?: number;
   processType?: IProcessType;
+  onLongPress?: () => void;
 }
 type IDict = { [key: string]: any };
 type IProcessType = 'avatar' | 'post' | undefined;
