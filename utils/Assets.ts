@@ -105,17 +105,7 @@ const target = {
     source: require('../assets/touzi.png'),
   },
 };
-const tempUse = {
-  bk1: {
-    source: require('../assets/bk1.png'),
-  },
-  bk2: {
-    source: require('../assets/bk2.png'),
-  },
-  bk3: {
-    source: require('../assets/bk3.png'),
-  },
-};
+const tempUse = {};
 
 const art = {
   eu_bird: {
@@ -246,6 +236,26 @@ const notification = {
     source: require('../assets/notification_reply.png'),
   },
 };
+const tab = {
+  tabHome: {
+    source: require('../assets/tab_home.png'),
+  },
+  tabHome2: {
+    source: require('../assets/tab_home2.png'),
+  },
+  tabHome2Active: {
+    source: require('../assets/tab_home2_active.png'),
+  },
+  tabShop: {
+    source: require('../assets/tab_shop.png'),
+  },
+  tabNotification: {
+    source: require('../assets/tab_notification.png'),
+  },
+  tabProfile: {
+    source: require('../assets/tab_profile.png'),
+  },
+};
 const Assets = {
   ...icons,
   ...tempUse,
@@ -256,5 +266,6 @@ const Assets = {
   ...weather,
   ...emojis,
   ...notification,
+  ...tab,
 };
 export default Assets;

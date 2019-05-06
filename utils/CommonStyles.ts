@@ -4,7 +4,7 @@
  * Created Date: Friday March 1st 2019
  * Author: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
- * Last Modified: Saturday March 23rd 2019 4:13:32 pm
+ * Last Modified: Monday May 6th 2019 7:57:28 am
  * Modified By: Rick yang tongxue(🍔🍔) (origami@timvel.com)
  * -----
  */
@@ -24,6 +24,18 @@ const Styles = StyleSheet.create({
       shadowOffset: {
         height: 4,
         width: 3,
+      },
+      backgroundColor: 'white',
+    },
+    android: { elevation: 1, backgroundColor: 'white' },
+  }),
+  shadowLight: Platform.select({
+    ios: {
+      shadowOpacity: 0.1,
+      shadowRadius: 10,
+      shadowOffset: {
+        height: 8,
+        width: 6,
       },
       backgroundColor: 'white',
     },

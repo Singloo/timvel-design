@@ -6,8 +6,16 @@ import {
   ViewStyle,
   Keyboard,
 } from 'react-native';
-import { SCREEN_WIDTH, colors, flattenStyles, invoke } from '../utils';
+import {
+  SCREEN_WIDTH,
+  colors,
+  flattenStyles,
+  invoke,
+  PADDING_BOTTOM,
+  Assets,
+} from '../utils';
 import Text from './Text';
+import Image from './Image';
 // @ts-ignore
 import withKeyboardListener from '../HOCs/withKeyboardListener';
 class CommentBar extends React.PureComponent<IProps, IState> {
@@ -35,10 +43,17 @@ class CommentBar extends React.PureComponent<IProps, IState> {
     );
   };
   render() {
-    const { style, keyboardHeight: marginBottom } = this.props;
+    const { style, keyboardHeight: marginBottom, keyboardIsShown } = this.props;
     const { value } = this.state;
     return (
-      <Animated.View style={[styles.container, style, { marginBottom }]}>
+      <Animated.View
+        style={[
+          styles.container,
+          style,
+          { marginBottom },
+          keyboardIsShown && { paddingBottom: 10 },
+        ]}
+      >
         <TextInput
           ref={this._textInput}
           value={value}
@@ -50,9 +65,11 @@ class CommentBar extends React.PureComponent<IProps, IState> {
           multiline={true}
           placeholder={'say something'}
         />
-        <Text style={[styles.send]} onPress={this._onPressSend}>
-          {'Send'}
-        </Text>
+        <Image
+          source={Assets.send.source}
+          onPress={this._onPressSend}
+          style={{ width: 20, height: 20, marginLeft: 10 }}
+        />
       </Animated.View>
     );
   }
@@ -63,7 +80,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: SCREEN_WIDTH,
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingTop: 10,
+    paddingBottom: 10 + PADDING_BOTTOM,
     backgroundColor: colors.lightGrey,
   },
   textInput: {
@@ -85,6 +103,7 @@ interface IProps {
   onPressSend: (value: string, callback: () => void) => void;
   style?: ViewStyle;
   keyboardHeight: Animated.Value;
+  keyboardIsShown: boolean;
 }
 interface IState {
   value: string;
