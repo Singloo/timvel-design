@@ -65,6 +65,9 @@ const icons = {
   time_travel: {
     source: require('../assets/time_travel.png'),
   },
+  report: {
+    source: require('../assets/report.png'),
+  },
 };
 
 const target = {
