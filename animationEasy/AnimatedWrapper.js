@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { curried } from '../../js/utils';
 import { colors } from '../utils/colors';
+// to do 
+// null is not an object (evaluating 't.pageX')
 const debugLog = (...messages) => console.warn(...messages);
 const $event = new Subject();
 const generateEvent = (props, eventName) => ({
