@@ -8,7 +8,7 @@ import {
   ImageStyle,
   TextStyle,
 } from 'react-native';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from '@react-native-community/blur';
 import Image from './Image';
 import {
   SCREEN_WIDTH,

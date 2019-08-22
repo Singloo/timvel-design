@@ -10,7 +10,7 @@ import {
   StyleProp,
 } from 'react-native';
 import Touchable, { ITouchableProps } from './Touchable';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from '@react-native-community/blur';
 import { isAndroid, Styles, flattenStyles } from '../utils';
 import FastImage, { FastImageProperties } from 'react-native-fast-image';
 const TIMVEL_ALIYUN_ENDPOINT = 'timvel-1.oss-cn-hangzhou.aliyuncs.com';
