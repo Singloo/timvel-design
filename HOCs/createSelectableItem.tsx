@@ -1,11 +1,18 @@
 import * as React from 'react';
-import { View, Animated } from 'react-native';
+import { View, Animated, ViewStyle } from 'react-native';
 import { Touchable } from '../components/';
 import LottieView from 'lottie-react-native';
 import { Assets } from '../utils';
-export default function createSelectableItem(Comp) {
-  return class extends React.Component {
-    constructor(props) {
+interface IProps extends Object {
+  onPress: () => void;
+  style?: ViewStyle;
+  selected?: boolean;
+  tickStyle?: ViewStyle;
+}
+export default function createSelectableItem(Comp: React.ComponentType) {
+  return class extends React.Component<IProps> {
+    animationState: Animated.Value;
+    constructor(props: IProps) {
       super(props);
       this.animationState = new Animated.Value(1);
     }
@@ -16,7 +23,7 @@ export default function createSelectableItem(Comp) {
     };
     _showAnimation = () => {
       this.animationState.setValue(0);
-      this.anmation = Animated.timing(this.animationState, {
+      Animated.timing(this.animationState, {
         toValue: 1,
         duration: 500,
       }).start();
@@ -24,7 +31,7 @@ export default function createSelectableItem(Comp) {
     render() {
       const { style, selected, tickStyle, ...childProps } = this.props;
       return (
-        <Touchable onPress={this._onPress} style={[{}, style]}>
+        <Touchable onPress={this._onPress} style={style}>
           <Comp {...childProps} />
           <View
             style={[
@@ -35,8 +42,7 @@ export default function createSelectableItem(Comp) {
                 opacity: selected ? 1 : 0,
               },
               tickStyle,
-            ]}
-          >
+            ]}>
             <LottieView
               source={Assets.Tick.source}
               style={{

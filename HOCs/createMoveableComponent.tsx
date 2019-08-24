@@ -96,13 +96,38 @@ import {
 //   // boundary = diff <= 0 ? LEFT_BOUNDARY : RIGHT_BOUNDARY;
 //   return { line, diff, ...res };
 // };
-export default function createMoveableComp(Comp) {
-  return class extends React.PureComponent {
+
+interface IProps {
+  edge: number;
+  itemSize: number;
+}
+interface IState {
+  top: Animated.Value;
+  left: Animated.Value;
+}
+interface IPoint {
+  top: number;
+  left: number;
+}
+
+function extractValueFromAnimated(v: Animated.Value): number {
+  return (v as any)._value;
+}
+export default function createMoveableComp(Comp: React.ComponentType) {
+  return class extends React.PureComponent<IProps, IState> {
     static defaultProps = {
       edge: 10,
       itemSize: 70,
     };
-    constructor(props) {
+    state$: Subject<IPoint>;
+    _locationX: number | null;
+    _locationY: number | null;
+    _startTop: number | null;
+    _startLeft: number | null;
+    pointsBuffer: IPoint[] = [];
+    topAnimation?: Animated.CompositeAnimation;
+    leftAnimation?: Animated.CompositeAnimation;
+    constructor(props: IProps) {
       super(props);
       this.state = {
         top: new Animated.Value(400),
@@ -114,7 +139,7 @@ export default function createMoveableComp(Comp) {
       this._startTop = null;
       this._startLeft = null;
       this.pointsBuffer = [];
-      this.predictPath$;
+      // this.predictPath$;
     }
 
     componentDidMount() {
@@ -133,15 +158,15 @@ export default function createMoveableComp(Comp) {
           },
         });
     };
-    _bufferPoints = point => {
+    _bufferPoints = (point: IPoint) => {
       if (this.pointsBuffer.length >= 10) {
         this.pointsBuffer.shift();
       }
       this.pointsBuffer.push(point);
     };
 
-    _topAnimation = toValue => () => {
-      const diff = Math.abs(toValue - this.state.top._value);
+    _topAnimation = (toValue: number) => () => {
+      const diff = Math.abs(toValue - extractValueFromAnimated(this.state.top));
       if (diff === 0) {
         return;
       }
@@ -159,7 +184,6 @@ export default function createMoveableComp(Comp) {
       this.topAnimation = Animated.spring(this.state.top, {
         toValue,
         // duration,
-        easing: Easing.in(Easing.back()),
         useNativeDriver: true,
       });
       // requestAnimationFrame(() => this.topAnimation.start());
@@ -167,8 +191,10 @@ export default function createMoveableComp(Comp) {
       // this.topAnimation.start();
     };
 
-    _leftAnimation = toValue => () => {
-      const diff = Math.abs(toValue - this.state.left._value);
+    _leftAnimation = (toValue: number) => () => {
+      const diff = Math.abs(
+        toValue - extractValueFromAnimated(this.state.left),
+      );
       if (diff === 0) {
         return;
       }
@@ -186,7 +212,7 @@ export default function createMoveableComp(Comp) {
       this.leftAnimation = Animated.spring(this.state.left, {
         toValue,
         // duration,
-        easing: Easing.in(Easing.back()),
+        // easing: Easing.in(Easing.back()),
         useNativeDriver: true,
       });
       setTimeout(this.leftAnimation.start, 100);
@@ -211,22 +237,23 @@ export default function createMoveableComp(Comp) {
       onStartShouldSetPanResponder: evt => {
         return true;
       },
-      onStartShouldSetResponderCapture: evt => {
-        return true;
-      },
+
+      // onStartShouldSetResponderCapture: evt => {
+      //   return true;
+      // },
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         return true;
       },
-      onMoveShouldSetResponder: evt => {
-        return true;
-      },
+      // onMoveShouldSetResponder: evt => {
+      //   return true;
+      // },
       onPanResponderGrant: evt => {
         const { nativeEvent } = evt;
         const { locationX, locationY } = nativeEvent;
         this._locationX = locationX;
         this._locationY = locationY;
-        this._startLeft = this.state.left._value;
-        this._startTop = this.state.top._value;
+        this._startLeft = extractValueFromAnimated(this.state.left);
+        this._startTop = extractValueFromAnimated(this.state.top);
       },
       onPanResponderMove: evt => {
         if (this._locationX === null || this._locationY === null) {
@@ -284,18 +311,27 @@ export default function createMoveableComp(Comp) {
         const FINAL_LEFT_RIGHT = SCREEN_WIDTH - edge - itemSize;
         const centerX = SCREEN_WIDTH / 2 - itemSize / 2;
         const centerY = SCREEN_HEIGHT / 2 - itemSize / 2;
-        const right = SCREEN_WIDTH - left._value - itemSize;
-        const bottom = SCREEN_HEIGHT - top._value - itemSize;
-        let animation;
-        const DIFF_TOP = Math.abs(top._value - this._startTop);
-        const DIFF_LEFT = Math.abs(left._value - this._startLeft);
-        const DIFF = Math.abs(DIFF_TOP, DIFF_LEFT);
+        const right = SCREEN_WIDTH - extractValueFromAnimated(left) - itemSize;
+        const bottom = SCREEN_HEIGHT - extractValueFromAnimated(top) - itemSize;
+        let animation: () => void = () => {};
+        const DIFF_TOP = Math.abs(
+          extractValueFromAnimated(top) - this._startTop!,
+        );
+        const DIFF_LEFT = Math.abs(
+          extractValueFromAnimated(left) - this._startLeft!,
+        );
+        const DIFF = Math.abs(DIFF_TOP - DIFF_LEFT);
         if (DIFF < SCREEN_WIDTH / 3) {
-          const MIN = Math.min(top._value, left._value, bottom, right);
-          if (MIN === top._value) {
+          const MIN = Math.min(
+            extractValueFromAnimated(top),
+            extractValueFromAnimated(left),
+            bottom,
+            right,
+          );
+          if (MIN === extractValueFromAnimated(top)) {
             animation = this._topAnimation(FINAL_TOP_TOP);
           }
-          if (MIN === left._value) {
+          if (MIN === extractValueFromAnimated(left)) {
             animation = this._leftAnimation(FINAL_LEFT_LEFT);
           }
           if (MIN === bottom) {
@@ -304,23 +340,23 @@ export default function createMoveableComp(Comp) {
           if (MIN === right) {
             animation = this._leftAnimation(FINAL_LEFT_RIGHT);
           }
-          animation()
+          animation();
           return;
         }
         if (DIFF_TOP > DIFF_LEFT) {
-          if (top._value < centerY) {
+          if (extractValueFromAnimated(top) < centerY) {
             animation = this._topAnimation(FINAL_TOP_TOP);
           } else {
             animation = this._topAnimation(FINAL_TOP_BOTTOM);
           }
         } else {
-          if (left._value < centerX) {
+          if (extractValueFromAnimated(left) < centerX) {
             animation = this._leftAnimation(FINAL_LEFT_LEFT);
           } else {
             animation = this._leftAnimation(FINAL_LEFT_RIGHT);
           }
         }
-        animation()
+        animation();
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
@@ -342,8 +378,7 @@ export default function createMoveableComp(Comp) {
             position: 'absolute',
             transform,
           }}
-          {...this._panResponder.panHandlers}
-        >
+          {...this._panResponder.panHandlers}>
           <Comp {...childProps} />
           <View
             style={{

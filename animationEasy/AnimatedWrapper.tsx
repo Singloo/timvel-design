@@ -1,24 +1,32 @@
 import * as React from 'react';
-import { Animated, View, StyleSheet, Easing } from 'react-native';
+import {
+  Animated,
+  View,
+  StyleSheet,
+  Easing,
+  LayoutRectangle,
+  ViewStyle,
+} from 'react-native';
 import RootSiblings from 'react-native-root-siblings';
 import { Subject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { curried } from '../../js/utils';
 import { colors } from '../utils/colors';
-// to do 
+// to do
 // null is not an object (evaluating 't.pageX')
-const debugLog = (...messages) => console.warn(...messages);
-const $event = new Subject();
-const generateEvent = (props, eventName) => ({
+const WAITING_FOR_TO_MOUNT = 'watingForToMount';
+const POSITION = 'position';
+const debugLog = (...messages: string[]) => console.warn(...messages);
+const $event = new Subject<IEvent>();
+const generateEvent = (props: IProps, eventName: string): IEvent => ({
   id: props.id,
   type: props.type,
   eventName,
 });
-const $subscribe = filterEvt => $event.pipe(filter(filterEvt));
-const WAITING_FOR_TO_MOUNT = 'watingForToMount';
-const POSITION = 'position';
-const allInstances = {};
-const extractPosition = (from, to) => ({
+const $subscribe = (filterEvt: (event: IEvent) => boolean) =>
+  $event.pipe(filter(filterEvt));
+const allInstances: { [id: string]: IInstance } = {};
+const extractPosition = (from: IPosition, to: IPosition) => ({
   fromPageX: from.pageX,
   fromPageY: from.pageY,
   fromWidth: from.width,
@@ -28,10 +36,10 @@ const extractPosition = (from, to) => ({
   toPageX: to.pageX,
   toPageY: to.pageY,
 });
-const isFrom = props => {
+const isFrom = (props: IProps) => {
   return props.type === 'from';
 };
-const initInstance = props => {
+const initInstance = (props: IProps) => {
   allInstances[props.id] = allInstances[props.id] || {
     from: {
       props: {},
@@ -46,42 +54,68 @@ const initInstance = props => {
       position: null,
     },
   };
+  allInstances[props.id][props.type].props = props;
 };
-const setProps = props => {
+const setProps = (props: IProps) => {
   if (!props) {
     return;
   }
   if (!allInstances[props.id]) {
     initInstance(props);
-  }
-  allInstances[props.id][props.type].props = props;
-};
-const set = (props, key, value, type = null) => {
-  if (type) {
-    allInstances[props.id][type][key] = value;
     return;
   }
-  allInstances[props.id][key] = value;
+  try {
+    allInstances[props.id][props.type].props = props;
+  } catch (err) {}
 };
-const get = (props, key, type = null) => {
+const set: {
+  (props: IProps, key: keyof IInstanceProp, value: any, type: IType): void;
+  (props: IProps, key: keyof IInstance, value: any): void;
+} = (
+  props: IProps,
+  key: keyof IInstance | keyof IInstanceProp,
+  value: any,
+  type?: IType,
+) => {
   if (type) {
-    return allInstances[props.id][type][key];
+    allInstances[props.id][type][key as keyof IInstanceProp] = value;
+    return;
   }
-  return allInstances[props.id][key];
+  allInstances[props.id][key as keyof IInstance] = value;
 };
-const del = (props, key = null, type = null) => {
+const get: {
+  (props: IProps, key: keyof IInstanceProp, type: IType): any;
+  (props: IProps, key: keyof IInstance): any;
+} = (
+  props: IProps,
+  key: keyof IInstance | keyof IInstanceProp,
+  type?: IType,
+) => {
+  if (type) {
+    return allInstances[props.id][type][key as keyof IInstanceProp];
+  }
+  return allInstances[props.id][key as keyof IInstance];
+};
+const del: {
+  (props: IProps, key: keyof IInstanceProp, type: IType): void;
+  (props: IProps, key: keyof IInstance): void;
+} = (
+  props: IProps,
+  key: keyof IInstance | keyof IInstanceProp,
+  type?: IType,
+) => {
   if (!props) {
     return;
   }
   if (type && key) {
-    if (allInstances[props.id][type][key]) {
-      delete allInstances[props.id][type][key];
+    if (allInstances[props.id][type][key as keyof IInstanceProp]) {
+      delete allInstances[props.id][type][key as keyof IInstanceProp];
     }
     return;
   }
   if (key && !type) {
-    if (allInstances[props.id][key]) {
-      delete allInstances[props.id][key];
+    if (allInstances[props.id][key as keyof IInstance]) {
+      delete allInstances[props.id][key as keyof IInstance];
     }
     return;
   }
@@ -98,28 +132,29 @@ const del = (props, key = null, type = null) => {
     return;
   }
 };
-const setRef = (props, r) => {
+const setRef = (props: IProps, r: React.RefObject<View>) => {
   if (!props) {
     return;
   }
   allInstances[props.id][props.type].ref = r;
 };
-const getInstance = props => {
+const getInstance = (props: IProps) => {
   return allInstances[props.id];
 };
-const setClonedElement = (props, cloned) => {
+const setClonedElement = (props: IProps, cloned: React.ReactElement<any>) => {
   allInstances[props.id][props.type].clonedElement = cloned;
 };
 
-const invoke = (...funcs) => () => funcs.forEach(func => func && func());
-const isView = children => {
-  if (children.type && children.type.name === 'View') {
+const invoke = (...funcs: (() => void)[]) => () =>
+  funcs.forEach(func => func && func());
+const isView = (children: JSX.Element) => {
+  if (children!.type && children.type.displayname === 'View') {
     return true;
   }
   return false;
 };
-const absDiff = (v1, v2) => Math.abs(v1 - v2);
-const calAnimationTime = distance => {
+const absDiff = (v1: number, v2: number) => Math.abs(v1 - v2);
+const calAnimationTime = (distance: number) => {
   if (distance > 300) {
     return {
       y: 800,
@@ -143,12 +178,21 @@ const calAnimationTime = distance => {
     x: 400,
   };
 };
-export default class AnimatedWrapper extends React.PureComponent {
+export default class AnimatedWrapper extends React.PureComponent<
+  IProps,
+  IState
+> {
   static types = {
     from: 'from',
     to: 'to',
   };
-  static subscribe = (props, { onMove, onEnd }) => {
+  static subscribe = (
+    props: IProps,
+    {
+      onMove,
+      onEnd,
+    }: { onMove: (evt: IEvent) => void; onEnd: (evt: IEvent) => void },
+  ) => {
     const $onMove = $subscribe(
       evt => evt.id === props.id && evt.eventName === 'start',
     ).subscribe(onMove);
@@ -160,57 +204,64 @@ export default class AnimatedWrapper extends React.PureComponent {
       $onEnd,
     };
   };
-  constructor(props) {
+  constructor(props: IProps) {
     super(props);
-    this.state = {};
+    this.state = {
+      width: new Animated.Value(0),
+      height: new Animated.Value(0),
+      translateY: new Animated.Value(0),
+    };
     initInstance(props);
   }
 
-  componentWillUnmount() {
-    // del(this.props, null, 'to');
-  }
+  // componentWillUnmount() {
+  // del(this.props, null, 'to');
+  // }
 
   componentDidMount() {
     setProps(this.props);
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: IProps) {
     setProps(nextProps);
   }
   componentDidUpdate() {}
 
-  _setRef = r => {
-    setRef(this.props, r);
-    const { children } = this.props;
-    const { ref } = children;
-    if (typeof ref === 'function') {
-      ref(r);
-    }
+  _setRef = () => {
+    const refObj = React.createRef<View>();
+    setRef(this.props, refObj);
+    return refObj;
+    // todo handle children's ref
+    // const { children } = this.props;
+    // const { ref } = children as React.ElementType<any>;
+    // if (typeof ref === 'function') {
+    //   ref(r);
+    // }
   };
 
-  _onFromLaylout = data => {
+  _onFromLaylout = (data: LayoutRectangle) => {
     const { children } = this.props;
-    const { onLayout } = children;
+    const { onLayout } = children as any;
     const instance = getInstance(this.props);
-    setClonedElement(this.props, React.cloneElement(children));
+    setClonedElement(this.props, React.cloneElement(children as any));
     const { from } = instance;
-    this._measure(from.ref, position => {
+    this._measure(from.ref!, (position: IPosition | null) => {
       set(this.props, POSITION, position, 'from');
     });
     if (typeof onLayout === 'function') {
       onLayout(data);
     }
   };
-  _onToLayout = data => {
+  _onToLayout = (data: LayoutRectangle) => {
     const { children } = this.props;
-    const { onLayout } = children;
+    const { onLayout } = children as any;
     const instance = getInstance(this.props);
-    setClonedElement(this.props, React.cloneElement(children));
+    setClonedElement(this.props, React.cloneElement(children as any));
     const { from, to } = instance;
-    this._measure(from.ref, position => {
+    this._measure(from.ref!, (position: IPosition | null) => {
       set(this.props, POSITION, position, 'from');
-      this._measure(to.ref, position2 => {
+      this._measure(to.ref!, (position2: IPosition | null) => {
         set(this.props, POSITION, position2, 'to');
-        if (get(this.props, WAITING_FOR_TO_MOUNT)) {
+        if (!!get(this.props, WAITING_FOR_TO_MOUNT)) {
           del(this.props, WAITING_FOR_TO_MOUNT);
           setTimeout(this.moveTo, 0);
         }
@@ -220,12 +271,15 @@ export default class AnimatedWrapper extends React.PureComponent {
       onLayout(data);
     }
   };
-  _getAnimation = (instance, isFrom = true) => {
+  _getAnimation = (instance: IInstance, isFrom = true) => {
     const { from, to } = instance;
     const { position: fromPosition } = from;
     const { position: toPosition } = to;
     const { animationProps = {} } = this.props;
-    let animation = [];
+    const animation: Animated.CompositeAnimation[] = [];
+    const args: [IPosition, IPosition] = isFrom
+      ? [fromPosition, toPosition]
+      : [toPosition, fromPosition];
     const {
       fromPageX,
       fromPageY,
@@ -235,9 +289,7 @@ export default class AnimatedWrapper extends React.PureComponent {
       toPageY,
       toWidth,
       toHeight,
-    } = extractPosition(
-      ...(isFrom ? [fromPosition, toPosition] : [toPosition, fromPosition]),
-    );
+    } = extractPosition(...args);
     const translateY = new Animated.Value(fromPageY);
     const translateX = new Animated.Value(fromPageX);
     const width = new Animated.Value(fromWidth);
@@ -250,13 +302,13 @@ export default class AnimatedWrapper extends React.PureComponent {
     });
     const { y, x } = calAnimationTime(
       absDiff(fromPageX, toPageX),
-      absDiff(fromPageY, toPageY),
+      // absDiff(fromPageY, toPageY),
     );
     animation.push(
       Animated.timing(translateY, {
-        easing: Easing.out(Easing.back()),
+        easing: Easing.out(Easing.back(1)),
         toValue: toPageY,
-        useNativeDrvier: true,
+        useNativeDriver: true,
         duration: y,
         ...animationProps,
       }),
@@ -265,7 +317,7 @@ export default class AnimatedWrapper extends React.PureComponent {
       Animated.timing(translateX, {
         // easing: Easing.out(Easing.back()),
         toValue: toPageX,
-        useNativeDrvier: true,
+        useNativeDriver: true,
         duration: x,
         ...animationProps,
       }),
@@ -291,7 +343,7 @@ export default class AnimatedWrapper extends React.PureComponent {
     return animation;
   };
 
-  _move = (instance, isFrom, callback) => {
+  _move = (instance: IInstance, isFrom: boolean, callback: () => void) => {
     const { from, to } = instance;
     const _clonedElement = isFrom ? from.clonedElement : to.clonedElement;
     const { onEnd, onStart } = this.props;
@@ -299,7 +351,7 @@ export default class AnimatedWrapper extends React.PureComponent {
     setTimeout(() => {
       invoke(onStart)();
       const animations = this._getAnimation(instance, isFrom);
-      sibling.update(this._renderClonedElement(_clonedElement));
+      sibling.update(this._renderClonedElement(_clonedElement as any));
       Animated.parallel(animations).start(() =>
         setTimeout(invoke(callback, onEnd, sibling.destroy), 100),
       );
@@ -307,7 +359,7 @@ export default class AnimatedWrapper extends React.PureComponent {
   };
 
   //ref start
-  moveTo = callback => {
+  moveTo = (callback: () => void) => {
     const instance = getInstance(this.props);
     if (!instance.to.position) {
       debugLog('target component havent mount');
@@ -321,7 +373,7 @@ export default class AnimatedWrapper extends React.PureComponent {
       invoke(curried(this._fireEvent)('end'), callback),
     );
   };
-  moveBack = callback => {
+  moveBack = (callback: () => void) => {
     const instance = getInstance(this.props);
     this._fireEvent('start');
     this._move(
@@ -332,12 +384,12 @@ export default class AnimatedWrapper extends React.PureComponent {
   };
   //ref end
 
-  _fireEvent = eventName => {
+  _fireEvent = (eventName: string) => {
     $event.next(generateEvent(this.props, eventName));
   };
-  _renderClonedElement = comp => {
-    const { style = {}, renderClonedElement } = this.props;
-    let transform = [
+  _renderClonedElement = (comp: JSX.Element) => {
+    const { renderClonedElement } = this.props;
+    const transform: any = [
       {
         translateY: this.state.translateY,
       },
@@ -364,12 +416,24 @@ export default class AnimatedWrapper extends React.PureComponent {
     }
     return <Animated.View style={_style}>{comp}</Animated.View>;
   };
-  _measure = (ref, callback) => {
-    if (ref) {
-      ref.measure((x, y, width, height, pageX, pageY) => {
-        const position = { x, y, width, height, pageX, pageY };
-        callback(position);
-      });
+  _measure = (
+    ref: React.RefObject<View>,
+    callback: (position: IPosition | null) => void,
+  ) => {
+    if (ref.current) {
+      ref.current.measure(
+        (
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          pageX: number,
+          pageY: number,
+        ) => {
+          const position = { x, y, width, height, pageX, pageY };
+          callback(position);
+        },
+      );
       return;
     }
     callback(null);
@@ -381,11 +445,19 @@ export default class AnimatedWrapper extends React.PureComponent {
   _renderChildren() {
     const from = isFrom(this.props);
     const { children } = this.props;
-    let _children = isView(children) ? children : <View>{children}</View>;
-    return React.cloneElement(_children, {
-      ref: this._setRef,
-      onLayout: from ? this._onFromLaylout : this._onToLayout,
-    });
+    // console.warn(children);
+    let _children: JSX.Element = isView(children as JSX.Element) ? (
+      (children as JSX.Element)
+    ) : (
+      <View>{children}</View>
+    );
+    if (React.isValidElement(_children)) {
+      return React.cloneElement(_children as any, {
+        ref: this._setRef(),
+        onLayout: from ? this._onFromLaylout : this._onToLayout,
+      });
+    }
+    return null;
   }
 }
 
@@ -398,3 +470,45 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+
+interface IProps {
+  animationProps?: Animated.AnimationConfig;
+  id: string;
+  type: IType;
+  onStart: () => void;
+  onEnd: () => void;
+  renderClonedElement?: (style: any) => JSX.Element;
+}
+interface IState {
+  width: Animated.Value;
+  height: Animated.Value;
+  translateY: Animated.Value;
+  translateX?: Animated.Value;
+}
+
+type IType = 'from' | 'to';
+interface IEvent {
+  id: string;
+  type: IType;
+  eventName: string;
+}
+interface IInstanceProp {
+  props: IProps;
+  clonedElement: JSX.Element | null;
+  ref: React.RefObject<View> | null;
+  position: IPosition;
+  style?: ViewStyle;
+}
+interface IInstance {
+  from: IInstanceProp;
+  to: IInstanceProp;
+  [WAITING_FOR_TO_MOUNT]?: boolean;
+}
+interface IPosition {
+  pageX: number;
+  pageY: number;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+}
