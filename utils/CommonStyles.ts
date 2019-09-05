@@ -31,12 +31,13 @@ const Styles = StyleSheet.create({
   }),
   shadowLight: Platform.select({
     ios: {
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
+      shadowOpacity: 0.3,
+      shadowRadius: 30,
       shadowOffset: {
         height: 8,
-        width: 6,
+        width: 3,
       },
+      shadowColor: 'rgb(0,0,0)',
       backgroundColor: 'white',
     },
     android: { elevation: 1, backgroundColor: 'white' },
